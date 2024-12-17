@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.scss'; //import the SCSS file where Bootstrap is included.
 import Layout from './layouts/Layout';
-import Book from './pages/Books';
+import Book from './pages/Book';
 import Books from './pages/Books';
 import Cart from './pages/Cart';
 import User from './pages/User';

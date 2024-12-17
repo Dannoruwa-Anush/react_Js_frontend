@@ -17,8 +17,6 @@ const Books = () => {
         booksRequest();
     }, []);
 
-    console.log(bookDetails);
-
     return (
         // JSX (JavaScript XML) used to render the structure of a UI 
 

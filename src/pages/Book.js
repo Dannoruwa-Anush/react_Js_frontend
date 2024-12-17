@@ -5,6 +5,9 @@ import { Container, Row, Col, Button, Form } from 'react-bootstrap';
 // Define a functional component using an arrow function
 const Book = () => {
     const { id } = useParams(); // Get book ID from URL
+
+    console.log(id);
+    
     const navigate = useNavigate(); // Initialize navigate
     const [book, setBook] = useState(null);
     const [quantity, setQuantity] = useState(1);
