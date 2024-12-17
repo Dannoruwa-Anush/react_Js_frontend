@@ -1,14 +1,16 @@
-import './App.css';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import './App.scss'; //import the SCSS file where Bootstrap is included.
 import Layout from './layouts/Layout';
 
 function App() {
   return (
-    <div className="App">
-      {/* Include components here */}
-      <div>
-        <Layout />
-      </div>
-    </div>
+    //Include components of the app
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 

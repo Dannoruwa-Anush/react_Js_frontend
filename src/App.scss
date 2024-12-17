@@ -1,7 +1,144 @@
-@import '~bootstrap/scss/bootstrap'; //Import Bootstrap SCSS
+@import '~bootstrap/scss/bootstrap'; // Import Bootstrap SCSS
+@import 'bootstrap-icons/font/bootstrap-icons.css'; //Import the Bootstrap Icons stylesheet
 
 /*
  Sass (Syntactically Awesome Style Sheets)
  SCSS allows you to define variables 
  to store values such as colors, font sizes, and other CSS propertie
 */
+
+// Variables for theme customization
+$primary-bg-color: #eee8f3; // Custom background color
+$footer-bg-color: #373737;
+$footer-text-color: #fff;
+$navbar-padding: 20px;
+$footer-font-size: 13px;
+
+// Global Reset
+html,
+body {
+    height: 100%;
+    margin: 0; // Removes browser default margins
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif; // Define a base font-family
+    background-color: $primary-bg-color; // Set a default body background
+}
+
+// Root layout structure
+#root {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; // Ensures root takes the full viewport height
+}
+
+// Navbar Styling
+.navbar {
+    margin: 0;
+    padding: $navbar-padding;
+    background-color: $primary-bg-color;
+
+    .navbar-brand img {
+        height: 40px;
+    }
+
+    .nav-link {
+        color: #000; // Default link color
+        font-weight: 500;
+
+        &:hover {
+            color: darken(#000, 15%); // Darken link color on hover
+        }
+    }
+}
+
+/* Style for category dropdown */
+.category-dropdown .category-item {
+    position: relative;
+}
+
+.subcategory-dropdown {
+    display: none; /* Hide subcategory dropdown by default */
+    position: absolute;
+    top: 0;
+    left: 100%; /* Position next to the parent dropdown */
+    white-space: nowrap;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.category-item:hover .subcategory-dropdown {
+    display: block; /* Display subcategories when hovering over the category */
+}
+
+.subcategory-dropdown .dropdown-item {
+    display: inline-block; /* Display subcategories horizontally */
+    padding: 8px 16px;
+    margin-right: 15px;
+}
+
+.subcategory-dropdown .dropdown-item:hover {
+    background-color: #f8f9fa; /* Add hover effect for subcategories */
+}
+
+.navbar .navbar-nav .nav-item {
+    position: relative; /* Ensure dropdowns appear above other items */
+}
+
+/* Ensuring the subcategories and main categories are aligned correctly */
+.category-item .dropdown-menu {
+    position: relative;
+}
+
+.category-dropdown .dropdown-item-text {
+    padding-right: 15px;
+}
+
+// Page Content Area
+.page-content {
+    flex: 1; // Takes the remaining space in the layout
+    padding: 1rem; // Add some padding for spacing
+    background-color: $primary-bg-color;
+
+    @media (max-width: 768px) {
+        padding: 0.5rem; // Smaller padding for small screens
+    }
+}
+
+// Footer Styling
+.footer {
+    background-color: $footer-bg-color;
+    color: $footer-text-color;
+    padding: 1rem 0;
+    text-align: center;
+
+    .text-muted {
+        font-size: $footer-font-size;
+        color: $footer-text-color !important;
+        font-weight: 500;
+
+        a {
+            color: lighten($footer-text-color, 20%);
+            text-decoration: none;
+
+            &:hover {
+                color: #fff; // Brighter text on hover
+                text-decoration: underline;
+            }
+        }
+    }
+}
+
+// Utility Classes for Reusability
+.no-padding {
+    padding: 0 !important;
+}
+
+.no-margin {
+    margin: 0 !important;
+}
+
+.text-center {
+    text-align: center;
+}
