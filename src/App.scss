@@ -52,47 +52,53 @@ body {
     }
 }
 
-/* Style for category dropdown */
+// Category Dropdown Enhancements
 .category-dropdown .category-item {
     position: relative;
 }
 
-.subcategory-dropdown {
-    display: none; /* Hide subcategory dropdown by default */
+// Subcategory list will remain hidden by default
+.subcategory-list {
+    display: none;
     position: absolute;
     top: 0;
-    left: 100%; /* Position next to the parent dropdown */
-    white-space: nowrap;
+    left: 100%;
     background-color: #fff;
     border: 1px solid #ddd;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    min-width: 180px;
+    padding: 10px 0;
 }
 
-.category-item:hover .subcategory-dropdown {
-    display: block; /* Display subcategories when hovering over the category */
+// Hover effect to reveal subcategories when hovering over a category item
+.category-item:hover .subcategory-list {
+    display: block;
 }
 
-.subcategory-dropdown .dropdown-item {
-    display: inline-block; /* Display subcategories horizontally */
+.subcategory-list .dropdown-item {
     padding: 8px 16px;
-    margin-right: 15px;
+    font-size: 14px;
+    color: #333;
 }
 
-.subcategory-dropdown .dropdown-item:hover {
-    background-color: #f8f9fa; /* Add hover effect for subcategories */
+.subcategory-list .dropdown-item:hover {
+    background-color: #f8f9fa; /* Light background on hover */
 }
 
-.navbar .navbar-nav .nav-item {
-    position: relative; /* Ensure dropdowns appear above other items */
+// Category item header style
+.category-dropdown .category-item .dropdown-item-text {
+    padding: 8px 16px;
+    font-weight: bold;
 }
 
-/* Ensuring the subcategories and main categories are aligned correctly */
+// Category and subcategory hover interaction for better UI experience
+.category-dropdown .dropdown-item:hover {
+    background-color: #f0f0f0; /* Light background on hover for main category */
+}
+
+// Making sure that subcategory list is positioned correctly under the category item
 .category-item .dropdown-menu {
     position: relative;
-}
-
-.category-dropdown .dropdown-item-text {
-    padding-right: 15px;
 }
 
 // Page Content Area

@@ -7,8 +7,6 @@ import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Badge from "react-bootstrap/Badge";
 import { useState } from "react";
-
-// Import the logo image
 import BusinessLogo from "../image/companyLogo/BusinessLogo.png";
 
 const Layout = () => {
@@ -54,12 +52,8 @@ const Layout = () => {
                                             <strong>{category.name}</strong>
                                         </NavDropdown.ItemText>
 
-                                        {/* Subcategories Dropdown */}
-                                        <NavDropdown
-                                            title="Subcategories"
-                                            id={`subcategory-dropdown-${category.name}`}
-                                            className="subcategory-dropdown"
-                                        >
+                                        {/* Subcategories list under the category */}
+                                        <div className="subcategory-list">
                                             {category.subcategories.map((sub, subIndex) => (
                                                 <NavDropdown.Item
                                                     key={subIndex}
@@ -69,7 +63,7 @@ const Layout = () => {
                                                     {sub}
                                                 </NavDropdown.Item>
                                             ))}
-                                        </NavDropdown>
+                                        </div>
                                     </div>
                                 ))}
                             </NavDropdown>
