@@ -3,9 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "bootstrap": "^5.3.3",
     "cra-template": "1.2.0",
     "demo-app": "file:",
     "react": "^18.0.0",
+    "react-bootstrap": "^2.10.7",
     "react-dom": "^18.0.0",
     "react-router-dom": "^7.0.2",
     "react-scripts": "^5.0.1",
