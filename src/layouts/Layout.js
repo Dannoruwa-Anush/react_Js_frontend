@@ -7,7 +7,7 @@ import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Badge from "react-bootstrap/Badge";
 import { useState } from "react";
-import BusinessLogo from "../image/companyLogo/BusinessLogo.png";
+import BusinessLogo from "../images/companyLogo/BusinessLogo.png";
 
 const Layout = () => {
     const currentYear = new Date().getFullYear();
