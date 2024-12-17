@@ -36,8 +36,8 @@ const Book = () => {
         if (book) {
             const cartItem = {
                 id: book.id,
-                name: book.name,
-                price: book.price,
+                name: book.title,
+                price: book.unitPrice,
                 quantity: quantity,
             };
 
@@ -45,8 +45,6 @@ const Book = () => {
             const currentCart = JSON.parse(sessionStorage.getItem('cart')) || [];
             currentCart.push(cartItem);
             sessionStorage.setItem('cart', JSON.stringify(currentCart));
-
-            console.log(`Added ${quantity} of ${book.name} to cart`);
 
             // Navigate to the cart page
             navigate('/cart'); // Navigate to the cart page
