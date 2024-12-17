@@ -2,26 +2,45 @@ import React, { useEffect, useState } from 'react';
 import { Container, Table, Button, Modal } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { API_IMAGE_URL } from '../configurations/Config';
+import { getShoppingCartTotal } from '../services/ShoppingCartService';
 
 const Cart = () => {
     const [cartItems, setCartItems] = useState([]);
-    const [showModal, setShowModal] = useState(false); // State for removal confirmation modal
-    const [showLoginModal, setShowLoginModal] = useState(false); // State for login modal
-    const [itemToRemove, setItemToRemove] = useState(null); // Track the item to be removed
+    const [showModal, setShowModal] = useState(false);
+    const [showLoginModal, setShowLoginModal] = useState(false);
+    const [itemToRemove, setItemToRemove] = useState(null);
+    const [cartTotalAmount, setCartTotalAmount] = useState(0.0);
     const navigate = useNavigate();
 
     useEffect(() => {
         const items = JSON.parse(sessionStorage.getItem('cart')) || [];
         setCartItems(items);
 
-        // Optionally, calculate total price using backend API if necessary
-        if (items) {
-            console.log(items);
+        // Calculate total price using backend API
+        if (items && items.length > 0) {
             const shoppingCartBooks = {
-                // Your logic for handling total calculation or backend call
+                shoppingCartBooks: items.map(item => ({
+                    bookId: item.id,
+                    quantity: item.quantity
+                }))
             };
-        }
 
+            const getTotalRequest = async () => {
+                const res = await getShoppingCartTotal(shoppingCartBooks);
+
+                // Ensure the response is either a number or an object with a totalAmount key
+                if (typeof res === 'object' && res.totalAmount !== undefined) {
+                    setCartTotalAmount(res.totalAmount);  // Extract totalAmount from the object
+                } else if (typeof res === 'number') {
+                    setCartTotalAmount(res);  // If res is a number, use it directly
+                } else {
+                    console.error("Unexpected response from API", res);
+                    setCartTotalAmount(0);  // Fallback to 0 if response is unexpected
+                }
+            };
+
+            getTotalRequest();
+        }
     }, []);
 
     const handleQuantityChange = (id, newQuantity) => {
@@ -30,40 +49,86 @@ const Cart = () => {
         );
         setCartItems(updatedItems);
         sessionStorage.setItem('cart', JSON.stringify(updatedItems));
+
+        // Recalculate total after quantity change
+        const shoppingCartBooks = {
+            shoppingCartBooks: updatedItems.map(item => ({
+                bookId: item.id,
+                quantity: item.quantity
+            }))
+        };
+
+        const getTotalRequest = async () => {
+            const res = await getShoppingCartTotal(shoppingCartBooks);
+
+            if (typeof res === 'object' && res.totalAmount !== undefined) {
+                setCartTotalAmount(res.totalAmount);
+            } else if (typeof res === 'number') {
+                setCartTotalAmount(res);
+            } else {
+                console.error("Unexpected response from API", res);
+                setCartTotalAmount(0);
+            }
+        };
+
+        getTotalRequest();
     };
 
     const handleRemove = (id) => {
-        setItemToRemove(id); // Set the item to be removed
-        setShowModal(true);   // Show the modal for confirmation
+        setItemToRemove(id);
+        setShowModal(true);
     };
 
     const confirmRemove = () => {
         const updatedItems = cartItems.filter(item => item.id !== itemToRemove);
         setCartItems(updatedItems);
         sessionStorage.setItem('cart', JSON.stringify(updatedItems));
-        setShowModal(false); // Close the modal after removal
+        setShowModal(false);
+
+        // Recalculate total after item removal
+        const shoppingCartBooks = {
+            shoppingCartBooks: updatedItems.map(item => ({
+                bookId: item.id,
+                quantity: item.quantity
+            }))
+        };
+
+        const getTotalRequest = async () => {
+            const res = await getShoppingCartTotal(shoppingCartBooks);
+
+            if (typeof res === 'object' && res.totalAmount !== undefined) {
+                setCartTotalAmount(res.totalAmount);
+            } else if (typeof res === 'number') {
+                setCartTotalAmount(res);
+            } else {
+                console.error("Unexpected response from API", res);
+                setCartTotalAmount(0);
+            }
+        };
+
+        getTotalRequest();
     };
 
     const cancelRemove = () => {
-        setShowModal(false); // Close the modal without removing
+        setShowModal(false);
     };
 
     const handlePlaceOrder = () => {
-        setShowLoginModal(true); // Show the login modal
+        setShowLoginModal(true);
     };
 
     const handleLogin = () => {
-        navigate('/user'); // Navigate to User page for login/signup
-        setShowLoginModal(false); // Close the modal
+        navigate('/user');
+        setShowLoginModal(false);
     };
 
     const cancelLogin = () => {
-        setShowLoginModal(false); // Close the modal without navigating
+        setShowLoginModal(false);
     };
 
     return (
         <Container className="mt-4">
-            <h1>Shopping Cart</h1>
+            <h5>Shopping Cart</h5>
             {cartItems.length === 0 ? (
                 <p>Your cart is empty.</p>
             ) : (
@@ -114,6 +179,12 @@ const Cart = () => {
                         ))}
                     </tbody>
                 </Table>
+            )}
+
+            {cartItems.length > 0 && (
+                <div className='div-cart-total-amount'>
+                    <span>Total: Rs. {cartTotalAmount}</span>
+                </div>
             )}
 
             {cartItems.length > 0 && (

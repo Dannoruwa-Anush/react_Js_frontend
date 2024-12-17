@@ -178,6 +178,20 @@ body {
     margin-top: 20px;
 }
 
+//cart page
+.div-cart-total-amount {
+    width: 50%; /* Set the width to 1/2 of the container */
+    margin-left: auto; /* Align it to the right */
+    display: flex;
+    justify-content: center; /* Center content horizontally within the div */
+    align-items: center;
+    margin-top: 10px; /* Space between the table and the total */
+    background-color: white;
+    color: red;
+    border: 1px solid red; /* Add a red border */
+    padding: 10px;
+    border-radius: 8px; /* Rounded corners for the border */
+}
 
 // Footer Styling
 .footer {
