@@ -6,4 +6,5 @@ const Home = () => {
     );
 }
 
-export default Home; // Export the component so it can be used elsewhere in the app
+export default Home; 
+// Export the component so it can be used elsewhere in the app

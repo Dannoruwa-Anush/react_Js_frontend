@@ -1,12 +1,12 @@
 import './App.css';
-import Home from './pages/Home';
+import Layout from './layouts/Layout';
 
 function App() {
   return (
     <div className="App">
       {/* Include components here */}
       <div>
-        <Home />
+        <Layout />
       </div>
     </div>
   );

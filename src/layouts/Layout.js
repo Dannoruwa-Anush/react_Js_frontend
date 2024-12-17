@@ -1,4 +1,8 @@
+// Define a functional component using an arrow function
 const Layout = () =>{
-    <h1>page layout</h1>
+    return(
+        <h1>page layout</h1>
+    );
 }
 export default Layout;
+// Export the component so it can be used elsewhere in the app
