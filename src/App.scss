@@ -82,7 +82,8 @@ body {
 }
 
 .subcategory-list .dropdown-item:hover {
-    background-color: #f8f9fa; /* Light background on hover */
+    background-color: #f8f9fa;
+    /* Light background on hover */
 }
 
 // Category item header style
@@ -93,7 +94,8 @@ body {
 
 // Category and subcategory hover interaction for better UI experience
 .category-dropdown .dropdown-item:hover {
-    background-color: #f0f0f0; /* Light background on hover for main category */
+    background-color: #f0f0f0;
+    /* Light background on hover for main category */
 }
 
 // Making sure that subcategory list is positioned correctly under the category item
@@ -113,31 +115,52 @@ body {
 }
 
 //books page
-.books-image-card-body{ //image card body
+.books-image-card-body {
+    //image card body
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
 
-.card-books-image{ //card image
+.card-books-image {
+    //card image
     border: 2px solid rgb(68, 67, 67);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.card-books-image:hover {
+    transform: scale(1.05);
+    /* Slight zoom effect */
+    opacity: 0.8;
+    /* Slight opacity change */
 }
 
 .books-title {
-    font-size: 1.5rem;         /* Adjust font size */
-    font-weight: bold;         /* Make the title bold */
-    color: black;              /* Set the color to black */
-    margin-bottom: 10px;       /* Space below the title */
-    text-align: center;       /* Justify the text */
-    font-family: 'Arial', sans-serif; /* Set a different font style (example: Arial) */
+    font-size: 1.5rem;
+    /* Adjust font size */
+    font-weight: bold;
+    /* Make the title bold */
+    color: black;
+    /* Set the color to black */
+    margin-bottom: 10px;
+    /* Space below the title */
+    text-align: center;
+    /* Justify the text */
+    font-family: 'Arial', sans-serif;
+    /* Set a different font style (example: Arial) */
 }
 
 .books-price {
-    font-size: 1rem;           /* Adjust font size */
-    color: green;              /* Set color to green */
-    margin-bottom: 5px;        /* Space below the text */
-    text-align: center;        /* Center-align the price text */
-    font-family: 'Times New Roman', serif; /* Example of a different font for price */
+    font-size: 1rem;
+    /* Adjust font size */
+    color: green;
+    /* Set color to green */
+    margin-bottom: 5px;
+    /* Space below the text */
+    text-align: center;
+    /* Center-align the price text */
+    font-family: 'Times New Roman', serif;
+    /* Example of a different font for price */
 }
 
 
