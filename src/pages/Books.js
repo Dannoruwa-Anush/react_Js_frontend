@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { getAllBooks } from '../BookService';
+import { getAllBooks } from '../services/BookService';
 import { API_IMAGE_URL } from '../configurations/Config';
 
 // Define a functional component using an arrow function
@@ -29,22 +29,21 @@ const Books = () => {
                         <Card style={{ height: '100%' }}>
                             {book.qoh === 0 ? (
                                 <>
-                                    <Card.Img variant="top" src={`${API_IMAGE_URL}/${book.coverImage}`} height={300} width={300}/>
-                                    <Card.Body style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                                        <Card.Title>{book.title}</Card.Title>
-                                        <Card.Text>{book.unitPrice}</Card.Text>
-                                        <Card.Text style={{ color: 'red' }}>
+                                    <Card.Img className="card-books-image"  variant="top" src={`${API_IMAGE_URL}/${book.coverImage}`} height={300} width={300}/>
+                                    <Card.Body className="books-image-card-body">
+                                        <Card.Title className="books-title">{book.title}</Card.Title>
+                                        <Card.Text className="books-price">Rs. {book.unitPrice}</Card.Text>
+                                        <Card.Text style={{ color: 'red', textAlign:'center' }}>
                                             Out of Stock
                                         </Card.Text>
                                     </Card.Body>
                                 </>
                             ) : (
                                 <Link to={`/book/${book.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                                    <Card.Img variant="top" src={`${API_IMAGE_URL}/${book.coverImage}`} height={300} width={300}/>
-                                    <Card.Body style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                                        <Card.Title>{book.title}</Card.Title>
-                                        <Card.Text>
-                                            {book.unitPrice}
+                                    <Card.Img className="card-books-image" variant="top" src={`${API_IMAGE_URL}/${book.coverImage}`} height={300} width={300}/>
+                                    <Card.Body className="books-image-card-body">
+                                        <Card.Title className="books-title">{book.title}</Card.Title>
+                                        <Card.Text className="books-price">Rs. {book.unitPrice}
                                         </Card.Text>
                                     </Card.Body>
                                 </Link>

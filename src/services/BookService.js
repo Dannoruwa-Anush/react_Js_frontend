@@ -1,4 +1,4 @@
-import AxioInstance from "./configurations/AxiosConfig";
+import AxioInstance from "../configurations/AxiosConfig";
 //API requests for /book
 
 //GET: getAllBooks
@@ -8,5 +8,6 @@ export const getAllBooks = async () =>{
         return response.data;
     } catch (error) {
         console.log(error);
+        return [];
     }
 };
