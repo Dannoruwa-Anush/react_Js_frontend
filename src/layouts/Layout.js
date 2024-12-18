@@ -9,7 +9,6 @@ import BusinessLogo from "../images/companyLogo/BusinessLogo.png";
 
 const Layout = () => {
     const currentYear = new Date().getFullYear();
-    //const [cartItems] = useState(3); // Simulated cart items
     const navigate = useNavigate();
 
     // Simulated data for categories and subcategories
@@ -25,15 +24,12 @@ const Layout = () => {
     const username = sessionStorage.getItem('username');
     const isLoggedIn = username !== null; // Check if user is logged in
 
-    //Get cart from sessionStorage
+    // Get cart from sessionStorage
     const cartItems = sessionStorage.getItem('cart');
-    const numberOfItems = 0;
+    let numberOfItems = 0;
     if (cartItems) {
-        // Parse the cart data to get the array of items
         const currentCart = JSON.parse(cartItems);
-    
-        // Get the number of objects in the cart
-        const numberOfItems = currentCart.length;
+        numberOfItems = currentCart.length;
     }
 
     const handleLogout = () => {
@@ -112,14 +108,20 @@ const Layout = () => {
                                 )}
                             </Nav.Link>
 
-                            {/* User Icon and Username */}
-                            <Nav.Link as={Link} to="/login" className="d-flex flex-column align-items-center">
+                            {/* User Icon, Username, and Logout */}
+                            <Nav.Link as={Link} to="/login" className="d-flex align-items-center">
                                 <i className="bi bi-person-circle" style={{ fontSize: "1.5rem" }}></i>
-                                {isLoggedIn && (
-                                    <div className="user-info mt-1">
-                                        <span>{username}</span>
-                                        <button onClick={handleLogout} className="btn btn-link p-0">Logout</button>
+
+                                {/* Display username and logout button horizontally */}
+                                {isLoggedIn ? (
+                                    <div className="ms-2 d-flex flex-column align-items-start">
+                                        <span>( {username} )</span>
+                                        <button onClick={handleLogout} className="btn btn-link p-0">
+                                            Logout
+                                        </button>
                                     </div>
+                                ) : (
+                                    <span className="ms-2">Login</span>
                                 )}
                             </Nav.Link>
                         </Nav>
