@@ -7,12 +7,7 @@ import { getAllAuthors } from '../services/Author';
 import { getAllCategoryWithSubCategory } from '../services/Category';
 
 const Books = () => {
-    const categories = [
-        { name: "Fiction", subcategories: ["Fantasy", "Mystery", "Romance"] },
-        { name: "Non-Fiction", subcategories: ["History", "Biography", "Science"] },
-        { name: "Children", subcategories: ["Picture Books", "Early Readers"] },
-    ];
-
+   
     const [bookDetails, setBookDetails] = useState([]);
     const [authorDetails, setAuthorDetails] = useState([]);
     const [categorySubCategoryDetails, setCategorySubCategoryDetails] = useState([]);
@@ -42,7 +37,7 @@ const Books = () => {
     }, []);
 
 
-    const handleSelectAuthor = async (categoryId) => {
+    const handleSelectCategory = async (categoryId) => {
         try {
             const res = await getAllBooksByCategoryId(categoryId);
             setBookDetails(res);
@@ -51,9 +46,9 @@ const Books = () => {
         }
     };
 
-    const handleSelectCategory = async (authorId) => {
+    const handleSelectAuthor = async (authorId) => {
         try {
-            const res = await getAllBooksByAuthorId(authorId); //book by category id
+            const res = await getAllBooksByAuthorId(authorId);
             setBookDetails(res);
         } catch (error) {
             console.error("Error fetching books: ", error);

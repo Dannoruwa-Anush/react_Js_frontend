@@ -39,7 +39,9 @@ export const getAllBooksByAuthorId = async (authorId) =>{
 //GET: getAllBooksByCategoryId
 export const getAllBooksByCategoryId = async (categoryId) =>{
     try {
-        const response = await AxioInstance.get("/book/category" + categoryId);
+        console.log(categoryId);
+
+        const response = await AxioInstance.get("/book/category/" + categoryId);
         return response.data;
     } catch (error) {
         console.log(error);
