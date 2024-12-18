@@ -68,7 +68,7 @@ const Books = () => {
         <Container fluid>
             <Row>
                 {/* Left column for vertical navbar */}
-                <Col md={3} className="vertical-navbar">
+                <Col md={2} className="vertical-navbar">
                     <Navbar bg="light" expand="md" className="flex-column">
                         <Nav className="flex-column">
 
@@ -147,7 +147,7 @@ const Books = () => {
                 </Col>
 
                 {/* Right column for book details */}
-                <Col md={9}>
+                <Col md={10} style={{ padding: '1rem' }}>
                     {bookDetails.length === 0 ? (
                         <p>No books are available</p>
                     ) : (

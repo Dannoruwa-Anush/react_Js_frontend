@@ -64,22 +64,45 @@ body {
 }
 
 //books page
-.vertical-navbar .dropdown-menu {
-    transition: all 0.3s ease-in-out;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+.page-content {
+    flex: 1; /* Takes the remaining space in the layout */
+    padding: 0; /* Remove all padding */
+    background-color: $primary-bg-color;
+
+    @media (max-width: 768px) {
+        padding: 0; /* Ensure no padding on small screens */
+    }
 }
 
-.vertical-navbar .dropdown-toggle {
-    font-weight: bold;
-    color: #333;
+// Styles for vertical-navbar specifically
+.vertical-navbar {
+    padding-top: 0;  // Override top padding to 0
+    padding-left: 0; // Override left padding to 0
+
+    @media (max-width: 768px) {
+        padding-top: 0;  // Set top padding to 0 for small screens
+        padding-left: 0; // Set left padding to 0 for small screens
+    }
+
+    .dropdown-menu {
+        transition: all 0.3s ease-in-out;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .dropdown-toggle {
+        font-weight: bold;
+        color: #333;
+    }
+
+    .dropdown-item {
+        padding: 10px;
+        font-size: 14px;
+        color: #555;
+    }
 }
 
-.vertical-navbar .dropdown-item {
-    padding: 10px;
-    font-size: 14px;
-    color: #555;
-}
 
+//image card
 .books-image-card-body {
     //image card body
     display: flex;
@@ -88,7 +111,6 @@ body {
 }
 
 .card-books-image {
-    //card image
     border: 2px solid rgb(68, 67, 67);
     transition: transform 0.3s ease, opacity 0.3s ease;
 }
