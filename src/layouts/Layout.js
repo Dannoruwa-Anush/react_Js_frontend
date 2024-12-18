@@ -31,7 +31,7 @@ const Layout = () => {
 
     return (
         <div id="root">
-            <Navbar bg="light" expand="lg">
+            <Navbar bg="light" expand="lg" className="layout-navbar">
                 <Container fluid>
                     <Navbar.Brand as={Link} to="/">
                         <img src={BusinessLogo} alt="ABC BookShop" className="d-inline-block align-top" height="40" />

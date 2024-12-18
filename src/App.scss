@@ -13,7 +13,7 @@ $footer-bg-color: #373737;
 $footer-text-color: #fff;
 $navbar-padding: 5px;
 $footer-font-size: 13px;
-$body-font: Arial, sans-serif; 
+$body-font: Arial, sans-serif;
 
 html,
 body {
@@ -32,6 +32,26 @@ body {
     min-height: 100vh; // Ensures root takes the full viewport height
 }
 
+//layout nav bar
+.layout-navbar {
+    padding-top: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.layout-navbar .navbar-nav .nav-link {
+    color: black;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: color 0.3s, transform 0.3s ease;
+}
+
+.layout-navbar .navbar-nav .nav-link:hover {
+    color: #007bff;
+
+    /* Hover color*/
+    transform: scale(1.1);
+}
+
 // Page Content Area
 .page-content {
     flex: 1; // Takes the remaining space in the layout
@@ -46,7 +66,7 @@ body {
 //books page
 .vertical-navbar .dropdown-menu {
     transition: all 0.3s ease-in-out;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .vertical-navbar .dropdown-toggle {
@@ -112,17 +132,23 @@ body {
 
 //cart page
 .div-cart-total-amount {
-    width: 50%; /* Set the width to 1/2 of the container */
-    margin-left: auto; /* Align it to the right */
+    width: 50%;
+    /* Set the width to 1/2 of the container */
+    margin-left: auto;
+    /* Align it to the right */
     display: flex;
-    justify-content: center; /* Center content horizontally within the div */
+    justify-content: center;
+    /* Center content horizontally within the div */
     align-items: center;
-    margin-top: 10px; /* Space between the table and the total */
+    margin-top: 10px;
+    /* Space between the table and the total */
     background-color: white;
     color: red;
-    border: 1px solid red; /* Add a red border */
+    border: 1px solid red;
+    /* Add a red border */
     padding: 10px;
-    border-radius: 8px; /* Rounded corners for the border */
+    border-radius: 8px;
+    /* Rounded corners for the border */
 }
 
 //login/register
