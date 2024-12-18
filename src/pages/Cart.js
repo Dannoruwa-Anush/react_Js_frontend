@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Container, Table, Button, Modal } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { API_IMAGE_URL } from '../configurations/Config';
 import { getShoppingCartTotal } from '../services/ShoppingCartService';
+import { CartContext } from './../layouts/Layout'; // Import CartContext
 
 const Cart = () => {
+    const { setNumberOfItems } = useContext(CartContext); // Access setNumberOfItems from CartContext
     const [cartItems, setCartItems] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [showLoginModal, setShowLoginModal] = useState(false);
@@ -85,6 +87,9 @@ const Cart = () => {
         sessionStorage.setItem('cart', JSON.stringify(updatedItems));
         setShowModal(false);
 
+        // Update the global number of items
+        setNumberOfItems(updatedItems.length);
+
         // Recalculate total after item removal
         const shoppingCartBooks = {
             shoppingCartBooks: updatedItems.map(item => ({
@@ -118,7 +123,7 @@ const Cart = () => {
     };
 
     const handleLogin = () => {
-        navigate('/user');
+        navigate('/login');
         setShowLoginModal(false);
     };
 
