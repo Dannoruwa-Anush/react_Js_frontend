@@ -130,9 +130,11 @@ const Layout = () => {
             </CartContext.Provider>
 
              {/* Footer */}
-            <footer className="footer">
+             <footer className="footer">
                 <Container>
-                    <span className="text-muted">© {currentYear} BookStore</span>
+                    <span className="text-muted">
+                        Copyright © {currentYear} Dannoruwa-Anush. All Rights Reserved.
+                    </span>
                 </Container>
             </footer>
         </div>
