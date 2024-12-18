@@ -2,7 +2,6 @@ import React, { useState, createContext, useEffect } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
-import NavDropdown from "react-bootstrap/NavDropdown";
 import Badge from "react-bootstrap/Badge";
 import Container from "react-bootstrap/Container";
 import BusinessLogo from "../images/companyLogo/BusinessLogo.png";
@@ -10,17 +9,6 @@ import BusinessLogo from "../images/companyLogo/BusinessLogo.png";
 export const CartContext = createContext();
 
 const Layout = () => {
-    //***** test data
-    // Simulated data for categories and subcategories
-    const categories = [
-        { name: "Fiction", subcategories: ["Fantasy", "Mystery", "Romance"] },
-        { name: "Non-Fiction", subcategories: ["History", "Biography", "Science"] },
-        { name: "Children", subcategories: ["Picture Books", "Early Readers"] },
-    ];
-
-    const authors = ["Author 1", "Author 2", "Author 3"];
-    //*************** 
-
     const navigate = useNavigate();
     const currentYear = new Date().getFullYear();
     const [numberOfItems, setNumberOfItems] = useState(0);
@@ -52,43 +40,6 @@ const Layout = () => {
                     <Navbar.Collapse id="navbar-nav">
                         <Nav className="me-auto">
                             <Nav.Link as={Link} to="/">Home</Nav.Link>
-
-                            {/* Category Dropdown */}
-                            <NavDropdown
-                                title="Category"
-                                id="category-dropdown"
-                                className="category-dropdown"
-                            >
-                                {categories.map((category, index) => (
-                                    <div key={index} className="category-item">
-                                        <NavDropdown.ItemText>
-                                            <strong>{category.name}</strong>
-                                        </NavDropdown.ItemText>
-
-                                        {/* Subcategories list under the category */}
-                                        <div className="subcategory-list">
-                                            {category.subcategories.map((sub, subIndex) => (
-                                                <NavDropdown.Item
-                                                    key={subIndex}
-                                                    as={Link}
-                                                    to={`/category/${sub.toLowerCase()}`}
-                                                >
-                                                    {sub}
-                                                </NavDropdown.Item>
-                                            ))}
-                                        </div>
-                                    </div>
-                                ))}
-                            </NavDropdown>
-
-                            {/* Author Dropdown */}
-                            <NavDropdown title="Author" id="author-dropdown">
-                                {authors.map((author, index) => (
-                                    <NavDropdown.Item key={index} as={Link} to={`/author/${author.toLowerCase()}`}>
-                                        {author}
-                                    </NavDropdown.Item>
-                                ))}
-                            </NavDropdown>
                         </Nav>
 
                         <Nav className="align-items-center">
