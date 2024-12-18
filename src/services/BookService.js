@@ -22,3 +22,16 @@ export const getBookById= async (id) =>{
         return {};
     }
 };
+
+
+//GET: getAllBooksByAuthorId
+export const getAllBooksByAuthorId = async (authorId) =>{
+    try {
+        const response = await AxioInstance.get("/book/author/" + authorId);
+        console.log(response.data);
+        return response.data;
+    } catch (error) {
+        console.log(error);
+        return {};
+    }
+};
