@@ -7,22 +7,22 @@
  to store values such as colors, font sizes, and other CSS propertie
 */
 
-// Variables for theme customization
-$primary-bg-color: #eee8f3; // Custom background color
+//Sass variables
+$primary-bg-color: #eee8f3;
 $footer-bg-color: #373737;
 $footer-text-color: #fff;
 $navbar-padding: 5px;
 $footer-font-size: 13px;
+$body-font: Arial, sans-serif; 
 
-// Global Reset
 html,
 body {
     height: 100%;
     margin: 0; // Removes browser default margins
     padding: 0;
     box-sizing: border-box;
-    font-family: Arial, sans-serif; // Define a base font-family
-    background-color: $primary-bg-color; // Set a default body background
+    font-family: $body-font;
+    background-color: $primary-bg-color;
 }
 
 // Root layout structure
@@ -32,27 +32,18 @@ body {
     min-height: 100vh; // Ensures root takes the full viewport height
 }
 
-// Navbar Styling
-.navbar {
-    margin: 0;
-    padding: $navbar-padding;
+// Page Content Area
+.page-content {
+    flex: 1; // Takes the remaining space in the layout
+    padding: 1rem; // Add some padding for spacing
     background-color: $primary-bg-color;
 
-    .navbar-brand img {
-        height: 40px;
-    }
-
-    .nav-link {
-        color: #000; // Default link color
-        font-weight: 500;
-
-        &:hover {
-            color: darken(#000, 15%); // Darken link color on hover
-        }
+    @media (max-width: 768px) {
+        padding: 0.5rem; // Smaller padding for small screens
     }
 }
 
-
+//books page
 .vertical-navbar .dropdown-menu {
     transition: all 0.3s ease-in-out;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -73,101 +64,6 @@ body {
     }
 }
 
-// Horizontal dropdown menu layout
-.horizontal-navbar .dropdown-menu {
-    display: flex;
-    flex-direction: row;  // Align items horizontally
-    padding: 0;
-    box-shadow: none;  // Optional: remove shadow for a flat layout
-  }
-  
-  .horizontal-navbar .dropdown-item {
-    display: inline-block;
-    padding: 8px 16px;
-    font-size: 14px;
-    color: #555;
-  }
-  
-  .horizontal-navbar .dropdown-item:hover {
-    background-color: #f8f9fa;
-    /* Light background on hover */
-  }
-  
-  .horizontal-navbar .dropdown-toggle {
-    font-weight: bold;
-    color: #333;
-  }
-  
-  .horizontal-navbar .dropdown-item-text {
-    padding: 8px 16px;
-    font-weight: bold;
-  }  
-//-----
-.user-info {
-    font-size: 0.9rem;
-    text-align: center;
-}
-
-.user-info span {
-    font-weight: bold;
-    margin-bottom: 5px;
-    padding: 5px;
-}
-
-.user-info button {
-    font-size: 0.8rem;
-    color: #007bff;
-    padding: 0;
-    background: none;
-    border: none;
-    text-decoration: underline;
-}
-
-//books page
-// Hover effect to reveal subcategories when hovering over a category item
-.category-item:hover .subcategory-list {
-    display: block;
-}
-
-.subcategory-list .dropdown-item {
-    padding: 8px 16px;
-    font-size: 14px;
-    color: #333;
-}
-
-.subcategory-list .dropdown-item:hover {
-    background-color: #f8f9fa;
-    /* Light background on hover */
-}
-
-// Category item header style
-.category-dropdown .category-item .dropdown-item-text {
-    padding: 8px 16px;
-    font-weight: bold;
-}
-
-// Category and subcategory hover interaction for better UI experience
-.category-dropdown .dropdown-item:hover {
-    background-color: #f0f0f0;
-    /* Light background on hover for main category */
-}
-
-// Making sure that subcategory list is positioned correctly under the category item
-.category-item .dropdown-menu {
-    position: relative;
-}
-
-// Page Content Area
-.page-content {
-    flex: 1; // Takes the remaining space in the layout
-    padding: 1rem; // Add some padding for spacing
-    background-color: $primary-bg-color;
-
-    @media (max-width: 768px) {
-        padding: 0.5rem; // Smaller padding for small screens
-    }
-}
-
 .books-image-card-body {
     //image card body
     display: flex;
@@ -183,37 +79,24 @@ body {
 
 .card-books-image:hover {
     transform: scale(1.05);
-    /* Slight zoom effect */
     opacity: 0.8;
-    /* Slight opacity change */
 }
 
 .books-title {
     font-size: 1.5rem;
-    /* Adjust font size */
     font-weight: bold;
-    /* Make the title bold */
     color: black;
-    /* Set the color to black */
     margin-bottom: 10px;
-    /* Space below the title */
     text-align: center;
-    /* Justify the text */
     font-family: 'Arial', sans-serif;
-    /* Set a different font style (example: Arial) */
 }
 
 .books-price {
     font-size: 1rem;
-    /* Adjust font size */
     color: green;
-    /* Set color to green */
     margin-bottom: 5px;
-    /* Space below the text */
     text-align: center;
-    /* Center-align the price text */
     font-family: 'Times New Roman', serif;
-    /* Example of a different font for price */
 }
 
 //book page
@@ -276,17 +159,4 @@ body {
             }
         }
     }
-}
-
-// Utility Classes for Reusability
-.no-padding {
-    padding: 0 !important;
-}
-
-.no-margin {
-    margin: 0 !important;
-}
-
-.text-center {
-    text-align: center;
 }
