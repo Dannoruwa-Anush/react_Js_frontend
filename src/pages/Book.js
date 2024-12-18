@@ -1,24 +1,23 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Container, Table, Row, Col, Button, Form, Modal } from 'react-bootstrap';
+import { Container, Button, Form, Modal, Table, Row, Col } from 'react-bootstrap';
 import { getBookById } from '../services/BookService';
 import { API_IMAGE_URL } from '../configurations/Config';
+import { CartContext } from '../layouts/Layout'; // Import CartContext
 
 const Book = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const [book, setBook] = useState(null);
     const [quantity, setQuantity] = useState(1);
-    const [showModal, setShowModal] = useState(false); // State to control modal visibility
+    const [showModal, setShowModal] = useState(false);
+    const { setNumberOfItems } = useContext(CartContext); // Access setNumberOfItems from context
 
     useEffect(() => {
         const bookRequest = async () => {
             const res = await getBookById(id);
             setBook(res);
-
-            if (res) {
-                setQuantity(Math.min(1, res.qoh));
-            }
+            if (res) setQuantity(Math.min(res.qoh, 1)); // Set quantity to 1 or max available quantity
         };
 
         bookRequest();
@@ -32,12 +31,11 @@ const Book = () => {
     const handleAddToCart = () => {
         if (book) {
             const currentCart = JSON.parse(sessionStorage.getItem('cart')) || [];
-
             const existingCartItem = currentCart.find(item => item.id === book.id);
 
             if (existingCartItem) {
-                setShowModal(true); // Show the modal if the book is already in the cart
-                return; // Prevent adding the book if it already exists
+                setShowModal(true); // Show modal if item is already in the cart
+                return;
             }
 
             const cartItem = {
@@ -52,11 +50,14 @@ const Book = () => {
             currentCart.push(cartItem);
             sessionStorage.setItem('cart', JSON.stringify(currentCart));
 
-            navigate('/cart'); // Navigate to the cart page
+            // Update the cart item count in the header using the context
+            setNumberOfItems(currentCart.length);
+
+            navigate('/cart');
         }
     };
 
-    const handleCloseModal = () => setShowModal(false); // Close the modal
+    const handleCloseModal = () => setShowModal(false); // Close modal
 
     if (!book) return <div>Loading...</div>;
 
@@ -71,7 +72,7 @@ const Book = () => {
                     />
                 </Col>
                 <Col md={6}>
-                    <Table bordered striped hover responsive className="book-info-table">
+                    <Table bordered striped hover responsive>
                         <tbody>
                             <tr>
                                 <th>Title</th>
@@ -82,59 +83,46 @@ const Book = () => {
                                 <td>{book.authorName}</td>
                             </tr>
                             <tr>
-                                <th>Category</th>
-                                <td>{book.categoryName}</td>
-                            </tr>
-                            <tr>
-                                <th>SubCategory</th>
-                                <td>{book.subCategoryName}</td>
-                            </tr>
-                            <tr>
                                 <th>Price</th>
-                                <td>Rs. {book.unitPrice}</td>
+                                <td>${book.unitPrice}</td>
+                            </tr>
+                            <tr>
+                                <th>Available Quantity</th>
+                                <td>{book.qoh}</td>
                             </tr>
                         </tbody>
                     </Table>
 
-                    <Form.Group controlId="quantity" className="d-flex align-items-center">
-                        <Form.Control
-                            type="number"
-                            value={quantity}
-                            onChange={handleQuantityChange}
-                            min="1"
-                            max={book.qoh}
-                            className="me-2"
-                            style={{ width: '50%' }}
-                        />
-                        <Button
-                            variant="primary"
-                            onClick={handleAddToCart}
-                            disabled={book.qoh === 0}
-                            style={{
-                                width: '50%',
-                                borderRadius: '30px'
-                            }}
-                        >
+                    <Form>
+                        <Form.Group controlId="quantity">
+                            <Form.Label>Quantity</Form.Label>
+                            <Form.Control
+                                type="number"
+                                min="1"
+                                max={book.qoh}
+                                value={quantity}
+                                onChange={handleQuantityChange}
+                            />
+                        </Form.Group>
+
+                        <Button variant="primary" onClick={handleAddToCart} className="mt-3">
                             Add to Cart
                         </Button>
-                    </Form.Group>
+                    </Form>
                 </Col>
             </Row>
 
-            {/* Modal for displaying message */}
+            {/* Modal to show if the item is already in the cart */}
             <Modal show={showModal} onHide={handleCloseModal}>
                 <Modal.Header closeButton>
                     <Modal.Title>Item Already in Cart</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    This book is already in your cart! You can increase the quantity or proceed to the cart.
+                    <p>This item is already in your cart. Please update the quantity in the cart if you'd like to add more.</p>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleCloseModal}>
                         Close
-                    </Button>
-                    <Button variant="primary" onClick={() => navigate('/cart')}>
-                        Go to Cart
                     </Button>
                 </Modal.Footer>
             </Modal>

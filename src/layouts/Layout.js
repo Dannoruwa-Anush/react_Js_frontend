@@ -1,46 +1,51 @@
+import React, { useState, createContext, useEffect } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
-import Container from "react-bootstrap/Container";
-import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
+import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Badge from "react-bootstrap/Badge";
-import { useState } from "react";
+import Container from "react-bootstrap/Container";
 import BusinessLogo from "../images/companyLogo/BusinessLogo.png";
 
-const Layout = () => {
-    const currentYear = new Date().getFullYear();
-    const navigate = useNavigate();
+// Create CartContext to share setNumberOfItems across components
+export const CartContext = createContext();
 
-    // Simulated data for categories and subcategories
+const Layout = () => {
+    const navigate = useNavigate();
+    const currentYear = new Date().getFullYear();
+
+    const [numberOfItems, setNumberOfItems] = useState(0);
+
+    // Simulated data for categories and authors
     const categories = [
         { name: "Fiction", subcategories: ["Fantasy", "Mystery", "Romance"] },
         { name: "Non-Fiction", subcategories: ["History", "Biography", "Science"] },
         { name: "Children", subcategories: ["Picture Books", "Early Readers"] },
     ];
-
     const authors = ["Author 1", "Author 2", "Author 3"];
 
-    // Get username from sessionStorage
-    const username = sessionStorage.getItem('username');
-    const isLoggedIn = username !== null; // Check if user is logged in
+    // Retrieve username from sessionStorage
+    const username = sessionStorage.getItem("username");
+    const isLoggedIn = username !== null;
 
-    // Get cart from sessionStorage
-    const cartItems = sessionStorage.getItem('cart');
-    let numberOfItems = 0;
-    if (cartItems) {
-        const currentCart = JSON.parse(cartItems);
-        numberOfItems = currentCart.length;
-    }
+    // Get cart items from sessionStorage on initial load
+    useEffect(() => {
+        const cartItems = sessionStorage.getItem("cart");
+        if (cartItems) {
+            const currentCart = JSON.parse(cartItems);
+            setNumberOfItems(currentCart.length);
+        }
+    }, []);
 
     const handleLogout = () => {
-        sessionStorage.clear(); // Clear sessionStorage
+        sessionStorage.clear(); // Clear session storage
         navigate("/login"); // Redirect to login page
     };
 
     return (
         <div id="root">
-            {/* Navigation bar section */}
-            <Navbar bg="light" expand="lg" className="w-100">
+            {/* Navbar */}
+            <Navbar bg="light" expand="lg">
                 <Container fluid>
                     <Navbar.Brand as={Link} to="/">
                         <img
@@ -54,74 +59,38 @@ const Layout = () => {
                     <Navbar.Collapse id="navbar-nav">
                         <Nav className="me-auto">
                             <Nav.Link as={Link} to="/">Home</Nav.Link>
-
-                            {/* Category Dropdown */}
-                            <NavDropdown
-                                title="Category"
-                                id="category-dropdown"
-                                className="category-dropdown"
-                            >
+                            <NavDropdown title="Category" id="category-dropdown">
                                 {categories.map((category, index) => (
-                                    <div key={index} className="category-item">
-                                        <NavDropdown.ItemText>
-                                            <strong>{category.name}</strong>
-                                        </NavDropdown.ItemText>
-
-                                        {/* Subcategories list under the category */}
-                                        <div className="subcategory-list">
-                                            {category.subcategories.map((sub, subIndex) => (
-                                                <NavDropdown.Item
-                                                    key={subIndex}
-                                                    as={Link}
-                                                    to={`/category/${sub.toLowerCase()}`}
-                                                >
-                                                    {sub}
-                                                </NavDropdown.Item>
-                                            ))}
-                                        </div>
-                                    </div>
+                                    <NavDropdown.Item key={index} as={Link} to={`/category/${category.name}`}>
+                                        {category.name}
+                                    </NavDropdown.Item>
                                 ))}
                             </NavDropdown>
-
-                            {/* Author Dropdown */}
                             <NavDropdown title="Author" id="author-dropdown">
                                 {authors.map((author, index) => (
-                                    <NavDropdown.Item key={index} as={Link} to={`/author/${author.toLowerCase()}`}>
+                                    <NavDropdown.Item key={index} as={Link} to={`/author/${author}`}>
                                         {author}
                                     </NavDropdown.Item>
                                 ))}
                             </NavDropdown>
                         </Nav>
-
-                        {/* Shopping Cart */}
                         <Nav className="align-items-center">
                             <Nav.Link as={Link} to="/cart" className="position-relative">
                                 <i className="bi bi-cart" style={{ fontSize: "1.5rem" }}></i>
                                 {numberOfItems > 0 && (
-                                    <Badge
-                                        bg="danger"
-                                        pill
-                                        className="position-absolute top-0 start-100 translate-middle"
-                                    >
+                                    <Badge bg="danger" pill className="position-absolute top-0 start-100 translate-middle">
                                         {numberOfItems}
                                     </Badge>
                                 )}
                             </Nav.Link>
-
-                            {/* User Icon, Username, and Logout */}
-                            <Nav.Link as={Link} to="/login" className="d-flex align-items-center">
-                                <i className="bi bi-person-circle" style={{ fontSize: "1.5rem" }}></i>
-
-                                {/* Display username and logout button horizontally */}
+                            <Nav.Link as={Link} to="/login">
                                 {isLoggedIn ? (
-                                    <div className="ms-2 d-flex flex-column align-items-start">
-                                        <span>( {username} )</span>
-                                        <button onClick={handleLogout} className="btn btn-link p-0">
-                                            Logout
-                                        </button>
-                                    </div>
+                                    <>
+                                        <span>{username}</span>
+                                        <button onClick={handleLogout} className="btn btn-link p-0">Logout</button>
+                                    </>
                                 ) : (
-                                    <span className="ms-2">Login</span>
+                                    <span>Login</span>
                                 )}
                             </Nav.Link>
                         </Nav>
@@ -130,16 +99,16 @@ const Layout = () => {
             </Navbar>
 
             {/* Page Content */}
-            <div className="page-content">
-                <Outlet />
-            </div>
+            <CartContext.Provider value={{ setNumberOfItems }}>
+                <div className="page-content">
+                    <Outlet />
+                </div>
+            </CartContext.Provider>
 
             {/* Footer */}
             <footer className="footer">
                 <Container>
-                    <span className="text-muted">
-                        Copyright © {currentYear} Dannoruwa-Anush. All Rights Reserved.
-                    </span>
+                    <span className="text-muted">© {currentYear} Dannoruwa-Anush. All Rights Reserved.</span>
                 </Container>
             </footer>
         </div>
