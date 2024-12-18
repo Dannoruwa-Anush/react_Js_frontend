@@ -3,6 +3,7 @@ import { Container, Row, Col, Card, Nav, Navbar, Dropdown } from 'react-bootstra
 import { Link } from 'react-router-dom';
 import { getAllBooks } from '../services/BookService';
 import { API_IMAGE_URL } from '../configurations/Config';
+import { getAllAuthors } from '../services/Author';
 
 const Books = () => {
     const categories = [
@@ -11,9 +12,8 @@ const Books = () => {
         { name: "Children", subcategories: ["Picture Books", "Early Readers"] },
     ];
 
-    const authors = ["Author 1", "Author 2", "Author 3"];
-
-    const [bookDetails, setBookDetails] = useState(null);
+    const [bookDetails, setBookDetails] = useState([]);
+    const [authorDetails, setAuthorDetails] = useState([]);
     const [expandedDropdown, setExpandedDropdown] = useState(null); // Tracks the expanded dropdown
     const [expandedSubDropdown, setExpandedSubDropdown] = useState(null); // Tracks expanded subcategories
 
@@ -22,7 +22,14 @@ const Books = () => {
             const res = await getAllBooks();
             setBookDetails(res);
         };
+
+        const authorsRequest = async () => {
+            const res = await getAllAuthors();
+            setAuthorDetails(res);
+        };
+
         booksRequest();
+        authorsRequest();
     }, []);
 
     return (
@@ -83,12 +90,12 @@ const Books = () => {
                                 <Dropdown.Toggle variant="light" id="authors-dropdown" className="w-100 text-start">
                                     Authors
                                 </Dropdown.Toggle>
-                                <Dropdown.Menu show={expandedDropdown === 'authors'}>
+                                <Dropdown.Menu show={expandedDropdown === 'authorDetails'}>
                                     <ul className="list-unstyled ps-3">
-                                        {authors.map((author, index) => (
+                                        {authorDetails.map((author, index) => (
                                             <li key={index}>
-                                                <Link to={`/author/${author.toLowerCase()}`} className="text-decoration-none">
-                                                    {author}
+                                                <Link to={`/author/${author.authorName.toLowerCase()}`} className="text-decoration-none">
+                                                    {author.authorName}
                                                 </Link>
                                             </li>
                                         ))}
