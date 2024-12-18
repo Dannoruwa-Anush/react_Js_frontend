@@ -16,21 +16,28 @@ function App() {
     //Include components of the app
     <BrowserRouter>
       <Routes>
-        {/* Access is unauthenticated */}
+
+        {/* Common layout*/}
         <Route path="/" element={<Layout />}>
+        
+          {/* Access is unauthenticated */}
           <Route path="/" element={<Books />} />
           <Route path="/book/:id" element={<Book />} />
           <Route path="/cart" element={<Cart />} />
-          <Route path="/login" element={<Login/>} />
-          <Route path="/register" element={<Register/>} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+
+
+
+          {/* Access is authenticated */}
+          <Route element={<ProtectedRoute />}>
+            <Route path="/userDashBoard" element={<UserDashBoard />} />
+            <Route path="/adminDashboard" element={<AdminDashBoard />} />
+            <Route path="/managerDashboard" element={<ManagerDashBoard />} />
+          </Route>
+
         </Route>
 
-        {/* Access is authenticated */}
-        <Route element={<ProtectedRoute />}>
-          <Route path="/userDashBoard" element={<UserDashBoard />} />
-          <Route path="/adminDashboard" element={<AdminDashBoard />} />
-          <Route path="/managerDashboard" element={<ManagerDashBoard />} />
-        </Route>
       </Routes>
     </BrowserRouter>
   );
