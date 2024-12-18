@@ -7,7 +7,7 @@ import { getAllAuthors } from '../services/Author';
 import { getAllCategoryWithSubCategory } from '../services/Category';
 
 const Books = () => {
-   
+
     const [bookDetails, setBookDetails] = useState([]);
     const [authorDetails, setAuthorDetails] = useState([]);
     const [categorySubCategoryDetails, setCategorySubCategoryDetails] = useState([]);
@@ -42,7 +42,16 @@ const Books = () => {
             const res = await getAllBooksByCategoryId(categoryId);
             setBookDetails(res);
         } catch (error) {
-            console.error("Error fetching books: ", error);
+            console.error("Error fetching books of category: ", error);
+        }
+    };
+
+    const handleSelectSubCategory = async (subcategoryId) => {
+        try {
+            const res = await getAllCategoryWithSubCategory(subcategoryId);
+            setBookDetails(res);
+        } catch (error) {
+            console.error("Error fetching books of subcategory: ", error);
         }
     };
 
@@ -51,7 +60,7 @@ const Books = () => {
             const res = await getAllBooksByAuthorId(authorId);
             setBookDetails(res);
         } catch (error) {
-            console.error("Error fetching books: ", error);
+            console.error("Error fetching books of author: ", error);
         }
     };
 
@@ -92,19 +101,17 @@ const Books = () => {
                                                         handleSelectCategory(category.id);
                                                     }}
                                                 >
-                                                    {category.categoryName}
+                                                    {category.categoryName.toLowerCase()}
                                                 </span>
                                             </Dropdown.Toggle>
 
                                             <Dropdown.Menu show={expandedSubDropdown === category.categoryName}>
-                                                {category.subCategoriesNames && category.subCategoriesNames.map((sub, subIndex) => (
-                                                    <Dropdown.Item
-                                                        key={subIndex}
-                                                        as={Link}
-                                                        to={`/category/${sub.toLowerCase()}`}
-                                                        className="ps-4"
-                                                    >
-                                                        {sub}
+                                                {category.subCategories && category.subCategories.map((sub, subIndex) => (
+                                                    <Dropdown.Item as="button" key={index} onClick={(e) => {
+                                                        e.preventDefault();  // Prevent default behavior
+                                                        handleSelectSubCategory(sub.id);
+                                                    }}>
+                                                        {sub.subCategoryName.toLowerCase()}
                                                     </Dropdown.Item>
                                                 ))}
                                             </Dropdown.Menu>
