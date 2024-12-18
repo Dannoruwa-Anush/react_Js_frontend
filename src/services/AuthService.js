@@ -1,5 +1,5 @@
 import AxioInstance from "../configurations/AxiosConfig";
-//API requests for /book
+//API requests for /auth
 
 //POST request
 export const userLogin = async (requestData) => {
