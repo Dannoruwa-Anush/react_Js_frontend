@@ -70,6 +70,26 @@ body {
     padding: 10px 0;
 }
 
+.user-info {
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.user-info span {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.user-info button {
+    font-size: 0.8rem;
+    color: #007bff;
+    padding: 0;
+    background: none;
+    border: none;
+    text-decoration: underline;
+}
+
+//books page
 // Hover effect to reveal subcategories when hovering over a category item
 .category-item:hover .subcategory-list {
     display: block;

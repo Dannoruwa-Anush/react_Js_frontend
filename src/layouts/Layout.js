@@ -1,6 +1,4 @@
-//The common layout for the entire project is defined here.
-
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
@@ -11,7 +9,8 @@ import BusinessLogo from "../images/companyLogo/BusinessLogo.png";
 
 const Layout = () => {
     const currentYear = new Date().getFullYear();
-    const [cartItems] = useState(3); // Simulated cart items
+    //const [cartItems] = useState(3); // Simulated cart items
+    const navigate = useNavigate();
 
     // Simulated data for categories and subcategories
     const categories = [
@@ -21,6 +20,26 @@ const Layout = () => {
     ];
 
     const authors = ["Author 1", "Author 2", "Author 3"];
+
+    // Get username from sessionStorage
+    const username = sessionStorage.getItem('username');
+    const isLoggedIn = username !== null; // Check if user is logged in
+
+    //Get cart from sessionStorage
+    const cartItems = sessionStorage.getItem('cart');
+    const numberOfItems = 0;
+    if (cartItems) {
+        // Parse the cart data to get the array of items
+        const currentCart = JSON.parse(cartItems);
+    
+        // Get the number of objects in the cart
+        const numberOfItems = currentCart.length;
+    }
+
+    const handleLogout = () => {
+        sessionStorage.clear(); // Clear sessionStorage
+        navigate("/login"); // Redirect to login page
+    };
 
     return (
         <div id="root">
@@ -82,20 +101,26 @@ const Layout = () => {
                         <Nav className="align-items-center">
                             <Nav.Link as={Link} to="/cart" className="position-relative">
                                 <i className="bi bi-cart" style={{ fontSize: "1.5rem" }}></i>
-                                {cartItems > 0 && (
+                                {numberOfItems > 0 && (
                                     <Badge
                                         bg="danger"
                                         pill
                                         className="position-absolute top-0 start-100 translate-middle"
                                     >
-                                        {cartItems}
+                                        {numberOfItems}
                                     </Badge>
                                 )}
                             </Nav.Link>
 
-                            {/* User Icon */}
-                            <Nav.Link as={Link} to="/user">
+                            {/* User Icon and Username */}
+                            <Nav.Link as={Link} to="/login" className="d-flex flex-column align-items-center">
                                 <i className="bi bi-person-circle" style={{ fontSize: "1.5rem" }}></i>
+                                {isLoggedIn && (
+                                    <div className="user-info mt-1">
+                                        <span>{username}</span>
+                                        <button onClick={handleLogout} className="btn btn-link p-0">Logout</button>
+                                    </div>
+                                )}
                             </Nav.Link>
                         </Nav>
                     </Navbar.Collapse>
