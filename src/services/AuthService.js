@@ -22,3 +22,27 @@ export const userRegister = async (requestData) => {
         throw error;
     }
 };
+
+
+//POST request
+export const userAccountRecovery = async (requestData) => {
+    try {
+        const response = await AxioInstance.post("/auth/userRecovery", requestData);
+        return response.data;
+    } catch (error) {   
+        console.log(error);
+        throw error;
+    }
+};
+
+
+//PUT request
+export const passwordReset = async (requestData) => {
+    try {
+        const response = await AxioInstance.put("/auth/password-reset", requestData);
+        return response.data;
+    } catch (error) {   
+        console.log(error);
+        throw error;
+    }
+};
