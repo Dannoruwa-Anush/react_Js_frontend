@@ -10,6 +10,7 @@ import ManagerDashBoard from './pages/RestrictedPages/ManagerDashBoard';
 import ProtectedRoute from './layouts/ProtectedRoute';
 import Login from './pages/Auth/Login';
 import Register from './pages/Auth/Register';
+import UserPasswordReset from './pages/Auth/UserPasswordReset';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route path="/cart" element={<Cart />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/forgot-password" element={<UserPasswordReset />} />
 
 
 

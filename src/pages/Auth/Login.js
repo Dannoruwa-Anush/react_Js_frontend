@@ -80,7 +80,10 @@ const Login = () => {
                         <FloatingLabel controlId="password" label="Password" className='mb-3'>
                             <Form.Control type="password" value={password} onChange={handlePassword} />
                         </FloatingLabel>
-
+                        
+                        <Link to={'/forgot-password'}>
+                            {"Forgot Password ?"}
+                        </Link>
                         {error &&
                             <div className="text-danger mb-3">
                                 {error}
