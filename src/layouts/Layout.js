@@ -37,6 +37,7 @@ const Layout = () => {
 
     const handleLogout = () => {
         sessionStorage.clear(); // Clear sessionStorage
+        setNumberOfItems(0);
         navigate("/login"); // Redirect to login page
     };
 
