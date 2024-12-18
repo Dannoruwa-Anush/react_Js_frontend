@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Card, Nav, Navbar, Dropdown } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { getAllBooks, getAllBooksByAuthorId } from '../services/BookService';
+import { getAllBooks, getAllBooksByAuthorId, getAllBooksByCategoryId } from '../services/BookService';
 import { API_IMAGE_URL } from '../configurations/Config';
 import { getAllAuthors } from '../services/Author';
+import { getAllCategoryWithSubCategory } from '../services/Category';
 
 const Books = () => {
     const categories = [
@@ -14,6 +15,7 @@ const Books = () => {
 
     const [bookDetails, setBookDetails] = useState([]);
     const [authorDetails, setAuthorDetails] = useState([]);
+    const [categorySubCategoryDetails, setCategorySubCategoryDetails] = useState([]);
     const [expandedDropdown, setExpandedDropdown] = useState(null); // Tracks the expanded dropdown
     const [expandedSubDropdown, setExpandedSubDropdown] = useState(null); // Tracks expanded subcategories
 
@@ -28,14 +30,30 @@ const Books = () => {
             setAuthorDetails(res);
         };
 
+        const categoryWithSubCategoriesRequest = async () => {
+            const res = await getAllCategoryWithSubCategory();
+            setCategorySubCategoryDetails(res);
+        };
+
         booksRequest();
         authorsRequest();
+        categoryWithSubCategoriesRequest();
+
     }, []);
 
 
-    const handleSelectAuthor = async (authorId) => {
+    const handleSelectAuthor = async (categoryId) => {
         try {
-            const res = await getAllBooksByAuthorId(authorId);
+            const res = await getAllBooksByCategoryId(categoryId);
+            setBookDetails(res);
+        } catch (error) {
+            console.error("Error fetching books: ", error);
+        }
+    };
+
+    const handleSelectCategory = async (authorId) => {
+        try {
+            const res = await getAllBooksByAuthorId(authorId); //book by category id
             setBookDetails(res);
         } catch (error) {
             console.error("Error fetching books: ", error);
@@ -59,11 +77,11 @@ const Books = () => {
                                 <Dropdown.Toggle variant="light" id="categories-dropdown" className="w-100 text-start">
                                     Categories
                                 </Dropdown.Toggle>
-                                <Dropdown.Menu show={expandedDropdown === 'categories'}>
-                                    {categories.map((category, index) => (
+                                <Dropdown.Menu show={expandedDropdown === 'categorySubCategoryDetails'}>
+                                    {categorySubCategoryDetails && categorySubCategoryDetails.map((category, index) => (
                                         <Dropdown
                                             key={index}
-                                            onMouseEnter={() => setExpandedSubDropdown(category.name)}
+                                            onMouseEnter={() => setExpandedSubDropdown(category.categoryName)}
                                             onMouseLeave={() => setExpandedSubDropdown(null)}
                                             className="category-item mb-2"
                                         >
@@ -72,10 +90,19 @@ const Books = () => {
                                                 id={`subcategory-dropdown-${index}`}
                                                 className="w-100 text-start ps-3"
                                             >
-                                                {category.name}
+                                                <span
+                                                    key={index}
+                                                    onClick={(e) => {
+                                                        e.preventDefault();  // Prevent default behavior
+                                                        handleSelectCategory(category.id);
+                                                    }}
+                                                >
+                                                    {category.categoryName}
+                                                </span>
                                             </Dropdown.Toggle>
-                                            <Dropdown.Menu show={expandedSubDropdown === category.name}>
-                                                {category.subcategories.map((sub, subIndex) => (
+
+                                            <Dropdown.Menu show={expandedSubDropdown === category.categoryName}>
+                                                {category.subCategoriesNames && category.subCategoriesNames.map((sub, subIndex) => (
                                                     <Dropdown.Item
                                                         key={subIndex}
                                                         as={Link}
