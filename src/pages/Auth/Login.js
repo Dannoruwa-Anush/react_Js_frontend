@@ -69,16 +69,16 @@ const Login = () => {
             <Container>
                 <div className="login-box shadow-sm rounded">
                     <div className='text-center mb-4'>
-                        <h1>User Login</h1>
+                        <h1>Login</h1>
                     </div>
 
                     <Form onSubmit={handleSubmit}>
-                        <FloatingLabel controlId='username' label="Select a Username" className='mb-3'>
-                            <Form.Control placeholder='Select a Username' value={username} onChange={handleUsername} />
+                        <FloatingLabel controlId='username' label="Username" className='mb-3'>
+                            <Form.Control value={username} onChange={handleUsername} />
                         </FloatingLabel>
 
-                        <FloatingLabel controlId="password" label="Select a Password" className='mb-3'>
-                            <Form.Control type="password" placeholder='Enter Password' value={password} onChange={handlePassword} />
+                        <FloatingLabel controlId="password" label="Password" className='mb-3'>
+                            <Form.Control type="password" value={password} onChange={handlePassword} />
                         </FloatingLabel>
 
                         {error &&

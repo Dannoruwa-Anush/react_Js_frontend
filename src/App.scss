@@ -135,7 +135,6 @@ body {
     }
 }
 
-//books page
 .books-image-card-body {
     //image card body
     display: flex;
@@ -212,6 +211,14 @@ body {
     border: 1px solid red; /* Add a red border */
     padding: 10px;
     border-radius: 8px; /* Rounded corners for the border */
+}
+
+//login/register
+.login-box {
+    max-width: 450px;
+    padding: 25px 25px;
+    margin: 75px auto;
+    background-color: #fff;
 }
 
 // Footer Styling

@@ -1,13 +1,15 @@
 import { useState } from 'react';
 import { Button, Container, FloatingLabel, Form } from 'react-bootstrap';
-import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
+import { userRegister } from '../../services/AuthService';
 
 const Register = () => {
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
+    const [address, setAddress] = useState("");
+    const [telephoneNo, setTelephoneNo] = useState("");
     const [error, setError] = useState("");
 
     const navigate = useNavigate();
@@ -36,7 +38,7 @@ const Register = () => {
 
     const handleEmail = (event) => {
         setEmail(event.target.value);
-        const regex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
+        const regex = /^[\w-]+@([\w-]+\.)+[\w-]{2,4}$/;
 
         if (email !== "" && regex.test(email)) {
             setRegisterEnabled(true);
@@ -45,24 +47,44 @@ const Register = () => {
         }
     }
 
+    const handleAddress = (event) => {
+        setAddress(event.target.value);
+
+        if (address.length <= 5) {
+            setRegisterEnabled(false);
+        } else {
+            setRegisterEnabled(true);
+        }
+    }
+
+    const handleTelephoneNo = (event) => {
+        setTelephoneNo(event.target.value);
+
+        if (address.length <= 10 || 13 < address.length) {
+            setRegisterEnabled(false);
+        } else {
+            setRegisterEnabled(true);
+        }
+    }
+
     const handleRegister = async (event) => {
         event.preventDefault();
 
-        const data = {
+        const registerRequest = {
             'username': username,
-            'password': password,
             'email': email,
+            'password': password,
+            'address': address,
+            'telephoneNumber': telephoneNo,
         };
 
         try {
-            const response = await axios.post('http://localhost:8081/auth/register', data);
+            await userRegister(registerRequest); // Directly call without assigning to `res`
             navigate("/login");
             setError("");
         } catch (error) {
-            setError(error.response.data.message);
+            setError(error.response.registerRequest.message); // Corrected typo here
         }
-
-
     }
 
     return (
@@ -70,20 +92,28 @@ const Register = () => {
             <Container>
                 <div className='login-box shadow-sm rounded'>
                     <div className='text-center mb-4'>
-                        <h1>User Register</h1>
+                        <h1>Register</h1>
                     </div>
 
                     <Form onSubmit={handleRegister}>
-                        <FloatingLabel controlId='username' label="Select a Username" className='mb-3'>
-                            <Form.Control placeholder='Select a Username' value={username} onChange={handleUsername} />
+                        <FloatingLabel controlId='username' label="Enter your Username" className='mb-3'>
+                            <Form.Control value={username} onChange={handleUsername} />
                         </FloatingLabel>
 
-                        <FloatingLabel controlId="password" label="Select a Password" className='mb-3'>
-                            <Form.Control type="password" placeholder='Enter Password' value={password} onChange={handlePassword} />
+                        <FloatingLabel controlId="password" label="Enter your password" className='mb-3'>
+                            <Form.Control type="password" value={password} onChange={handlePassword} />
                         </FloatingLabel>
 
-                        <FloatingLabel controlId="email" label="Enter your Email Address" className='mb-3'>
-                            <Form.Control type="email" placeholder='Enter your Email Address' value={email} onChange={handleEmail} />
+                        <FloatingLabel controlId="email" label="Enter your email address" className='mb-3'>
+                            <Form.Control type="email" value={email} onChange={handleEmail} />
+                        </FloatingLabel>
+
+                        <FloatingLabel controlId='address' label="Enter your address" className='mb-3'>
+                            <Form.Control value={address} onChange={handleAddress} />
+                        </FloatingLabel>
+
+                        <FloatingLabel controlId='telephoneNo' label="Enter your telephone no" className='mb-3'>
+                            <Form.Control value={telephoneNo} onChange={handleTelephoneNo} />
                         </FloatingLabel>
 
                         {error &&
@@ -100,8 +130,6 @@ const Register = () => {
                             {"Already have an account? Login"}
                         </Link>
                     </Form>
-
-
                 </div>
             </Container>
         </>
