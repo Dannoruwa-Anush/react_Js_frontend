@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Card, Nav, Navbar, Dropdown } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { getAllBooks, getAllBooksByAuthorId, getAllBooksByCategoryId } from '../services/BookService';
+import { getAllBooks, getAllBooksByAuthorId, getAllBooksByCategoryId, getAllBooksBySubCategoryId } from '../services/BookService';
 import { API_IMAGE_URL } from '../configurations/Config';
 import { getAllAuthors } from '../services/Author';
 import { getAllCategoryWithSubCategory } from '../services/Category';
@@ -48,7 +48,7 @@ const Books = () => {
 
     const handleSelectSubCategory = async (subcategoryId) => {
         try {
-            const res = await getAllCategoryWithSubCategory(subcategoryId);
+            const res = await getAllBooksBySubCategoryId(subcategoryId);
             setBookDetails(res);
         } catch (error) {
             console.error("Error fetching books of subcategory: ", error);
