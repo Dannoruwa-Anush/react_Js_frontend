@@ -7,7 +7,6 @@ export const getAllAuthors= async () =>{
         const response = await AxioInstance.get("/author");
         return response.data;
     } catch (error) {
-        console.log(error);
         return [];
     }
 };
