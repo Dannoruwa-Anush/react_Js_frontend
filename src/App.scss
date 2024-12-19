@@ -32,24 +32,43 @@ body {
     min-height: 100vh; // Ensures root takes the full viewport height
 }
 
-//layout nav bar
+//Horizonal top nav bar
 .layout-navbar {
     padding-top: 20px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.layout-navbar .navbar-nav .nav-link {
+//Vertical side navbar
+.nav-sidebar {
+    width: 20%;
+    min-height: 100vh;
+    border-right: 1px solid #dee2e6;
+    /* Applying a right-side border */
+    display: flex;
+    flex-direction: column;
+    background: #f8f9fa;
+    box-shadow: 4px 0 6px rgba(0, 0, 0, 0.1);
+    /* Right side shadow */
+}
+
+.layout-navbar .navbar-nav .nav-link,
+.nav-sidebar .nav-link {
     color: black;
     font-weight: bold;
     text-transform: uppercase;
+    font-size: 10px; /* Decreased font size */
     transition: color 0.3s, transform 0.3s ease;
 }
 
-.layout-navbar .navbar-nav .nav-link:hover {
+.layout-navbar .navbar-nav .nav-link:hover,
+.nav-sidebar .nav-link:hover {
     color: #007bff;
+    transform: scale(1.05);
+    cursor: pointer; /* Corrected: no quotes around the value */
+}
 
-    /* Hover color*/
-    transform: scale(1.1);
+.nav-sidebar .nav-link.active {
+    background-color: rgb(205, 216, 205); /* Ensure the active state has a green background */
 }
 
 // Page Content Area
@@ -65,22 +84,25 @@ body {
 
 //books page
 .page-content {
-    flex: 1; /* Takes the remaining space in the layout */
-    padding: 0; /* Remove all padding */
+    flex: 1;
+    /* Takes the remaining space in the layout */
+    padding: 0;
+    /* Remove all padding */
     background-color: $primary-bg-color;
 
     @media (max-width: 768px) {
-        padding: 0; /* Ensure no padding on small screens */
+        padding: 0;
+        /* Ensure no padding on small screens */
     }
 }
 
 // Styles for vertical-navbar specifically
 .vertical-navbar {
-    padding-top: 0;  // Override top padding to 0
+    padding-top: 0; // Override top padding to 0
     padding-left: 0; // Override left padding to 0
 
     @media (max-width: 768px) {
-        padding-top: 0;  // Set top padding to 0 for small screens
+        padding-top: 0; // Set top padding to 0 for small screens
         padding-left: 0; // Set left padding to 0 for small screens
     }
 
@@ -180,6 +202,13 @@ body {
     margin: 75px auto;
     background-color: #fff;
 }
+
+//DashBoards
+
+
+
+
+
 
 // Footer Styling
 .footer {
