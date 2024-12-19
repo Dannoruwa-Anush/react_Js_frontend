@@ -1,5 +1,5 @@
 import axios from "axios";
-import { postRequest } from "./CommonServices/UnAuthenticatedApiService";
+import { postRequest, putRequest } from "./CommonServices/UnAuthenticatedApiService";
 
 //API requests for /auth
 
@@ -31,5 +31,6 @@ export const userAccountRecovery = async (requestData) => {
 
 //PUT request
 export const passwordReset = async (requestData) => {
-    return await postRequest("/auth/password-reset", requestData);
+    console.log(requestData);
+    return await putRequest("/auth/password-reset", requestData.id, requestData);
 };
