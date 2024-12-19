@@ -32,7 +32,7 @@ const AdminDashBoard = () => {
 
 
       {/* Render Tab-Specific Component */}
-      <div className="p-4" style={{ width: "80%" }}>
+      <div className="main-content">
         {tabs[activeTab].component}
       </div>
     </div>
