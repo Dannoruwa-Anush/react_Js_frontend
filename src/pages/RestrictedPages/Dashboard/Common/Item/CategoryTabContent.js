@@ -1,12 +1,91 @@
+import { Form, Button, Table, Pagination, Modal } from "react-bootstrap";
+
 // Define a functional component using an arrow function
 const CategoryTabContent = () => {
 
-  
+
   return (
 
     //JSX (JavaScript XML) used to render the structure of a UI 
+    <div>
+      <h5 className="mb-4">Book Categories</h5>
 
-    <h5 className="mb-4">Book Categories</h5>
+      {/* [Start] - Form Section */}
+      <div className="main-content-form-container">
+        <h2 className="main-content-form-title">New/Update Entry</h2>
+        <div className="main-content-form-box">
+          <Form className="mb-4">
+            <Form.Group className="mb-3">
+              <Form.Label>Category Name</Form.Label>
+              <Form.Control
+                name="categoryName"
+                placeholder="Enter category name"
+              />
+            </Form.Group>
+            <div className="text-end">
+              <Button variant="primary" className="button-style">
+                create
+              </Button>
+            </div>
+          </Form>
+        </div>
+      </div>
+      {/* [End] - Form Section */}
+
+
+      {/* [Start] - Table Section with Search Bar */}
+      <div className="main-content-table-container">
+        <h2 className="main-content-table-title">
+          Category List
+        </h2>
+
+        {/* [Start] - Search Bar */}
+        <div className="main-content-table-search-bar-container mb-3">
+          <Form.Control
+            type="text"
+            placeholder="Search by name"
+            className="main-content-table-search-bar"
+          />
+        </div>
+        {/* [End]   - Search Bar */}
+
+        {/* [Start] - Table */}
+        <Table bordered hover>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th className="main-content-table-action-column">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>category 1</td>
+              <td className="main-content-table-action-column">
+                <Button
+                  variant="outline-primary"
+                  size="sm"
+                >
+                  Edit
+                </Button>{" "}
+                
+                <Button
+                  variant="outline-danger"
+                  size="sm"
+                >
+                  Delete
+                </Button>
+              </td>
+            </tr>
+          </tbody>
+        </Table>
+        {/* [End]   - Table */}
+
+      </div>
+      {/* [End]   - Table Section with Search Bar */}
+
+    </div>
 
   );
 };

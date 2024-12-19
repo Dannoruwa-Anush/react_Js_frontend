@@ -70,6 +70,13 @@ body {
 }
 
 // Page Content Area
+//btn common style
+.button-style {
+    border-radius: 30px;
+    width: 100px;
+    height: 40px;
+}
+
 .page-content {
     flex: 1;
     padding: 0;
@@ -103,33 +110,6 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); // Optional: subtle shadow for the container
 }
 
-.action-column {
-    width: 150px;
-    /* Adjust width to your needs */
-    white-space: nowrap;
-    /* Prevent text from wrapping */
-    text-align: center;
-    /* Center-align buttons */
-}
-
-.action-column .btn {
-    margin-right: 5px;
-    /* Optional: Adjust space between buttons */
-}
-
-.main-content-form-container {
-    width: 100%; // Make sure the container takes full width
-    max-width: 1200px; // Optional: limit max width of the container
-    margin: 20px auto; // Optional: center the container horizontally with spacing
-    padding: 20px; // Optional: add padding around the table
-    background-color: #fff; // Light background color for the container
-    border-radius: 8px; // Optional: rounded corners for the container
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); // Optional: subtle shadow for the container
-    display: grid;
-    /* Enable grid layout */
-    place-items: center;
-    /* Center content both vertically and horizontally */
-}
 
 .main-content-form-box {
     width: 100%;
@@ -160,7 +140,7 @@ body {
 }
 
 /* Style the search bar container inside the table section */
-.search-bar-container {
+.main-content-table-search-bar-container{
     display: flex;
     justify-content: flex-start;
     margin-bottom: 20px;
@@ -168,7 +148,7 @@ body {
     /* Ensure the container spans the full width */
 }
 
-.search-bar {
+.main-content-table-search-bar{
     width: 100%;
     /* Make the search bar take the full width */
     padding: 10px;
@@ -180,14 +160,64 @@ body {
     transition: border 0.3s ease;
 }
 
-.search-bar:focus {
+.main-content-table-search-bar:focus {
     outline: none;
     border-color: #007bff;
     background-color: #fff;
 }
 
-.search-bar::placeholder {
+.main-content-table-search-bar::placeholder {
     color: #888;
+}
+
+.main-content-table-action-column {
+    width: 150px;
+    /* Adjust width to your needs */
+    white-space: nowrap;
+    /* Prevent text from wrapping */
+    text-align: center;
+    /* Center-align buttons */
+}
+
+.main-content-table-action-column .btn {
+    margin-right: 5px;
+    /* Optional: Adjust space between buttons */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//*****************************************************************************
+//need to check
+.main-content-form-container {
+    width: 100%; // Make sure the container takes full width
+    max-width: 1200px; // Optional: limit max width of the container
+    margin: 20px auto; // Optional: center the container horizontally with spacing
+    padding: 20px; // Optional: add padding around the table
+    background-color: #fff; // Light background color for the container
+    border-radius: 8px; // Optional: rounded corners for the container
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); // Optional: subtle shadow for the container
+    display: grid;
+    /* Enable grid layout */
+    place-items: center;
+    /* Center content both vertically and horizontally */
 }
 
 
