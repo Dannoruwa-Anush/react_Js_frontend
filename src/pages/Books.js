@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { getAllBooks, getAllBooksByAuthorId, getAllBooksByCategoryId, getAllBooksBySubCategoryId } from '../services/BookService';
 import { API_IMAGE_URL } from '../configurations/Config';
 import { getAllAuthors } from '../services/Author';
-import { getAllCategoryWithSubCategory } from '../services/Category';
+import { getAllCategoryWithSubCategory } from '../services/CategoryService';
 
 const Books = () => {
 

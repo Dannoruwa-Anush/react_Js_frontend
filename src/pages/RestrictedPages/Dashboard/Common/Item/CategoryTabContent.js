@@ -1,7 +1,22 @@
 import { Form, Button, Table, Pagination, Modal } from "react-bootstrap";
+import React, { useEffect, useState } from 'react';
+import { getAllCaregories } from "../../../../../services/CategoryService";
 
 // Define a functional component using an arrow function
 const CategoryTabContent = () => {
+  
+  //Load categories from API
+  const [categoryDetails, setCategoryDetails] = useState([]);
+
+  useEffect(()=>{
+        const categoriesRequest = async () => {
+            const res = await getAllCaregories();
+            console.log(res);
+            setCategoryDetails(res);
+        };
+
+        categoriesRequest();
+  }, [])
 
 
   return (
@@ -50,7 +65,7 @@ const CategoryTabContent = () => {
         {/* [End]   - Search Bar */}
 
         {/* [Start] - Table */}
-        <Table bordered hover>
+        <Table bordered striped hover responsive>
           <thead>
             <tr>
               <th>ID</th>
@@ -69,7 +84,7 @@ const CategoryTabContent = () => {
                 >
                   Edit
                 </Button>{" "}
-                
+
                 <Button
                   variant="outline-danger"
                   size="sm"
@@ -84,7 +99,6 @@ const CategoryTabContent = () => {
 
       </div>
       {/* [End]   - Table Section with Search Bar */}
-
     </div>
 
   );
