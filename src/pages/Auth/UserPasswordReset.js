@@ -12,6 +12,7 @@ const UserPasswordReset = () => {
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [error, setError] = useState("");
+    const [message, setMessage] = useState(""); // To display success message
     const [user, setUser] = useState(null);
 
     // Handle the username input
@@ -44,16 +45,18 @@ const UserPasswordReset = () => {
             }
 
             const response = await userAccountRecovery(userAccountRecoveryRequest);
-
             if (response) {
+                setMessage(response.message || "Password recovery initiated.");
                 setUser(response); // Store user details to confirm identity
                 setStep(2); // Proceed to the next step (email form)
                 setError("");
             } else {
                 setError("User not found.");
+                setMessage("");  // Clear any previous success message
             }
         } catch (error) {
             setError("An error occurred. Please try again.");
+            setMessage("");  // Clear any previous success message
         }
     }
 
@@ -72,20 +75,29 @@ const UserPasswordReset = () => {
     const handlePasswordSubmit = async (event) => {
         event.preventDefault();
 
+        // Validate password strength
+        if (newPassword.length < 6) {
+            setError("Password must be at least 6 characters long.");
+            return;
+        }
+
         if (newPassword !== confirmPassword) {
             setError("Passwords do not match.");
             return;
         }
 
         try {
-            const passwordResetRequest= {
+            const passwordResetRequest = {
                 id: user.id,
                 newPassword: newPassword
             };
-            
+
             await passwordReset(passwordResetRequest);
-            setError("");
-            navigate("/login"); // Redirect to login after password reset
+            setMessage("Password reset successful. Redirecting...");
+            setError(""); // Clear any error messages
+            setTimeout(() => {
+                navigate("/login");
+            }, 2000); // Optional delay before navigation
         } catch (error) {
             setError("Failed to reset password. Please try again.");
         }
@@ -156,6 +168,12 @@ const UserPasswordReset = () => {
                                 onChange={handleConfirmPassword}
                             />
                         </FloatingLabel>
+
+                        {message &&
+                            <div className='text-success mb-3'>
+                                {message}
+                            </div>
+                        }
 
                         {error && <div className="text-danger mb-3">{error}</div>}
 
