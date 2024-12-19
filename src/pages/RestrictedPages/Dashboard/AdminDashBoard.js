@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import TabContent1 from "./TabContent1";
-import TabContent2 from "./TabContent2";
+import TabContent1 from "./../TabContent1";
+import TabContent2 from "./../TabContent2";
 import { Nav } from "react-bootstrap";
 
 const AdminDashBoard = () => {
