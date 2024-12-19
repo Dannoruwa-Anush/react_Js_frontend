@@ -81,39 +81,81 @@ body {
     }
 }
 
-.main-content{
+.main-content {
     padding: 1.5rem;
     width: 85%;
 }
 
-// Styles for vertical-navbar specifically
-.vertical-navbar {
-    padding-top: 0; // Override top padding to 0
-    padding-left: 0; // Override left padding to 0
+.main-content-table-form-container {
+    max-width: 450px;
+    padding: 25px 25px;
+    margin: 75px auto;
+    background-color: #fff;
+}
 
-    @media (max-width: 768px) {
-        padding-top: 0; // Set top padding to 0 for small screens
-        padding-left: 0; // Set left padding to 0 for small screens
-    }
+.main-content-table-container,
+.main-content-form-container {
+    width: 100%; // Make sure the container takes full width
+    max-width: 1200px; // Optional: limit max width of the container
+    margin: 20px auto; // Optional: center the container horizontally with spacing
+    padding: 20px; // Optional: add padding around the table
+    background-color: #fff; // Light background color for the container
+    border-radius: 8px; // Optional: rounded corners for the container
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); // Optional: subtle shadow for the container
+}
 
-    .dropdown-menu {
-        transition: all 0.3s ease-in-out;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
+.main-content-table-title,
+.main-content-form-title {
+    font-size: 24px;
+    /* Adjust the size of the title */
+    font-weight: bold;
+    /* Make the title bold */
+    color: #333;
+    /* Set a color for the title text */
+    margin-bottom: 15px;
+    /* Space between the title and the table */
+    text-align: center;
+    /* Center-align the title */
+    text-transform: uppercase;
+    /* Uppercase letters for emphasis */
+    border-bottom: 2px solid #dee2e6;
+    /* Optional: a border under the title */
+}
 
-    .dropdown-toggle {
-        font-weight: bold;
-        color: #333;
-    }
+/* Style the search bar container inside the table section */
+.search-bar-container {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 20px;
+    width: 100%;
+    /* Ensure the container spans the full width */
+}
 
-    .dropdown-item {
-        padding: 10px;
-        font-size: 14px;
-        color: #555;
-    }
+.search-bar {
+    width: 100%;
+    /* Make the search bar take the full width */
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    font-size: 16px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: border 0.3s ease;
+}
+
+.search-bar:focus {
+    outline: none;
+    border-color: #007bff;
+    background-color: #fff;
+}
+
+.search-bar::placeholder {
+    color: #888;
 }
 
 
+
+//books page
 //image card
 .books-image-card-body {
     //image card body
