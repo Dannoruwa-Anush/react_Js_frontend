@@ -1,13 +1,8 @@
-import AxioInstance from "../configurations/AxiosConfig";
+import { getAllRequest } from "./CommonServices/UnAuthenticatedApiService";
 //API requests for /author
 
 //GET: getAllAuthors
-export const getAllAuthors= async () =>{
-    try {
-        const response = await AxioInstance.get("/author");
-        return response.data;
-    } catch (error) {
-        return [];
-    }
+export const getAllAuthors = async () => {
+    return await getAllRequest("/author");
 };
 

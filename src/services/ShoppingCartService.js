@@ -1,14 +1,9 @@
-import AxioInstance from "../configurations/AxiosConfig";
+import { postRequest} from "./CommonServices/UnAuthenticatedApiService";
 
 //API requests for /order/getShoppingCartTotal
 //POST request
 export const getShoppingCartTotal = async (requestData)=>{
-    try {
-        const response = await AxioInstance.post("/order/getShoppingCartTotal", requestData);
-        return response.data;
-    } catch (error) {
-        console.log(error);
-    }
+    return await postRequest("/order/getShoppingCartTotal", requestData);
 };
 
 

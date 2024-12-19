@@ -1,3 +1,4 @@
+import axios from 'axios';
 import AxioInstance from "../configurations/AxiosConfig";
 //API requests for /auth
 
@@ -5,6 +6,12 @@ import AxioInstance from "../configurations/AxiosConfig";
 export const userLogin = async (requestData) => {
     try {
         const response = await AxioInstance.post("/auth/login", requestData);
+
+        sessionStorage.setItem('token',response.data.token);
+        sessionStorage.setItem('username', response.data.username);
+        sessionStorage.setItem('user_id',response.data.id);
+        axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
+
         return response.data;
     } catch (error) {
         console.log(error);

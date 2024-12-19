@@ -1,14 +1,11 @@
-import AxioInstance from "../configurations/AxiosConfig";
+import {getAllRequest} from "./CommonServices/UnAuthenticatedApiService";
 
 //API requests for /category
 
-//GET: getAllAuthors
-export const getAllCategoryWithSubCategory= async () =>{
-    try {
-        const response = await AxioInstance.get("/category/subCategory");
-        return response.data;
-    } catch (error) {
-        return [];
-    }
+//GET: getAllCaregories
+export const getAllCategoryWithSubCategory = async () => {
+    return await getAllRequest("/category/subCategory");
 };
+
+
 

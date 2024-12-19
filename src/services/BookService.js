@@ -1,60 +1,30 @@
-import AxioInstance from "../configurations/AxiosConfig";
+import { getAllRequest, getByIdRequest, getAllByIdRequest } from "./CommonServices/UnAuthenticatedApiService";
+
 //API requests for /book
 
 //GET: getAllBooks
-export const getAllBooks = async () =>{
-    try {
-        const response = await AxioInstance.get("/book");
-        return response.data;
-    } catch (error) {
-        console.log(error);
-        return [];
-    }
+export const getAllBooks = async () => {
+    return await getAllRequest("/book");
 };
 
 //GET: getBookById
-export const getBookById= async (id) =>{
-    try {
-        const response = await AxioInstance.get("/book/" + id);
-        return response.data;
-    } catch (error) {
-        console.log(error);
-        return {};
-    }
+export const getBookById = async (id) => {
+    return await getByIdRequest("/book", id);
 };
 
-
 //GET: getAllBooksByAuthorId
-export const getAllBooksByAuthorId = async (authorId) =>{
-    try {
-        const response = await AxioInstance.get("/book/author/" + authorId);
-        return response.data;
-    } catch (error) {
-        console.log(error);
-        return {};
-    }
+export const getAllBooksByAuthorId = async (authorId) => {
+    return await getAllByIdRequest("/book/author", authorId);
 };
 
 
 //GET: getAllBooksByCategoryId
-export const getAllBooksByCategoryId = async (categoryId) =>{
-    try {
-        const response = await AxioInstance.get("/book/category/" + categoryId);
-        return response.data;
-    } catch (error) {
-        console.log(error);
-        return [];
-    }
+export const getAllBooksByCategoryId = async (categoryId) => {
+    return await getAllByIdRequest("/book/category", categoryId);
 };
 
 
 //GET: getAllBooksBySubCategoryId
-export const getAllBooksBySubCategoryId = async (subCategoryId) =>{
-    try {
-        const response = await AxioInstance.get("/book/subCategory/" + subCategoryId);
-        return response.data;
-    } catch (error) {
-        console.log(error);
-        return [];
-    }
+export const getAllBooksBySubCategoryId = async (subCategoryId) => {
+    return await getAllByIdRequest("/book/subCategory", subCategoryId);
 };
