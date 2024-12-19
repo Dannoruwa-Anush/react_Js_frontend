@@ -1,7 +1,12 @@
 import {getAllRequest} from "./CommonServices/UnAuthenticatedApiService";
-import {deleteAuthenticatedRequest, getAllAuthenticatedRequest, postAuthenticatedRequest, putAuthenticatedRequest} from "./CommonServices/AuthenticatedApiService";
+import {deleteAuthenticatedRequest, getAllAuthenticatedRequest, getByIdAuthenticatedRequest, postAuthenticatedRequest, putAuthenticatedRequest} from "./CommonServices/AuthenticatedApiService";
 
 //API requests for /category
+
+//GET: getCategoryById
+export const getCaregoryById = async (id) =>{
+    return await getByIdAuthenticatedRequest("/category", id);
+};
 
 //GET: getAllCaregories
 export const getAllCaregories = async () =>{
@@ -19,8 +24,8 @@ export const saveCategory = async (dataToSave) =>{
 };
 
 //PUT : category
-export const updateCategory = async (id, dataToSave) =>{
-    return await putAuthenticatedRequest("/category", id, dataToSave)
+export const updateCategory = async (id, dataToUpdate) =>{
+    return await putAuthenticatedRequest("/category", id, dataToUpdate)
 };
 
 //GET: getAllCaregories with subCategory[]

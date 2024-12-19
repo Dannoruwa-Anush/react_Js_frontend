@@ -1,6 +1,6 @@
 import { Form, Button, Table, Pagination, Modal } from "react-bootstrap";
 import React, { useEffect, useState } from 'react';
-import { deleteCategory, getAllCaregories, saveCategory } from "../../../../../services/CategoryService";
+import { deleteCategory, getAllCaregories, getCaregoryById, saveCategory, updateCategory } from "../../../../../services/CategoryService";
 
 // Constants for button texts
 const BUTTON_TEXT = {
@@ -18,9 +18,8 @@ const CategoryTabContent = () => {
   const [idToDelete, setIdToDelete] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(5); // Adjust as needed
+  const [itemsPerPage] = useState(5);
 
-  // Load categories from API
   useEffect(() => {
     const categoriesRequest = async () => {
       const res = await getAllCaregories();
@@ -29,87 +28,89 @@ const CategoryTabContent = () => {
     categoriesRequest();
   }, []);
 
-  // Handle form data input change
   const handleFormChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Handle form submission (Create/Update)
   const handleSubmit = async (event) => {
-    event.preventDefault(); // Prevent form from reloading the page
+    event.preventDefault();
     if (!formData.categoryName) {
       alert('Category Name is required');
       return;
     }
 
-    // Optimistic Update: Immediately update the category list in UI
-    if (!formData.id) {
-      const newCategory = { ...formData, id: Date.now() }; // Assign a temporary ID for the new category
-      setCategoryDetails((prev) => [newCategory, ...prev]); // Prepend the new category to the list (or append based on design)
-    }
-
     try {
       let res;
       if (formData.id) {
-        // Handle update logic if needed
-        // Example: await updateCategory(formData);
+        // Update existing category
+        res = await updateCategory(formData.id, formData);
+        if (res.success) {
+          // Optimistically update local state
+          setCategoryDetails((prevDetails) =>
+            prevDetails.map((category) =>
+              category.id === formData.id ? { ...category, categoryName: formData.categoryName } : category
+            )
+          );
+        }
       } else {
         // Create new category
         res = await saveCategory(formData);
         if (res.success) {
-          // Fetch the updated list from API after saving
-          const updatedCategories = await getAllCaregories();
-          setCategoryDetails(updatedCategories);
+          // Optimistically add new category to state
+          setCategoryDetails((prevDetails) => [
+            ...prevDetails,
+            { ...formData, id: res.data.id }, // Assuming the new category has an id in the response
+          ]);
         }
       }
     } catch (error) {
       console.error('Error saving category:', error);
-      // Optionally revert the optimistic update if there was an error
-      setCategoryDetails((prev) => prev.filter((cat) => cat.id !== formData.id));
-      alert('There was an error saving the category. Please try again.');
+      alert('Error occurred while saving the category');
     }
 
-    setFormData({}); // Reset the form after submission
+    setFormData({}); // Reset form after submission
   };
 
-  // Handle row deletion
+  const handleEdit = async (id) => {
+    try {
+      const category = await getCaregoryById(id);
+      setFormData(category); // Set the form data to the category being edited
+    } catch (error) {
+      console.error('Error fetching category details for edit:', error);
+      alert('Failed to load category details');
+    }
+  };
+
   const handleDelete = (id) => {
     setIdToDelete(id);
     setShowModal(true);
   };
 
-  const cancelRemove = () => {
-    setShowModal(false);
-  };
+  const cancelRemove = () => setShowModal(false);
 
   const confirmRemove = async () => {
-    setCategoryDetails((prevDetails) =>
-      prevDetails.filter((category) => category.id !== idToDelete)
-    );
-
     try {
       const res = await deleteCategory(idToDelete);
       if (res.success) {
-        // Re-fetch after deletion
-        const updatedCategories = await getAllCaregories();
-        setCategoryDetails(updatedCategories);
+        // Optimistically remove category from state
+        setCategoryDetails((prevDetails) =>
+          prevDetails.filter((category) => category.id !== idToDelete)
+        );
       }
     } catch (error) {
       console.error('Error deleting category', error);
-      // Handle error gracefully, e.g., by showing a message
+      alert('Error occurred while deleting the category');
     }
 
     setShowModal(false);
     setIdToDelete(null);
   };
 
-  // Search functionality
   const filteredCategories = categoryDetails.filter((category) =>
     category.categoryName.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // Paginate categories
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredCategories.slice(indexOfFirstItem, indexOfLastItem);
@@ -121,8 +122,6 @@ const CategoryTabContent = () => {
   return (
     <div>
       <h5 className="mb-4">Book Categories</h5>
-
-      {/* [Start] - Form Section */}
       <div className="main-content-form-container">
         <h2 className="main-content-form-title">New/Update Entry</h2>
         <div className="main-content-form-box">
@@ -144,13 +143,9 @@ const CategoryTabContent = () => {
           </Form>
         </div>
       </div>
-      {/* [End] - Form Section */}
 
-      {/* [Start] - Table Section with Search Bar */}
       <div className="main-content-table-container">
         <h2 className="main-content-table-title">Category List</h2>
-
-        {/* [Start] - Search Bar */}
         <div className="main-content-table-search-bar-container mb-3">
           <Form.Control
             type="text"
@@ -160,9 +155,7 @@ const CategoryTabContent = () => {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
-        {/* [End]   - Search Bar */}
 
-        {/* [Start] - Table */}
         <Table bordered striped hover responsive>
           <thead>
             <tr>
@@ -177,14 +170,10 @@ const CategoryTabContent = () => {
                 <td>{row.id}</td>
                 <td>{row.categoryName}</td>
                 <td className="main-content-table-action-column">
-                  <Button variant="outline-primary" size="sm">
+                  <Button variant="outline-primary" size="sm" onClick={() => handleEdit(row.id)}>
                     {BUTTON_TEXT.EDIT}
                   </Button>{" "}
-                  <Button
-                    variant="outline-danger"
-                    size="sm"
-                    onClick={() => handleDelete(row.id)}
-                  >
+                  <Button variant="outline-danger" size="sm" onClick={() => handleDelete(row.id)}>
                     {BUTTON_TEXT.DELETE}
                   </Button>
                 </td>
@@ -192,23 +181,15 @@ const CategoryTabContent = () => {
             ))}
           </tbody>
         </Table>
-        {/* [End] - Table */}
 
-        {/* [Start] - Pagination */}
         <Pagination>
           {Array.from({ length: Math.ceil(filteredCategories.length / itemsPerPage) }, (_, index) => (
-            <Pagination.Item
-              key={index + 1}
-              active={index + 1 === currentPage}
-              onClick={() => handlePageChange(index + 1)}
-            >
+            <Pagination.Item key={index + 1} active={index + 1 === currentPage} onClick={() => handlePageChange(index + 1)}>
               {index + 1}
             </Pagination.Item>
           ))}
         </Pagination>
-        {/* [End] - Pagination */}
 
-        {/* [Start] - Modal to confirm removal */}
         <Modal show={showModal} onHide={cancelRemove}>
           <Modal.Header closeButton>
             <Modal.Title>Confirm Removal</Modal.Title>
@@ -225,9 +206,7 @@ const CategoryTabContent = () => {
             </Button>
           </Modal.Footer>
         </Modal>
-        {/* [End] - Modal */}
       </div>
-      {/* [End] - Table Section with Search Bar */}
     </div>
   );
 };
