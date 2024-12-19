@@ -57,12 +57,10 @@ export const getAllByIdRequest = async (path, id) => {
     }
 };
 
-//Login
+//Login : post request
 export const loginRequest = async (postRequestData) => {
     try {
         const response = await AxioInstance.post("/auth/login", postRequestData);
-
-        console.log("login : " + response);
 
         //store user details in session storage
         sessionStorage.setItem('token', response.data.token);
