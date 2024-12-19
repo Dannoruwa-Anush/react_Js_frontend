@@ -1,14 +1,12 @@
 import React, { useState } from "react";
-import TabContent1 from "./../TabContent1";
-import TabContent2 from "./../TabContent2";
+import CategoryTabContent from "./Common/Item/CategoryTabContent";
 import { Nav } from "react-bootstrap";
 
 const AdminDashBoard = () => {
   const [activeTab, setActiveTab] = useState(0);
 
   const tabs = [
-    { id: 0, title: "Tab 1", component: <TabContent1 /> },
-    { id: 1, title: "Tab 2", component: <TabContent2 /> },
+    { id: 0, title: "Tab 1", component: <CategoryTabContent /> },
   ];
 
   return (
