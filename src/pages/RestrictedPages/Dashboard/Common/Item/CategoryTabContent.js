@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Form, Button, Table, Pagination } from "react-bootstrap";
+import { Form, Button, Table, Pagination, Modal } from "react-bootstrap";
 
 const CategoryTabContent = () => {
   // Manage form data and table data
@@ -11,6 +11,10 @@ const CategoryTabContent = () => {
     { id: 4, name: "Sara", age: 28 },
     { id: 5, name: "David", age: 22 },
   ]);
+
+  // Modal state and deletion-related state
+  const [showModal, setShowModal] = useState(false);
+  const [idToDelete, setIdToDelete] = useState(null); // Store the ID of the row to delete
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
@@ -68,10 +72,18 @@ const CategoryTabContent = () => {
 
   // Handle row deletion
   const handleDelete = (id) => {
-    const confirmDelete = window.confirm("Are you sure you want to delete this entry?");
-    if (confirmDelete) {
-      setTableData((prev) => prev.filter((row) => row.id !== id));
-    }
+    setIdToDelete(id); // Set the ID of the row to delete
+    setShowModal(true); // Show the modal
+  };
+
+  const cancelRemove = () => {
+    setShowModal(false); // Close the modal without deleting
+  };
+
+  const confirmRemove = () => {
+    setTableData((prev) => prev.filter((row) => row.id !== idToDelete)); // Remove the row by ID
+    setShowModal(false); // Close the modal
+    setIdToDelete(null); // Clear the ID of the row to delete
   };
 
   return (
@@ -180,6 +192,24 @@ const CategoryTabContent = () => {
             disabled={currentPage === totalPages}
           />
         </Pagination>
+
+        {/* Modal to confirm removal */}
+        <Modal show={showModal} onHide={cancelRemove}>
+          <Modal.Header closeButton>
+            <Modal.Title>Confirm Removal</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <p>Are you sure you want to remove this?</p>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={cancelRemove}>
+              Cancel
+            </Button>
+            <Button variant="danger" onClick={confirmRemove}>
+              Confirm Remove
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </div>
     </div>
   );
