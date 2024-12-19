@@ -1,4 +1,4 @@
-import { Form, Button, Table, Pagination, Modal, Spinner } from "react-bootstrap";
+import { Form, Button, Table, Pagination, Modal } from "react-bootstrap";
 import React, { useEffect, useState } from "react";
 import {
   deleteCategory,
@@ -20,7 +20,6 @@ const CategoryTabContent = () => {
   const [categoryDetails, setCategoryDetails] = useState([]);
   const [formData, setFormData] = useState({});
   const [idToDelete, setIdToDelete] = useState(null);
-  const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -28,14 +27,10 @@ const CategoryTabContent = () => {
 
   const fetchCategories = async () => {
     try {
-      setLoading(true);
       const res = await getAllCaregories();
       setCategoryDetails(res);
     } catch (error) {
       console.error("Error fetching categories:", error);
-      alert("Failed to fetch categories");
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -55,42 +50,31 @@ const CategoryTabContent = () => {
       return;
     }
 
-    setLoading(true);
     try {
       if (formData.id) {
         const res = await updateCategory(formData.id, formData);
         if (res.success) {
-          setCategoryDetails((prev) =>
-            prev.map((cat) =>
-              cat.id === formData.id ? { ...cat, ...formData } : cat
-            )
-          );
+          fetchCategories();
         }
       } else {
         const res = await saveCategory(formData);
         if (res.success) {
-          setCategoryDetails((prev) => [...prev, res.data]); // Assuming the response contains the new category
+          fetchCategories();
         }
       }
       setFormData({});
     } catch (error) {
       console.error("Error saving category:", error);
       alert("Error occurred while saving the category");
-    } finally {
-      setLoading(false);
     }
   };
 
   const handleEdit = async (id) => {
-    setLoading(true);
     try {
       const category = await getCaregoryById(id);
       setFormData(category); // Populate form with category details
     } catch (error) {
       console.error("Error fetching category details for edit:", error);
-      alert("Failed to load category details");
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -102,17 +86,14 @@ const CategoryTabContent = () => {
   const cancelRemove = () => setShowModal(false);
 
   const confirmRemove = async () => {
-    setLoading(true);
     try {
       const res = await deleteCategory(idToDelete);
       if (res.success) {
-        setCategoryDetails((prev) => prev.filter((cat) => cat.id !== idToDelete));
+        fetchCategories();
       }
     } catch (error) {
       console.error("Error deleting category:", error);
-      alert("Error occurred while deleting the category");
     } finally {
-      setLoading(false);
       setShowModal(false);
       setIdToDelete(null);
     }
@@ -147,10 +128,8 @@ const CategoryTabContent = () => {
               />
             </Form.Group>
             <div className="text-end">
-              <Button variant="primary" className="button-style" type="submit" disabled={loading}>
-                {loading ? (
-                  <Spinner size="sm" animation="border" />
-                ) : formData.id ? BUTTON_TEXT.EDIT : BUTTON_TEXT.CREATE}
+              <Button variant="primary" className="button-style" type="submit">
+                {formData.id ? BUTTON_TEXT.EDIT : BUTTON_TEXT.CREATE}
               </Button>
             </div>
           </Form>
