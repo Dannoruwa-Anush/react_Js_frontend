@@ -5,10 +5,10 @@ import {getAllAuthenticatedRequest} from "./CommonServices/AuthenticatedApiServi
 
 //GET: getAllCaregories
 export const getAllCaregories = async () =>{
-    return await getAllAuthenticatedRequest("/category/subCategory");
+    return await getAllAuthenticatedRequest("/category");
 };
 
-
+//GET: getAllCaregories with subCategory[]
 export const getAllCategoryWithSubCategory = async () => {
     return await getAllRequest("/category/subCategory");
 };
