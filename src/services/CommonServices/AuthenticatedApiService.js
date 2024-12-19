@@ -1,5 +1,9 @@
-import axios from 'axios';
 import AxioInstance from "../../configurations/AxiosConfig";
+
+const token = sessionStorage.getItem("token");
+if (token) {
+    AxioInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+}
 
 // Helper function for handling unauthorized errors
 const handleUnauthorizedError = () => {
@@ -10,10 +14,6 @@ const handleUnauthorizedError = () => {
 };
 
 // Set the Authorization header globally (only if token exists)
-const token = sessionStorage.getItem("token");
-if (token) {
-    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-}
 
 // Common REST Authenticated API requests
 // GET All

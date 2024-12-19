@@ -57,3 +57,24 @@ export const getAllByIdRequest = async (path, id) => {
     }
 };
 
+//Login
+export const loginRequest = async (postRequestData) => {
+    try {
+        const response = await AxioInstance.post("/auth/login", postRequestData);
+
+        console.log("login : " + response);
+
+        //store user details in session storage
+        sessionStorage.setItem('token', response.data.token);
+        sessionStorage.setItem('username', response.data.username);
+        sessionStorage.setItem('user_id', response.data.userId);
+        sessionStorage.setItem('user_role', JSON.stringify(response.data.roles)); // Store roles as a JSON string
+        AxioInstance.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`
+
+        return response.data;
+    } catch (error) {
+        console.error(`POST Error for path /auth/login:`, error.response ? error.response.data : error.message);
+        throw error;
+    }
+};
+

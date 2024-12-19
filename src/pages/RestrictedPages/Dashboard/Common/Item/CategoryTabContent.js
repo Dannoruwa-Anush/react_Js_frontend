@@ -1,12 +1,16 @@
 import { Form, Button, Table, Pagination, Modal } from "react-bootstrap";
 import React, { useEffect, useState } from 'react';
-import { getAllCaregories } from "../../../../../services/CategoryService";
+import { deleteCategory, getAllCaregories } from "../../../../../services/CategoryService";
 
 // Define a functional component using an arrow function
 const CategoryTabContent = () => {
 
-  //Load categories from API
+  // Load categories from API
   const [categoryDetails, setCategoryDetails] = useState([]);
+
+  // Modal state and deletion-related state
+  const [showModal, setShowModal] = useState(false);
+  const [idToDelete, setIdToDelete] = useState(null);
 
   useEffect(() => {
     const categoriesRequest = async () => {
@@ -15,12 +19,48 @@ const CategoryTabContent = () => {
     };
 
     categoriesRequest();
-  }, [])
+  }, []); // Empty dependency array ensures this effect runs only once on mount
 
+  // Handle row deletion
+  const handleDelete = (id) => {
+    setIdToDelete(id); // Set the ID of the row to delete
+    setShowModal(true); // Show the modal
+  };
+
+  const cancelRemove = () => {
+    setShowModal(false); // Close the modal without deleting
+  };
+
+  const confirmRemove = async () => {
+    // Optimistically remove from UI by filtering out the category
+    setCategoryDetails(prevDetails => 
+      prevDetails.filter(category => category.id !== idToDelete)
+    );
+
+    try {
+      // Delete API request 
+      const res = await deleteCategory(idToDelete);
+
+      if (res.success) {
+        // Re-fetch the categories from the API to ensure we have the latest data
+        const updatedCategories = await getAllCaregories();
+        setCategoryDetails(updatedCategories);
+      } else {
+        // If deletion fails, show the deleted category again (or handle the error accordingly)
+        const updatedCategories = await getAllCaregories();
+        setCategoryDetails(updatedCategories);
+      }
+    } catch (error) {
+      // If an error occurs, show the deleted category again and log the error
+      const updatedCategories = await getAllCaregories();
+      setCategoryDetails(updatedCategories);
+    }
+
+    setShowModal(false); // Close the modal
+    setIdToDelete(null); // Clear the ID of the row to delete
+  };
 
   return (
-
-    //JSX (JavaScript XML) used to render the structure of a UI 
     <div>
       <h5 className="mb-4">Book Categories</h5>
 
@@ -45,7 +85,6 @@ const CategoryTabContent = () => {
         </div>
       </div>
       {/* [End] - Form Section */}
-
 
       {/* [Start] - Table Section with Search Bar */}
       <div className="main-content-table-container">
@@ -88,6 +127,7 @@ const CategoryTabContent = () => {
                   <Button
                     variant="outline-danger"
                     size="sm"
+                    onClick={() => handleDelete(row.id)}
                   >
                     Delete
                   </Button>
@@ -96,14 +136,31 @@ const CategoryTabContent = () => {
             ))}
           </tbody>
         </Table>
-        {/* [End]   - Table */}
+        {/* [End] - Table */}
+
+        {/*  [Start] - Modal to confirm removal */}
+        <Modal show={showModal} onHide={cancelRemove}>
+          <Modal.Header closeButton>
+            <Modal.Title>Confirm Removal</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <p>Are you sure you want to remove this?</p>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={cancelRemove}>
+              Cancel
+            </Button>
+            <Button variant="danger" onClick={confirmRemove}>
+              Confirm Remove
+            </Button>
+          </Modal.Footer>
+        </Modal>
+        {/*  [End] - Modal to confirm removal */}
 
       </div>
       {/* [End]   - Table Section with Search Bar */}
     </div>
-
   );
 };
-export default CategoryTabContent;
-// Export the component so it can be used elsewhere in the app
 
+export default CategoryTabContent;
