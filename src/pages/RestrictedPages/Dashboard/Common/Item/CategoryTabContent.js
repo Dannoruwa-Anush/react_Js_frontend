@@ -1,31 +1,46 @@
-import { Form, Button, Table, Pagination, Modal } from "react-bootstrap";
-import React, { useEffect, useState } from 'react';
-import { deleteCategory, getAllCaregories, getCaregoryById, saveCategory, updateCategory } from "../../../../../services/CategoryService";
+import { Form, Button, Table, Pagination, Modal, Spinner } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import {
+  deleteCategory,
+  getAllCaregories,
+  getCaregoryById,
+  saveCategory,
+  updateCategory,
+} from "../../../../../services/CategoryService";
 
-// Constants for button texts
 const BUTTON_TEXT = {
-  CREATE: 'Create',
-  EDIT: 'Edit',
-  DELETE: 'Delete',
-  CONFIRM_REMOVE: 'Confirm Remove',
-  CANCEL: 'Cancel',
+  CREATE: "Create",
+  EDIT: "Edit",
+  DELETE: "Delete",
+  CONFIRM_REMOVE: "Confirm Remove",
+  CANCEL: "Cancel",
 };
 
 const CategoryTabContent = () => {
   const [categoryDetails, setCategoryDetails] = useState([]);
   const [formData, setFormData] = useState({});
-  const [showModal, setShowModal] = useState(false);
   const [idToDelete, setIdToDelete] = useState(null);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(5);
 
-  useEffect(() => {
-    const categoriesRequest = async () => {
+  const fetchCategories = async () => {
+    try {
+      setLoading(true);
       const res = await getAllCaregories();
       setCategoryDetails(res);
-    };
-    categoriesRequest();
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+      alert("Failed to fetch categories");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchCategories();
   }, []);
 
   const handleFormChange = (e) => {
@@ -36,49 +51,46 @@ const CategoryTabContent = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (!formData.categoryName) {
-      alert('Category Name is required');
+      alert("Category Name is required");
       return;
     }
 
+    setLoading(true);
     try {
-      let res;
       if (formData.id) {
-        // Update existing category
-        res = await updateCategory(formData.id, formData);
+        const res = await updateCategory(formData.id, formData);
         if (res.success) {
-          // Optimistically update local state
-          setCategoryDetails((prevDetails) =>
-            prevDetails.map((category) =>
-              category.id === formData.id ? { ...category, categoryName: formData.categoryName } : category
+          setCategoryDetails((prev) =>
+            prev.map((cat) =>
+              cat.id === formData.id ? { ...cat, ...formData } : cat
             )
           );
         }
       } else {
-        // Create new category
-        res = await saveCategory(formData);
+        const res = await saveCategory(formData);
         if (res.success) {
-          // Optimistically add new category to state
-          setCategoryDetails((prevDetails) => [
-            ...prevDetails,
-            { ...formData, id: res.data.id }, // Assuming the new category has an id in the response
-          ]);
+          setCategoryDetails((prev) => [...prev, res.data]); // Assuming the response contains the new category
         }
       }
+      setFormData({});
     } catch (error) {
-      console.error('Error saving category:', error);
-      alert('Error occurred while saving the category');
+      console.error("Error saving category:", error);
+      alert("Error occurred while saving the category");
+    } finally {
+      setLoading(false);
     }
-
-    setFormData({}); // Reset form after submission
   };
 
   const handleEdit = async (id) => {
+    setLoading(true);
     try {
       const category = await getCaregoryById(id);
-      setFormData(category); // Set the form data to the category being edited
+      setFormData(category); // Populate form with category details
     } catch (error) {
-      console.error('Error fetching category details for edit:', error);
-      alert('Failed to load category details');
+      console.error("Error fetching category details for edit:", error);
+      alert("Failed to load category details");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -90,21 +102,20 @@ const CategoryTabContent = () => {
   const cancelRemove = () => setShowModal(false);
 
   const confirmRemove = async () => {
+    setLoading(true);
     try {
       const res = await deleteCategory(idToDelete);
       if (res.success) {
-        // Optimistically remove category from state
-        setCategoryDetails((prevDetails) =>
-          prevDetails.filter((category) => category.id !== idToDelete)
-        );
+        setCategoryDetails((prev) => prev.filter((cat) => cat.id !== idToDelete));
       }
     } catch (error) {
-      console.error('Error deleting category', error);
-      alert('Error occurred while deleting the category');
+      console.error("Error deleting category:", error);
+      alert("Error occurred while deleting the category");
+    } finally {
+      setLoading(false);
+      setShowModal(false);
+      setIdToDelete(null);
     }
-
-    setShowModal(false);
-    setIdToDelete(null);
   };
 
   const filteredCategories = categoryDetails.filter((category) =>
@@ -114,14 +125,14 @@ const CategoryTabContent = () => {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredCategories.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(filteredCategories.length / itemsPerPage);
 
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
+  const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
     <div>
       <h5 className="mb-4">Book Categories</h5>
+
       <div className="main-content-form-container">
         <h2 className="main-content-form-title">New/Update Entry</h2>
         <div className="main-content-form-box">
@@ -130,14 +141,16 @@ const CategoryTabContent = () => {
               <Form.Label>Category Name</Form.Label>
               <Form.Control
                 name="categoryName"
-                value={formData.categoryName || ''}
+                value={formData.categoryName || ""}
                 onChange={handleFormChange}
                 placeholder="Enter category name"
               />
             </Form.Group>
             <div className="text-end">
-              <Button variant="primary" className="button-style" type="submit">
-                {formData.id ? BUTTON_TEXT.EDIT : BUTTON_TEXT.CREATE}
+              <Button variant="primary" className="button-style" type="submit" disabled={loading}>
+                {loading ? (
+                  <Spinner size="sm" animation="border" />
+                ) : formData.id ? BUTTON_TEXT.EDIT : BUTTON_TEXT.CREATE}
               </Button>
             </div>
           </Form>
@@ -183,11 +196,23 @@ const CategoryTabContent = () => {
         </Table>
 
         <Pagination>
-          {Array.from({ length: Math.ceil(filteredCategories.length / itemsPerPage) }, (_, index) => (
-            <Pagination.Item key={index + 1} active={index + 1 === currentPage} onClick={() => handlePageChange(index + 1)}>
+          <Pagination.Prev
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+          />
+          {[...Array(totalPages)].map((_, index) => (
+            <Pagination.Item
+              key={index}
+              active={currentPage === index + 1}
+              onClick={() => handlePageChange(index + 1)}
+            >
               {index + 1}
             </Pagination.Item>
           ))}
+          <Pagination.Next
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+          />
         </Pagination>
 
         <Modal show={showModal} onHide={cancelRemove}>
