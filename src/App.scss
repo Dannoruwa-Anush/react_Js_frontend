@@ -93,7 +93,30 @@ body {
     background-color: #fff;
 }
 
-.main-content-table-container,
+.main-content-table-container {
+    width: 100%; // Make sure the container takes full width
+    max-width: 1200px; // Optional: limit max width of the container
+    margin: 20px auto; // Optional: center the container horizontally with spacing
+    padding: 20px; // Optional: add padding around the table
+    background-color: #fff; // Light background color for the container
+    border-radius: 8px; // Optional: rounded corners for the container
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); // Optional: subtle shadow for the container
+}
+
+.action-column {
+    width: 150px;
+    /* Adjust width to your needs */
+    white-space: nowrap;
+    /* Prevent text from wrapping */
+    text-align: center;
+    /* Center-align buttons */
+}
+
+.action-column .btn {
+    margin-right: 5px;
+    /* Optional: Adjust space between buttons */
+}
+
 .main-content-form-container {
     width: 100%; // Make sure the container takes full width
     max-width: 1200px; // Optional: limit max width of the container
@@ -102,6 +125,20 @@ body {
     background-color: #fff; // Light background color for the container
     border-radius: 8px; // Optional: rounded corners for the container
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); // Optional: subtle shadow for the container
+    display: grid;
+    /* Enable grid layout */
+    place-items: center;
+    /* Center content both vertically and horizontally */
+}
+
+.main-content-form-box {
+    width: 100%;
+    max-width: 600px;
+    /* You can adjust the width as per your design */
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .main-content-table-title,

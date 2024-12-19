@@ -76,35 +76,37 @@ const CategoryTabContent = () => {
 
   return (
     <div>
-      <h2 className="mb-4">Book Categories</h2>
+      <h5 className="mb-4">Book Categories</h5>
 
       {/* Form Section */}
       <div className="main-content-form-container">
         <h2 className="main-content-form-title">{formData.id ? "Edit" : "New"} Entry</h2>
-        <Form className="mb-4">
-          <Form.Group className="mb-3">
-            <Form.Label>Name</Form.Label>
-            <Form.Control
-              name="name"
-              value={formData.name || ""}
-              onChange={handleFormChange}
-              placeholder="Enter name"
-            />
-          </Form.Group>
-          <Form.Group className="mb-3">
-            <Form.Label>Age</Form.Label>
-            <Form.Control
-              name="age"
-              type="number"
-              value={formData.age || ""}
-              onChange={handleFormChange}
-              placeholder="Enter age"
-            />
-          </Form.Group>
-          <Button variant="primary" onClick={handleSubmit}>
-            {formData.id ? "Update" : "Create"} {/* Dynamic button label */}
-          </Button>
-        </Form>
+        <div className="main-content-form-box">
+          <Form className="mb-4">
+            <Form.Group className="mb-3">
+              <Form.Label>Name</Form.Label>
+              <Form.Control
+                name="name"
+                value={formData.name || ""}
+                onChange={handleFormChange}
+                placeholder="Enter name"
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Age</Form.Label>
+              <Form.Control
+                name="age"
+                type="number"
+                value={formData.age || ""}
+                onChange={handleFormChange}
+                placeholder="Enter age"
+              />
+            </Form.Group>
+            <Button variant="primary" onClick={handleSubmit}>
+              {formData.id ? "Update" : "Create"} {/* Dynamic button label */}
+            </Button>
+          </Form>
+        </div>
       </div>
 
       {/* Table Section with Search Bar */}
@@ -128,7 +130,7 @@ const CategoryTabContent = () => {
               <th>ID</th>
               <th>Name</th>
               <th>Age</th>
-              <th>Action</th>
+              <th className="action-column">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -137,7 +139,7 @@ const CategoryTabContent = () => {
                 <td>{row.id}</td>
                 <td>{row.name}</td>
                 <td>{row.age}</td>
-                <td>
+                <td className="action-column">
                   <Button
                     variant="outline-primary"
                     size="sm"
