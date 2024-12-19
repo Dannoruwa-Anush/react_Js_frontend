@@ -4,18 +4,17 @@ import { getAllCaregories } from "../../../../../services/CategoryService";
 
 // Define a functional component using an arrow function
 const CategoryTabContent = () => {
-  
+
   //Load categories from API
   const [categoryDetails, setCategoryDetails] = useState([]);
 
-  useEffect(()=>{
-        const categoriesRequest = async () => {
-            const res = await getAllCaregories();
-            console.log(res);
-            setCategoryDetails(res);
-        };
+  useEffect(() => {
+    const categoriesRequest = async () => {
+      const res = await getAllCaregories();
+      setCategoryDetails(res);
+    };
 
-        categoriesRequest();
+    categoriesRequest();
   }, [])
 
 
@@ -74,25 +73,27 @@ const CategoryTabContent = () => {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>1</td>
-              <td>category 1</td>
-              <td className="main-content-table-action-column">
-                <Button
-                  variant="outline-primary"
-                  size="sm"
-                >
-                  Edit
-                </Button>{" "}
+            {categoryDetails && categoryDetails.map((row) => (
+              <tr key={row.id}>
+                <td>{row.id}</td>
+                <td>{row.categoryName}</td>
+                <td className="main-content-table-action-column">
+                  <Button
+                    variant="outline-primary"
+                    size="sm"
+                  >
+                    Edit
+                  </Button>{" "}
 
-                <Button
-                  variant="outline-danger"
-                  size="sm"
-                >
-                  Delete
-                </Button>
-              </td>
-            </tr>
+                  <Button
+                    variant="outline-danger"
+                    size="sm"
+                  >
+                    Delete
+                  </Button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </Table>
         {/* [End]   - Table */}
