@@ -1,55 +1,35 @@
-import axios from 'axios';
-import AxioInstance from "../configurations/AxiosConfig";
+import axios from "axios";
+import { postRequest } from "./CommonServices/UnAuthenticatedApiService";
+
 //API requests for /auth
 
 //POST request
 export const userLogin = async (requestData) => {
-    try {
-        const response = await AxioInstance.post("/auth/login", requestData);
+    const loggedUser = await postRequest("/auth/login", requestData);
 
-        sessionStorage.setItem('token',response.data.token);
-        sessionStorage.setItem('username', response.data.username);
-        sessionStorage.setItem('user_id',response.data.id);
-        axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
+    //store user details in session storage
+    sessionStorage.setItem('token', loggedUser.token);
+    sessionStorage.setItem('username', loggedUser.username);
+    sessionStorage.setItem('user_id', loggedUser.userId);
+    sessionStorage.setItem('user_role', JSON.stringify(loggedUser.roles)); // Store roles as a JSON string
+    axios.defaults.headers.common['Authorization'] = `Bearer ${loggedUser.token}`;
 
-        return response.data;
-    } catch (error) {
-        console.log(error);
-        throw error;
-    }
+    return loggedUser;
 };
 
 //POST request
 export const userRegister = async (requestData) => {
-    try {
-        const response = await AxioInstance.post("/auth/register", requestData);
-        return response.data;
-    } catch (error) {   
-        console.log(error);
-        throw error;
-    }
+    return await postRequest("/auth/register", requestData);
 };
 
 
 //POST request
 export const userAccountRecovery = async (requestData) => {
-    try {
-        const response = await AxioInstance.post("/auth/userRecovery", requestData);
-        return response.data;
-    } catch (error) {   
-        console.log(error);
-        throw error;
-    }
+    return await postRequest("/auth/userRecovery", requestData);
 };
 
 
 //PUT request
 export const passwordReset = async (requestData) => {
-    try {
-        const response = await AxioInstance.put("/auth/password-reset", requestData);
-        return response.data;
-    } catch (error) {   
-        console.log(error);
-        throw error;
-    }
+    return await postRequest("/auth/password-reset", requestData);
 };

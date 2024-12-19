@@ -1,8 +1,8 @@
-import axios from "axios";
 import { useState } from "react";
 import { Button, Container, FloatingLabel, Form } from "react-bootstrap";
 import { useNavigate, Link } from "react-router-dom";
 import { userLogin } from "../../services/AuthService"; // Import the userLogin function
+import {UserRole} from "./../../constants/ConstantValues"
 
 const Login = () => {
 
@@ -31,23 +31,18 @@ const Login = () => {
         try {
             // Use userLogin to make the API request
             const loggedUser = await userLogin(data);
+
             setError("");
             setUsername("");
             setPassword("");
 
-            sessionStorage.setItem('token', loggedUser.token);
-            sessionStorage.setItem('username', loggedUser.username);
-            sessionStorage.setItem('user_id', loggedUser.userId);
-            sessionStorage.setItem('user_role', JSON.stringify(loggedUser.roles)); // Store roles as a JSON string
-            axios.defaults.headers.common['Authorization'] = `Bearer ${loggedUser.token}`;
-
             // Role-based navigation logic
             const roles = loggedUser.roles;
-            if (roles.includes("ADMIN")) {
+            if (roles.includes(UserRole.ADMIN)) {
                 navigate('/adminDashboard'); // Redirect to Admin Panel
-            } else if (roles.includes("MANAGER")) {
+            } else if (roles.includes(UserRole.MANAGER)) {
                 navigate('/managerDashboard'); // Redirect to Manager Panel
-            } else if (roles.includes("CUSTOMER") || roles.includes("CASHIER")) {
+            } else if (roles.includes(UserRole.CUSTOMER) || roles.includes(UserRole.CASHIER)) {
                 // Assuming customer or cashier roles lead to the cart
                 const cartItems = JSON.parse(sessionStorage.getItem('cart')) || [];
                 const updatedCart = cartItems.map(item => ({
