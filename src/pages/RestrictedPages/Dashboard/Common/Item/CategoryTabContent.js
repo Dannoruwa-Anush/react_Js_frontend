@@ -26,6 +26,15 @@ const CategoryTabContent = () => {
   const [idToDelete, setIdToDelete] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
+  //Table : pagination 
+  const [currentPage, setCurrentPage] = useState(1);
+  const rowsPerPage = 5;
+  // Pagination: Slice the categories data based on the current page
+  const indexOfLastCategory = currentPage * rowsPerPage;
+  const indexOfFirstCategory = indexOfLastCategory - rowsPerPage;
+  const currentCategories = categories.slice(indexOfFirstCategory, indexOfLastCategory);
+  const totalPages = Math.ceil(categories.length / rowsPerPage);
+
   //useEffect hook
   useEffect(() => {
     fetchAllCategories();
@@ -113,6 +122,9 @@ const CategoryTabContent = () => {
     fetchAllCategories();
   };
 
+  // Pagination: Handle page change
+  const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
+
   return (
     <div>
       <h5 className="mb-4">Book Categories</h5>
@@ -180,7 +192,7 @@ const CategoryTabContent = () => {
           </thead>
 
           <tbody>
-            {categories && categories.map((category) => (
+            {currentCategories && currentCategories.map((category) => (
               <tr key={category.id}>
                 <td>{category.id}</td>
                 <td>{category.categoryName}</td>
@@ -199,19 +211,23 @@ const CategoryTabContent = () => {
         </Table>
         {/* [End] : Table */}
 
+
         {/* [Start] : Table Pagination Controller*/}
         <Pagination>
-          <Pagination.Prev>
-          </Pagination.Prev>
-
-          <Pagination.Item>
-            1
-          </Pagination.Item>
-
-          <Pagination.Next>
-          </Pagination.Next>
+          <Pagination.Prev onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1} />
+          {[...Array(totalPages)].map((_, index) => (
+            <Pagination.Item
+              key={index + 1}
+              active={index + 1 === currentPage}
+              onClick={() => handlePageChange(index + 1)}
+            >
+              {index + 1}
+            </Pagination.Item>
+          ))}
+          <Pagination.Next onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages} />
         </Pagination>
         {/* [End]   : Table Pagination Controller*/}
+
 
         {/* [Start] : Modal : for delete confirmation */}
         <Modal show={showModal} onHide={cancelRemove}>
