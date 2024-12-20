@@ -56,7 +56,7 @@ const CategoryTabContent = () => {
     setCategories(data);
   };
 
-  const handleCategoryNameChange = (event) => {
+  const handleInputChange = (event) => {
     //name, value : attributes of the form controller
     const { name, value } = event.target;
 
@@ -157,7 +157,7 @@ const CategoryTabContent = () => {
                 name="categoryName"
                 required
                 value={formData.categoryName}
-                onChange={handleCategoryNameChange}
+                onChange={handleInputChange}
               />
             </Form.Group>
 
