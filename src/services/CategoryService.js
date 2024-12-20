@@ -28,7 +28,7 @@ export const updateCategory = async (id, dataToUpdate) =>{
     return await putAuthenticatedRequest("/category", id, dataToUpdate)
 };
 
-//GET: getAllCaregories with subCategory[]
+//GET: getAllCaregories with subCategory[] :UnAuthenticated
 export const getAllCategoryWithSubCategory = async () => {
     return await getAllRequest("/category/subCategory");
 };

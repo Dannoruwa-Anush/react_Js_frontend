@@ -3,7 +3,7 @@ import { Row, Col, Card, Nav, Dropdown } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { getAllBooks, getAllBooksByAuthorId, getAllBooksByCategoryId, getAllBooksBySubCategoryId } from '../services/BookService';
 import { API_IMAGE_URL } from '../configurations/Config';
-import { getAllAuthors } from '../services/Author';
+import { getAllAuthors } from '../services/AuthorService';
 import { getAllCategoryWithSubCategory } from '../services/CategoryService';
 
 const Books = () => {

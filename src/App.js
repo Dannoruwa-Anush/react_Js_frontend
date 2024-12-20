@@ -8,9 +8,9 @@ import UserDashBoard from './pages/RestrictedPages/Dashboard/UserDashBoard';
 import AdminDashBoard from './pages/RestrictedPages/Dashboard/AdminDashBoard';
 import ManagerDashBoard from './pages/RestrictedPages/Dashboard/ManagerDashBoard';
 import ProtectedRoute from './layouts/ProtectedRoute';
-import Login from './pages/Auth/Login';
-import Register from './pages/Auth/Register';
-import UserPasswordReset from './pages/Auth/UserPasswordReset';
+import Login from './pages/auth/Login';
+import Register from './pages/auth/Register';
+import UserPasswordReset from './pages/auth/UserPasswordReset';
 
 function App() {
   return (
