@@ -183,7 +183,7 @@ const SubCategoryTabContent = () => {
                 onChange={handleInputChange}
               >
                 <option value="">-- Select a Category --</option>
-                {categories.map((category) => (
+                {categories && categories.map((category) => (
                   <option key={category.id} value={category.id}>
                     {category.categoryName}
                   </option>
