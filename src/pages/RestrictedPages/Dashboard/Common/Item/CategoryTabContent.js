@@ -127,6 +127,17 @@ const CategoryTabContent = () => {
     setShowModal(false);
     setIdToDelete(null);
     fetchAllCategories();
+
+    // Check if the current page is still valid
+    const totalItemsAfterDelete = searchBarFilteredItems.length;
+    const totalPagesAfterDelete = Math.ceil(totalItemsAfterDelete / rowsPerPage);
+
+    // If the current page exceeds the total pages after deletion, reset to the last valid page
+    if (currentPage > totalPagesAfterDelete) {
+      setCurrentPage(totalPagesAfterDelete); // Reset to last valid page
+    } else {
+      setCurrentPage(1); // Reset to the first page if needed
+    }
   };
 
   // Pagination: Handle page change
