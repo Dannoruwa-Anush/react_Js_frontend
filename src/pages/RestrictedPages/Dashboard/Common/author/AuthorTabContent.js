@@ -7,7 +7,9 @@ import {
   saveCategory,
   updateCategory,
 } from "../../../../../services/CategoryService";
-import ReusableModalMessage from "../../../../../layouts/reusableComponents/ReusableModalMessage";
+import ReusableModalMessage from "../../../../../layouts/customReusableComponents/ReusableModalMessage";
+import useReusableTablePagination from "../../../../../layouts/customReusableHooks/useReusableTablePagination";
+import ReusableTablePagination from "../../../../../layouts/customReusableComponents/ReusableTablePagination";
 
 const AuthorTabContent = () => {
   //Component constants labels
@@ -34,13 +36,9 @@ const AuthorTabContent = () => {
   );
 
   //Table : pagination 
-  const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 5;
-  // Pagination: Slice the categories data based on the current page
-  const indexOfLastItem = currentPage * rowsPerPage;
-  const indexOfFirstItem = indexOfLastItem - rowsPerPage;
-  const tblPaginationSlicedItems = searchBarFilteredItems.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPages = Math.ceil(searchBarFilteredItems.length / rowsPerPage);
+  const { currentPage, totalPages, paginatedItems: tblPaginationSlicedItems, handlePageChange } =
+    useReusableTablePagination(searchBarFilteredItems, rowsPerPage);
 
   //useEffect hook
   useEffect(() => {
@@ -130,7 +128,7 @@ const AuthorTabContent = () => {
   };
 
   // Pagination: Handle page change
-  const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
+  //const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
     <div>
@@ -227,19 +225,11 @@ const AuthorTabContent = () => {
 
 
           {/* [Start] : Table Pagination Controller*/}
-          <Pagination>
-            <Pagination.Prev onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1} />
-            {[...Array(totalPages)].map((_, index) => (
-              <Pagination.Item
-                key={index + 1}
-                active={index + 1 === currentPage}
-                onClick={() => handlePageChange(index + 1)}
-              >
-                {index + 1}
-              </Pagination.Item>
-            ))}
-            <Pagination.Next onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages} />
-          </Pagination>
+          <ReusableTablePagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+          />
           {/* [End]   : Table Pagination Controller*/}
 
 
