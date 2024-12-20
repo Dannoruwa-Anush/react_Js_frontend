@@ -90,6 +90,13 @@ const CategoryTabContent = () => {
     setIsEditing(true);
   };
 
+  //Handle delete btn click
+  const handleDelete = async (id) => {
+    //call API to delete
+    await deleteCategory(id);
+    fetchAllCategories();
+  };
+
   return (
     <div>
       <h5 className="mb-4">Book Categories</h5>
@@ -166,7 +173,7 @@ const CategoryTabContent = () => {
                     EDIT
                   </Button>{" "}
 
-                  <Button variant="outline-danger" size="sm">
+                  <Button variant="outline-danger" size="sm" onClick={() => handleDelete(category.id)}>
                     DELETE
                   </Button>
                 </td>
