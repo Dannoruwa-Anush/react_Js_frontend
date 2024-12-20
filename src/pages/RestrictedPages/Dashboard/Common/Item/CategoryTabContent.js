@@ -26,14 +26,20 @@ const CategoryTabContent = () => {
   const [idToDelete, setIdToDelete] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
+  //Table Search bar
+  const [searchTerm, setSearchTerm] = useState("");
+  const filteredCategories = categories.filter((category) =>
+    category.categoryName.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   //Table : pagination 
   const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 5;
   // Pagination: Slice the categories data based on the current page
   const indexOfLastCategory = currentPage * rowsPerPage;
   const indexOfFirstCategory = indexOfLastCategory - rowsPerPage;
-  const slicedCategories = categories.slice(indexOfFirstCategory, indexOfLastCategory);
-  const totalPages = Math.ceil(categories.length / rowsPerPage);
+  const slicedCategories = filteredCategories.slice(indexOfFirstCategory, indexOfLastCategory);
+  const totalPages = Math.ceil(filteredCategories.length / rowsPerPage);
 
   //useEffect hook
   useEffect(() => {
@@ -177,6 +183,8 @@ const CategoryTabContent = () => {
             type="text"
             placeholder="Search by name"
             className="main-content-table-search-bar"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
         {/* [End] : Search bar */}
