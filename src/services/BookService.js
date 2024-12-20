@@ -1,30 +1,45 @@
 import { getAllRequest, getByIdRequest, getAllByIdRequest } from "./CommonServices/UnAuthenticatedApiService";
-
+import {deleteAuthenticatedRequest, postAuthenticatedRequest, putAuthenticatedRequest} from "./CommonServices/AuthenticatedApiService";
 //API requests for /book
 
-//GET: getAllBooks
+//GET: getAllBooks :UnAuthenticated
 export const getAllBooks = async () => {
     return await getAllRequest("/book");
 };
 
-//GET: getBookById
+//GET: getBookById :UnAuthenticated
 export const getBookById = async (id) => {
     return await getByIdRequest("/book", id);
 };
 
-//GET: getAllBooksByAuthorId
+//GET: getAllBooksByAuthorId :UnAuthenticated
 export const getAllBooksByAuthorId = async (authorId) => {
     return await getAllByIdRequest("/book/author", authorId);
 };
 
-
-//GET: getAllBooksByCategoryId
+//GET: getAllBooksByCategoryId :UnAuthenticated
 export const getAllBooksByCategoryId = async (categoryId) => {
     return await getAllByIdRequest("/book/category", categoryId);
 };
 
-
-//GET: getAllBooksBySubCategoryId
+//GET: getAllBooksBySubCategoryId :UnAuthenticated
 export const getAllBooksBySubCategoryId = async (subCategoryId) => {
     return await getAllByIdRequest("/book/subCategory", subCategoryId);
 };
+
+//DELETE : book
+export const deleteBook = async (id) =>{
+    return await deleteAuthenticatedRequest("/book", id)
+};
+
+//POST : book
+export const saveBook = async (dataToSave) =>{
+    return await postAuthenticatedRequest("/book", dataToSave)
+};
+
+//PUT : book
+export const updateBook = async (id, dataToUpdate) =>{
+    return await putAuthenticatedRequest("/book", id, dataToUpdate)
+};
+
+
