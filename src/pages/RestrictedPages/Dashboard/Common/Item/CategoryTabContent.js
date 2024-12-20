@@ -28,7 +28,7 @@ const CategoryTabContent = () => {
 
   //Table Search bar
   const [searchTerm, setSearchTerm] = useState("");
-  const searchBarFilteredItems = categories.filter((category) =>
+  const searchBarFilteredItems = categories && categories.filter((category) =>
     category.categoryName.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -174,89 +174,93 @@ const CategoryTabContent = () => {
       {/* [End]   : Form */}
 
       {/* [Start] : Table - search bar */}
-      <div className="main-content-table-container">
-        <h2 className="main-content-table-title">{TABLENAME}</h2>
+      {tblPaginationSlicedItems.length === 0 ? (
+        <p>Category list is empty.</p>
+      ) : (
+        <div className="main-content-table-container">
+          <h2 className="main-content-table-title">{TABLENAME}</h2>
 
-        {/* [Start] : Search bar */}
-        <div className="main-content-table-search-bar-container mb-3">
-          <Form.Control
-            type="text"
-            placeholder="Search by name"
-            className="main-content-table-search-bar"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </div>
-        {/* [End] : Search bar */}
+          {/* [Start] : Search bar */}
+          <div className="main-content-table-search-bar-container mb-3">
+            <Form.Control
+              type="text"
+              placeholder="Search by name"
+              className="main-content-table-search-bar"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+          {/* [End] : Search bar */}
 
-        {/* [Start] : Table */}
-        <Table bordered striped hover responsive>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Name</th>
-              <th className="main-content-table-action-column">Action</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {tblPaginationSlicedItems && tblPaginationSlicedItems.map((category) => (
-              <tr key={category.id}>
-                <td>{category.id}</td>
-                <td>{category.categoryName}</td>
-                <td className="main-content-table-action-column">
-                  <Button variant="outline-primary" size="sm" onClick={() => handleEdit(category.id)}>
-                    EDIT
-                  </Button>{" "}
-
-                  <Button variant="outline-danger" size="sm" onClick={() => handleDelete(category.id)}>
-                    DELETE
-                  </Button>
-                </td>
+          {/* [Start] : Table */}
+          <Table bordered striped hover responsive>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th className="main-content-table-action-column">Action</th>
               </tr>
+            </thead>
+
+            <tbody>
+              {tblPaginationSlicedItems && tblPaginationSlicedItems.map((category) => (
+                <tr key={category.id}>
+                  <td>{category.id}</td>
+                  <td>{category.categoryName}</td>
+                  <td className="main-content-table-action-column">
+                    <Button variant="outline-primary" size="sm" onClick={() => handleEdit(category.id)}>
+                      EDIT
+                    </Button>{" "}
+
+                    <Button variant="outline-danger" size="sm" onClick={() => handleDelete(category.id)}>
+                      DELETE
+                    </Button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+          {/* [End] : Table */}
+
+
+          {/* [Start] : Table Pagination Controller*/}
+          <Pagination>
+            <Pagination.Prev onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1} />
+            {[...Array(totalPages)].map((_, index) => (
+              <Pagination.Item
+                key={index + 1}
+                active={index + 1 === currentPage}
+                onClick={() => handlePageChange(index + 1)}
+              >
+                {index + 1}
+              </Pagination.Item>
             ))}
-          </tbody>
-        </Table>
-        {/* [End] : Table */}
+            <Pagination.Next onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages} />
+          </Pagination>
+          {/* [End]   : Table Pagination Controller*/}
 
 
-        {/* [Start] : Table Pagination Controller*/}
-        <Pagination>
-          <Pagination.Prev onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1} />
-          {[...Array(totalPages)].map((_, index) => (
-            <Pagination.Item
-              key={index + 1}
-              active={index + 1 === currentPage}
-              onClick={() => handlePageChange(index + 1)}
-            >
-              {index + 1}
-            </Pagination.Item>
-          ))}
-          <Pagination.Next onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages} />
-        </Pagination>
-        {/* [End]   : Table Pagination Controller*/}
+          {/* [Start] : Modal : for delete confirmation */}
+          <Modal show={showModal} onHide={cancelRemove}>
+            <Modal.Header closeButton>
+              <Modal.Title>Confirm Removal</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <p>Are you sure you want to remove this?</p>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" className="button-style" onClick={cancelRemove}>
+                No
+              </Button>
+              <Button variant="danger" className="button-style" onClick={confirmRemove}>
+                Yes
+              </Button>
+            </Modal.Footer>
+          </Modal>
+          {/*[End]    : Modal : for delete confirmation */}
 
-
-        {/* [Start] : Modal : for delete confirmation */}
-        <Modal show={showModal} onHide={cancelRemove}>
-          <Modal.Header closeButton>
-            <Modal.Title>Confirm Removal</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <p>Are you sure you want to remove this?</p>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" className="button-style" onClick={cancelRemove}>
-              No
-            </Button>
-            <Button variant="danger" className="button-style" onClick={confirmRemove}>
-              Yes
-            </Button>
-          </Modal.Footer>
-        </Modal>
-        {/*[End]    : Modal : for delete confirmation */}
-
-      </div>
+        </div>
+      )}
       {/* [End]   : Table - search bar */}
     </div>
   );
