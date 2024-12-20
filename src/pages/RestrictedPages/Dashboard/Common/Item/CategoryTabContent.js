@@ -175,7 +175,9 @@ const CategoryTabContent = () => {
 
       {/* [Start] : Table - search bar */}
       {tblPaginationSlicedItems.length === 0 ? (
-        <p>Category list is empty.</p>
+        <p className="empty-list-message text-center text-muted">
+          No categories found. Please add some categories to get started.
+        </p>
       ) : (
         <div className="main-content-table-container">
           <h2 className="main-content-table-title">{TABLENAME}</h2>

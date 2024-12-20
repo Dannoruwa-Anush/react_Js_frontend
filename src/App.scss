@@ -70,6 +70,23 @@ body {
 }
 
 // Page Content Area
+.empty-list-message {
+    font-size: 1.2rem;
+    /* Slightly larger text */
+    color: #6c757d;
+    /* Muted gray color for the text */
+    font-weight: 500;
+    /* Medium weight for better readability */
+    padding: 20px;
+    /* Add padding to make it stand out */
+    border-radius: 5px;
+    /* Rounded corners */
+    background-color: #f8f9fa;
+    /* Light background */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    /* Slight shadow to create emphasis */
+}
+
 //btn common style
 .button-style {
     border-radius: 30px;
@@ -140,7 +157,7 @@ body {
 }
 
 /* Style the search bar container inside the table section */
-.main-content-table-search-bar-container{
+.main-content-table-search-bar-container {
     display: flex;
     justify-content: flex-start;
     margin-bottom: 20px;
@@ -148,7 +165,7 @@ body {
     /* Ensure the container spans the full width */
 }
 
-.main-content-table-search-bar{
+.main-content-table-search-bar {
     width: 100%;
     /* Make the search bar take the full width */
     padding: 10px;
