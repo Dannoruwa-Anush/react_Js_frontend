@@ -1,5 +1,3 @@
-import React, { useState, useEffect } from "react";
-import { Form, Button, Table, Pagination, Modal } from "react-bootstrap";
 import {
   deleteCategory,
   getAllCategories,
@@ -7,6 +5,9 @@ import {
   saveCategory,
   updateCategory,
 } from "../../../../../services/CategoryService";
+import ReusableModalMessage from "../../../../../layouts/customReusableComponents/ReusableModalMessage";
+import React, { useState, useEffect } from "react";
+import { Form, Button, Table, Pagination, Modal } from "react-bootstrap";
 
 const CategoryTabContent = () => {
   //Component constants labels
@@ -242,24 +243,15 @@ const CategoryTabContent = () => {
           {/* [End]   : Table Pagination Controller*/}
 
 
-          {/* [Start] : Modal : for delete confirmation */}
-          <Modal show={showModal} onHide={cancelRemove}>
-            <Modal.Header closeButton>
-              <Modal.Title>Confirm Removal</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <p>Are you sure you want to remove this?</p>
-            </Modal.Body>
-            <Modal.Footer>
-              <Button variant="secondary" className="button-style" onClick={cancelRemove}>
-                No
-              </Button>
-              <Button variant="danger" className="button-style" onClick={confirmRemove}>
-                Yes
-              </Button>
-            </Modal.Footer>
-          </Modal>
-          {/*[End]    : Modal : for delete confirmation */}
+          {/* [Start] : Reusable Modal (Custom component) : for delete confirmation */}
+          <ReusableModalMessage
+            show={showModal}
+            modalHeader="Confirm Removal"
+            modalBody="Are you sure you want to remove this?"
+            onCancel={cancelRemove}
+            onConfirm={confirmRemove}
+          />
+          {/*[End]    : Reusable Modal (Custom component): for delete confirmation */}
 
         </div>
       )}

@@ -11,10 +11,10 @@ const ReusableModalMessage = ({ show, modalHeader, modalBody, onCancel, onConfir
         <p>{modalBody}</p>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={onCancel}>
+        <Button variant="secondary" onClick={onCancel} className="button-style">
           No
         </Button>
-        <Button variant="danger" onClick={onConfirm}>
+        <Button variant="danger" onClick={onConfirm} className="button-style">
           Yes
         </Button>
       </Modal.Footer>
