@@ -137,7 +137,7 @@ const CategoryTabContent = () => {
 
       {/* [Start] : Form */}
       <div className="main-content-form-container">
-        <h2 className="main-content-form-title">New/Update Entry</h2>
+        <h2 className="main-content-form-title">{formData.id ? "Edit" : "New"} Entry</h2>
         <div className="main-content-form-box">
           <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3">
