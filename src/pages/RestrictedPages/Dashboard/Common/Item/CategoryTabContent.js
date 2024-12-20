@@ -44,6 +44,7 @@ const CategoryTabContent = () => {
     setFormData({ ...formData, [name]: value });
   };
 
+  //Handle form submission btn click 
   const handleSubmit = async (event) => {
     /*prevents the form from being submitted to the server
     You can then perform any custom logic, such as sending 
@@ -53,6 +54,8 @@ const CategoryTabContent = () => {
 
     if (isEditing) {
       //update
+      //call API to update
+      await updateCategory(formData.id, { categoryName: formData.categoryName});
     }
     else {
       //save
@@ -75,6 +78,16 @@ const CategoryTabContent = () => {
 
     //To get latest data from backend
     fetchAllCategories();
+  };
+
+  //Handle edit btn click  
+  const handleEdit = async (id) => {
+    //call API to GetById
+    const category = await getCategoryById(id);
+
+    //Load data to form
+    setFormData({ id: category.id, categoryName: category.categoryName });
+    setIsEditing(true);
   };
 
   return (
@@ -149,7 +162,7 @@ const CategoryTabContent = () => {
                 <td>{category.id}</td>
                 <td>{category.categoryName}</td>
                 <td className="main-content-table-action-column">
-                  <Button variant="outline-primary" size="sm">
+                  <Button variant="outline-primary" size="sm" onClick={() => handleEdit(category.id)}>
                     EDIT
                   </Button>{" "}
 
