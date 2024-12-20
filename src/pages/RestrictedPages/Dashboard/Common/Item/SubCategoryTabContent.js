@@ -110,7 +110,7 @@ const SubCategoryTabContent = () => {
     const subCategory = await getSubCategoryById(id);
 
     //Load data to form
-    setFormData({ id: subCategory.id, subCategoryName: subCategory.subCategoryName, categoryId : subCategory.categoryId });
+    setFormData({ id: subCategory.id, subCategoryName: subCategory.subCategoryName, categoryId : subCategory.category.id });
     setIsEditing(true);
   };
 
