@@ -1,4 +1,5 @@
 const AuthorTabContent = () => {
+
   return (
     <div>
       <h5 className="mb-4">Authors</h5>
@@ -7,6 +8,3 @@ const AuthorTabContent = () => {
 };
 
 export default AuthorTabContent;
-
-
-

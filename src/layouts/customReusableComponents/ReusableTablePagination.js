@@ -1,26 +1,30 @@
-import React from "react";
-import { Pagination } from "react-bootstrap";
+import React from 'react';
+import { Pagination } from 'react-bootstrap';
 
-const ReusableTablePagination = ({ currentPage, totalPages, onPageChange }) => {
-  if (totalPages <= 1) return null; // No need to render pagination if there's only one page
+const ReusableTablePagination = ({ totalPages, currentPage, onPageChange }) => {
+  const handlePageChange = (pageNumber) => {
+    if (pageNumber >= 1 && pageNumber <= totalPages) {
+      onPageChange(pageNumber); // Trigger parent state update
+    }
+  };
 
   return (
     <Pagination>
       <Pagination.Prev
-        onClick={() => onPageChange(currentPage - 1)}
+        onClick={() => handlePageChange(currentPage - 1)}
         disabled={currentPage === 1}
       />
       {[...Array(totalPages)].map((_, index) => (
         <Pagination.Item
           key={index + 1}
           active={index + 1 === currentPage}
-          onClick={() => onPageChange(index + 1)}
+          onClick={() => handlePageChange(index + 1)}
         >
           {index + 1}
         </Pagination.Item>
       ))}
       <Pagination.Next
-        onClick={() => onPageChange(currentPage + 1)}
+        onClick={() => handlePageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
       />
     </Pagination>

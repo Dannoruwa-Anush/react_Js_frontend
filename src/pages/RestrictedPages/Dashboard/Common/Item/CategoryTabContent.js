@@ -6,8 +6,9 @@ import {
   updateCategory,
 } from "../../../../../services/CategoryService";
 import ReusableModalMessage from "../../../../../layouts/customReusableComponents/ReusableModalMessage";
+import ReusableTablePagination from "../../../../../layouts/customReusableComponents/ReusableTablePagination";
 import React, { useState, useEffect } from "react";
-import { Form, Button, Table, Pagination, Modal } from "react-bootstrap";
+import { Form, Button, Table} from "react-bootstrap";
 
 const CategoryTabContent = () => {
   //Component constants labels
@@ -140,9 +141,6 @@ const CategoryTabContent = () => {
     }
   };
 
-  // Pagination: Handle page change
-  const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
-
   return (
     <div>
       <h5 className="mb-4">Book Categories</h5>
@@ -238,19 +236,11 @@ const CategoryTabContent = () => {
 
 
           {/* [Start] : Table Pagination Controller*/}
-          <Pagination>
-            <Pagination.Prev onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1} />
-            {[...Array(totalPages)].map((_, index) => (
-              <Pagination.Item
-                key={index + 1}
-                active={index + 1 === currentPage}
-                onClick={() => handlePageChange(index + 1)}
-              >
-                {index + 1}
-              </Pagination.Item>
-            ))}
-            <Pagination.Next onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages} />
-          </Pagination>
+          <ReusableTablePagination
+            totalPages={totalPages}
+            currentPage={currentPage}
+            onPageChange={setCurrentPage}
+          />
           {/* [End]   : Table Pagination Controller*/}
 
 
