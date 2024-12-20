@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Form, Button, Table, Pagination } from "react-bootstrap";
+import { Form, Button, Table, Pagination, Modal } from "react-bootstrap";
 import {
   deleteCategory,
   getAllCategories,
@@ -21,6 +21,10 @@ const CategoryTabContent = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [categories, setCategories] = useState([]);
+
+  //Modal : delete confirmation
+  const [idToDelete, setIdToDelete] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   //useEffect hook
   useEffect(() => {
@@ -55,7 +59,7 @@ const CategoryTabContent = () => {
     if (isEditing) {
       //update
       //call API to update
-      await updateCategory(formData.id, { categoryName: formData.categoryName});
+      await updateCategory(formData.id, { categoryName: formData.categoryName });
     }
     else {
       //save
@@ -91,9 +95,21 @@ const CategoryTabContent = () => {
   };
 
   //Handle delete btn click
-  const handleDelete = async (id) => {
+  const handleDelete = (id) => {
+    setIdToDelete(id);
+    setShowModal(true);
+  };
+
+  //Handle model cancel btn click
+  const cancelRemove = () => setShowModal(false);
+
+  //Handle model confirm btn click
+  const confirmRemove = async () => {
     //call API to delete
-    await deleteCategory(id);
+    await deleteCategory(idToDelete);
+
+    setShowModal(false);
+    setIdToDelete(null);
     fetchAllCategories();
   };
 
@@ -196,6 +212,25 @@ const CategoryTabContent = () => {
           </Pagination.Next>
         </Pagination>
         {/* [End]   : Table Pagination Controller*/}
+
+        {/* [Start] : Modal : for delete confirmation */}
+        <Modal show={showModal} onHide={cancelRemove}>
+          <Modal.Header closeButton>
+            <Modal.Title>Confirm Removal</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <p>Are you sure you want to remove this?</p>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" className="button-style" onClick={cancelRemove}>
+              No
+            </Button>
+            <Button variant="danger" className="button-style" onClick={confirmRemove}>
+              Yes
+            </Button>
+          </Modal.Footer>
+        </Modal>
+        {/*[End]    : Modal : for delete confirmation */}
 
       </div>
       {/* [End]   : Table - search bar */}
