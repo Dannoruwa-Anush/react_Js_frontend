@@ -144,11 +144,11 @@ const CategoryTabContent = () => {
           </thead>
 
           <tbody>
-            {categories && categories.map((category) => {
+            {categories && categories.map((category) => (
               <tr key={category.id}>
                 <td>{category.id}</td>
                 <td>{category.categoryName}</td>
-                <th className="main-content-table-action-column">
+                <td className="main-content-table-action-column">
                   <Button variant="outline-primary" size="sm">
                     EDIT
                   </Button>{" "}
@@ -156,9 +156,9 @@ const CategoryTabContent = () => {
                   <Button variant="outline-danger" size="sm">
                     DELETE
                   </Button>
-                </th>
+                </td>
               </tr>
-            })}
+            ))}
           </tbody>
         </Table>
         {/* [End] : Table */}
