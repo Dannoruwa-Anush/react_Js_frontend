@@ -59,8 +59,11 @@ const CategoryTabContent = () => {
       //call API for save
       try {
         const response = await saveCategory({ categoryName: formData.categoryName });
-        setSuccessMessage(response.message || { SUCCESSFUL_SAVE_MESSAGE });
+        setSuccessMessage(response.message || SUCCESSFUL_SAVE_MESSAGE);
         setErrorMessage(""); // Clear any previous errors
+        setTimeout(() => {
+          setSuccessMessage(""); // Clear the message after 2 seconds
+      }, 2000);
       } catch (error) {
         setErrorMessage(error.response?.data?.message || "An error occurred");
         setSuccessMessage(""); // Clear any previous success message
