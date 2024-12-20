@@ -32,7 +32,7 @@ const CategoryTabContent = () => {
   // Pagination: Slice the categories data based on the current page
   const indexOfLastCategory = currentPage * rowsPerPage;
   const indexOfFirstCategory = indexOfLastCategory - rowsPerPage;
-  const currentCategories = categories.slice(indexOfFirstCategory, indexOfLastCategory);
+  const slicedCategories = categories.slice(indexOfFirstCategory, indexOfLastCategory);
   const totalPages = Math.ceil(categories.length / rowsPerPage);
 
   //useEffect hook
@@ -192,7 +192,7 @@ const CategoryTabContent = () => {
           </thead>
 
           <tbody>
-            {currentCategories && currentCategories.map((category) => (
+            {slicedCategories && slicedCategories.map((category) => (
               <tr key={category.id}>
                 <td>{category.id}</td>
                 <td>{category.categoryName}</td>
