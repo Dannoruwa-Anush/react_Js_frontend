@@ -28,7 +28,7 @@ const CategoryTabContent = () => {
 
   //Table Search bar
   const [searchTerm, setSearchTerm] = useState("");
-  const filteredCategories = categories.filter((category) =>
+  const searchBarFilteredItems = categories.filter((category) =>
     category.categoryName.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -36,10 +36,10 @@ const CategoryTabContent = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 5;
   // Pagination: Slice the categories data based on the current page
-  const indexOfLastCategory = currentPage * rowsPerPage;
-  const indexOfFirstCategory = indexOfLastCategory - rowsPerPage;
-  const slicedCategories = filteredCategories.slice(indexOfFirstCategory, indexOfLastCategory);
-  const totalPages = Math.ceil(filteredCategories.length / rowsPerPage);
+  const indexOfLastItem = currentPage * rowsPerPage;
+  const indexOfFirstItem = indexOfLastItem - rowsPerPage;
+  const tblPaginationSlicedItems = searchBarFilteredItems.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(searchBarFilteredItems.length / rowsPerPage);
 
   //useEffect hook
   useEffect(() => {
@@ -200,7 +200,7 @@ const CategoryTabContent = () => {
           </thead>
 
           <tbody>
-            {slicedCategories && slicedCategories.map((category) => (
+            {tblPaginationSlicedItems && tblPaginationSlicedItems.map((category) => (
               <tr key={category.id}>
                 <td>{category.id}</td>
                 <td>{category.categoryName}</td>
