@@ -4,12 +4,12 @@ import {deleteAuthenticatedRequest, getAllAuthenticatedRequest, getByIdAuthentic
 //API requests for /category
 
 //GET: getCategoryById
-export const getCaregoryById = async (id) =>{
+export const getCategoryById = async (id) =>{
     return await getByIdAuthenticatedRequest("/category", id);
 };
 
 //GET: getAllCaregories
-export const getAllCaregories = async () =>{
+export const getAllCategories = async () =>{
     return await getAllAuthenticatedRequest("/category");
 };
 

@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Form, Button, Table, Pagination } from "react-bootstrap";
 import {
   deleteCategory,
-  getAllCaregories,
-  getCaregoryById,
+  getAllCategories,
+  getCategoryById,
   saveCategory,
   updateCategory,
 } from "../../../../../services/CategoryService";
@@ -31,7 +31,7 @@ const CategoryTabContent = () => {
   //Arrow functions
   const fetchAllCategories = async () => {
     //call API for getAll
-    const data = await getAllCaregories();
+    const data = await getAllCategories();
     setCategories(data);
   };
 
@@ -63,7 +63,7 @@ const CategoryTabContent = () => {
         setErrorMessage(""); // Clear any previous errors
         setTimeout(() => {
           setSuccessMessage(""); // Clear the message after 2 seconds
-      }, 2000);
+        }, 2000);
       } catch (error) {
         setErrorMessage(error.response?.data?.message || "An error occurred");
         setSuccessMessage(""); // Clear any previous success message
@@ -144,19 +144,21 @@ const CategoryTabContent = () => {
           </thead>
 
           <tbody>
-            <tr>
-              <th>1</th>
-              <th>Lakshitha</th>
-              <th className="main-content-table-action-column">
-                <Button variant="outline-primary" size="sm">
-                  EDIT
-                </Button>{" "}
+            {categories && categories.map((category) => {
+              <tr key={category.id}>
+                <td>{category.id}</td>
+                <td>{category.categoryName}</td>
+                <th className="main-content-table-action-column">
+                  <Button variant="outline-primary" size="sm">
+                    EDIT
+                  </Button>{" "}
 
-                <Button variant="outline-danger" size="sm">
-                  DELETE
-                </Button>
-              </th>
-            </tr>
+                  <Button variant="outline-danger" size="sm">
+                    DELETE
+                  </Button>
+                </th>
+              </tr>
+            })}
           </tbody>
         </Table>
         {/* [End] : Table */}

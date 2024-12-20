@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Form, Button, Table } from "react-bootstrap";
 import {
   deleteCategory,
-  getAllCaregories,
-  getCaregoryById,
+  getAllCategories,
+  getCategoryById,
   saveCategory,
   updateCategory,
 } from "../../../../../services/CategoryService";
@@ -15,7 +15,7 @@ const AuthorTabContent = () => {
 
   // Fetch categories
   const fetchCategories = async () => {
-    const data = await getAllCaregories();
+    const data = await getAllCategories();
     setCategories(data);
   };
 
@@ -46,7 +46,7 @@ const AuthorTabContent = () => {
 
   // Handle edit
   const handleEdit = async (id) => {
-    const category = await getCaregoryById(id);
+    const category = await getCategoryById(id);
     setFormData({ id: category.id, name: category.categoryName });
     setIsEditing(true);
   };
