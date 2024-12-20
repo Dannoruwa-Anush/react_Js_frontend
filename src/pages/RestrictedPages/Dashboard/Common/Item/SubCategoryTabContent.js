@@ -8,7 +8,8 @@ import {
 import ReusableModalMessage from "../../../../../layouts/customReusableComponents/ReusableModalMessage";
 import ReusableTablePagination from "../../../../../layouts/customReusableComponents/ReusableTablePagination";
 import React, { useState, useEffect } from "react";
-import { Form, Button, Table} from "react-bootstrap";
+import { Form, Button, Table } from "react-bootstrap";
+import { getAllCategories } from "../../../../../services/CategoryService";
 
 const SubCategoryTabContent = () => {
   //Component constants labels
@@ -23,6 +24,7 @@ const SubCategoryTabContent = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [subCategories, setSubCategories] = useState([]);
+  const [categories, setCategories] = useState([]);
 
   //Modal : delete confirmation
   const [idToDelete, setIdToDelete] = useState(null);
@@ -46,6 +48,7 @@ const SubCategoryTabContent = () => {
   //useEffect hook
   useEffect(() => {
     fetchAllSubCategories();
+    fetchAllCategories();
   }, []); //[] : means that the effect will run only once on the initial render
 
 
@@ -56,10 +59,16 @@ const SubCategoryTabContent = () => {
     setSubCategories(data);
   };
 
+  const fetchAllCategories = async () => {
+    //call API for getAll
+    const data = await getAllCategories();
+    setCategories(data);
+  };
+
   const handleInputChange = (event) => {
     //name, value : attributes of the form controller
     const { name, value } = event.target;
-  
+
     /*
     update the categoryName property of formData 
     without affecting other properties (like id)
@@ -79,13 +88,13 @@ const SubCategoryTabContent = () => {
     if (isEditing) {
       //update
       //call API to update
-      await updateSubCategory(formData.id, { subCategoryName: formData.subCategoryName, categoryId : formData.categoryId});
+      await updateSubCategory(formData.id, { subCategoryName: formData.subCategoryName, categoryId: formData.categoryId });
     }
     else {
       //save
       //call API for save
       try {
-        const response = await saveSubCategory({subCategoryName: formData.subCategoryName, categoryId : formData.categoryId});
+        const response = await saveSubCategory({ subCategoryName: formData.subCategoryName, categoryId: formData.categoryId });
         setSuccessMessage(response.message || SUCCESSFUL_SAVE_MESSAGE);
         setErrorMessage(""); // Clear any previous errors
         setTimeout(() => {
@@ -110,7 +119,7 @@ const SubCategoryTabContent = () => {
     const subCategory = await getSubCategoryById(id);
 
     //Load data to form
-    setFormData({ id: subCategory.id, subCategoryName: subCategory.subCategoryName, categoryId : subCategory.category.id });
+    setFormData({ id: subCategory.id, subCategoryName: subCategory.subCategoryName, categoryId: subCategory.category.id });
     setIsEditing(true);
   };
 
@@ -167,12 +176,19 @@ const SubCategoryTabContent = () => {
             <Form.Group className="mb-3">
               <Form.Label>Category Type</Form.Label>
               <Form.Control
-                type="text"
+                as="select"
                 name="categoryId"
                 required
                 value={formData.categoryId}
                 onChange={handleInputChange}
-              />
+              >
+                <option value="">-- Select a Category --</option>
+                {categories.map((category) => (
+                  <option key={category.id} value={category.id}>
+                    {category.categoryName}
+                  </option>
+                ))}
+              </Form.Control>
             </Form.Group>
 
             {errorMessage &&
