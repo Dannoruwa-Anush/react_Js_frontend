@@ -11,12 +11,15 @@ import {
 const CategoryTabContent = () => {
   //Component constants labels
   const TABLENAME = "Category List";
+  const SUCCESSFUL_SAVE_MESSAGE = "Category saved successfully!"
 
   //Table & Form
   const [formData, setFormData] = useState({ id: "", categoryName: "" });
   const [isEditing, setIsEditing] = useState(false);
 
   //API responses
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
   const [categories, setCategories] = useState([]);
 
   //useEffect hook
@@ -54,7 +57,14 @@ const CategoryTabContent = () => {
     else {
       //save
       //call API for save
-      await saveCategory({ categoryName: formData.categoryName });
+      try {
+        const response = await saveCategory({ categoryName: formData.categoryName });
+        setSuccessMessage(response.message || { SUCCESSFUL_SAVE_MESSAGE });
+        setErrorMessage(""); // Clear any previous errors
+      } catch (error) {
+        setErrorMessage(error.response?.data?.message || "An error occurred");
+        setSuccessMessage(""); // Clear any previous success message
+      }
     }
     //Reset formData to empty
     setFormData({ id: "", categoryName: "" });
@@ -83,6 +93,18 @@ const CategoryTabContent = () => {
                 onChange={handleCategoryNameChange}
               />
             </Form.Group>
+
+            {errorMessage &&
+              <div className='text-danger mb-3'>
+                {errorMessage}
+              </div>
+            }
+
+            {successMessage &&
+              <div className='text-success mb-3'>
+                {successMessage}
+              </div>
+            }
 
             <div className="text-end">
               <Button variant="primary" type="submit" className="button-style">
