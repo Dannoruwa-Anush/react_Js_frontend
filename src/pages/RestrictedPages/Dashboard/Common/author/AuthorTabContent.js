@@ -1,7 +1,7 @@
 const AuthorTabContent = () => {
   return (
     <div>
-      <h1>Authors</h1>
+      <h5 className="mb-4">Authors</h5>
     </div>
   );
 };
