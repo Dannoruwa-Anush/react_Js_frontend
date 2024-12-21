@@ -261,8 +261,8 @@ const BookTabContent = () => {
             <Form.Group className="mb-3">
               <Form.Label>Cover Image</Form.Label>
 
-              {/* If editing, show image preview and a button to change the image */}
-              {isEditing && formData.coverImage && (
+              {/* If editing and no file is selected, show the image preview and change button */}
+              {isEditing && !showFileInput && formData.coverImage && (
                 <div className="d-flex justify-content-between align-items-center">
                   <div className="d-flex align-items-center">
                     <img
