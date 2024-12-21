@@ -33,6 +33,8 @@ const BookTabContent = () => {
 
   //Form file
   const fileInputRef = React.createRef();
+  const [showFileInput, setShowFileInput] = useState(false);  // To toggle file input visibility in edit mode
+
 
   //Form : Dropdown search bar
   const [dropdownSearchTerm, setDropdownSearchTerm] = useState("");
@@ -86,20 +88,17 @@ const BookTabContent = () => {
   };
 
   const handleInputChange = (event) => {
-    //name, value : attributes of the form controller
     const { name, value, files } = event.target;
 
-    /*
-    update the categoryName property of formData 
-    without affecting other properties (like id)
-    using spread operator
-    */
-    // If the input type is 'file', store the file object instead of the value
+    // Handle file input for cover image
     if (name === "coverImage") {
-      // Store the File object from the input's files property
-      setFormData({ ...formData, coverImage: files[0] });
+      if (files && files.length > 0) {
+        setFormData({ ...formData, coverImage: files[0] });
+      } else {
+        setFormData({ ...formData, coverImage: null });  // Clear the cover image
+      }
     } else {
-      // Update other fields normally
+      // Handle other fields
       setFormData({ ...formData, [name]: value });
     }
   };
@@ -122,12 +121,7 @@ const BookTabContent = () => {
     setIsSubCategoryDropdownOpen(false);  // Close subcategory dropdown after selection
   };
 
-  //Handle form submission btn click 
   const handleSubmit = async (event) => {
-    /*prevents the form from being submitted to the server
-    You can then perform any custom logic, such as sending 
-    the data via an API or displaying an error message.
-    */
     event.preventDefault();
 
     // Use FormData for file uploads
@@ -135,50 +129,57 @@ const BookTabContent = () => {
     data.append("title", formData.title);
     data.append("unitPrice", formData.unitPrice);
     data.append("qoh", formData.qoh);
-    data.append("coverImage", formData.coverImage); // File object
     data.append("subCategoryId", formData.subCategoryId);
     data.append("authorId", formData.authorId);
 
-    if (isEditing) {
-      //update
-      //call API to update
-
-      // Include ID for update
-      data.append("id", formData.id);
-
-      await updateBook(formData.id, data);
+    // If coverImage is null (no image selected), append an empty file object
+    if (!formData.coverImage) {
+      data.append("coverImage", new File([], ""));  // Empty file if no image selected
+    } else {
+      data.append("coverImage", formData.coverImage); // File object
     }
-    else {
-      //save
-      //call API for save
+
+    if (isEditing) {
+      // Update the existing book
+      data.append("id", formData.id);
+      await updateBook(formData.id, data);
+    } else {
+      // Save new book
       try {
         const response = await saveBook(data);
         setSuccessMessage(response.message || SUCCESSFUL_SAVE_MESSAGE);
         setErrorMessage(""); // Clear any previous errors
         setTimeout(() => {
-          setSuccessMessage(""); // Clear the message after 2 seconds
+          setSuccessMessage(""); // Clear the success message after 2 seconds
         }, 2000);
       } catch (error) {
         setErrorMessage(error.response?.data?.message || "An error occurred");
         setSuccessMessage(""); // Clear any previous success message
       }
     }
-    //Reset formData to empty
+
+    // Reset form data after submission
     setFormData({ id: "", title: "", unitPrice: "", qoh: "", coverImage: "", subCategoryId: "", authorId: "" });
+    setShowFileInput(false); // Hide file input after form submission
     fileInputRef.current.value = ""; // Clear the file input
     setIsEditing(false);
 
-    //To get latest data from backend
+    // Refresh books data
     fetchAllBooks();
   };
 
   //Handle edit btn click  
   const handleEdit = async (id) => {
-    //call API to GetById
     const book = await getBookById(id);
-
-    //Load data to form
-    setFormData({ id: book.id, title: book.title, unitPrice: book.unitPrice, qoh: book.qoh, coverImage: book.coverImage, subCategoryId: book.subCategory.id, authorId: book.author.id });
+    setFormData({
+      id: book.id,
+      title: book.title,
+      unitPrice: book.unitPrice,
+      qoh: book.qoh,
+      coverImage: book.coverImage, // Assuming this is the filename or path of the cover image
+      subCategoryId: book.subCategory.id,
+      authorId: book.author.id
+    });
     setIsEditing(true);
   };
 
@@ -256,16 +257,45 @@ const BookTabContent = () => {
               />
             </Form.Group>
 
+            {/* [Start] : Image uploader */}
             <Form.Group className="mb-3">
               <Form.Label>Cover Image</Form.Label>
-              <Form.Control
-                type="file"
-                name="coverImage"
-                required
-                ref={fileInputRef}
-                onChange={handleInputChange}
-              />
+
+              {/* If editing, show a button to change the image */}
+              {isEditing && formData.coverImage && (
+                <>
+                  <Button
+                    variant="secondary"
+                    onClick={() => setShowFileInput(true)}
+                    className="mb-2"
+                  >
+                    Change Cover Image
+                  </Button>
+                  <div className="mt-2">
+                    <img
+                      src={`${API_IMAGE_URL}/${formData.coverImage}`}
+                      alt="Current cover"
+                      width={100}
+                      height={100}
+                    />
+                  </div>
+                </>
+              )}
+
+              {/* If not editing or if user clicks 'Change Cover Image', show the file input */}
+              {(isEditing && showFileInput) || !isEditing ? (
+                <Form.Control
+                  type="file"
+                  name="coverImage"
+                  required={!isEditing}  // Required when creating a new book
+                  ref={fileInputRef}
+                  onChange={handleInputChange}
+                  accept="image/*"
+                />
+              ) : null}
             </Form.Group>
+
+            {/* [End] : Image uploader */}
 
             {/* [Start] - Author Dropdown with Search Bar */}
             <Form.Group className="mb-3">
