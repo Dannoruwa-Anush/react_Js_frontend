@@ -3,7 +3,7 @@ import ReusableModalMessage from "../../../../../layouts/customReusableComponent
 import ReusableTablePagination from "../../../../../layouts/customReusableComponents/ReusableTablePagination";
 import { deleteAuthor, getAllAuthors, getAuthorById, saveAuthor, updateAuthor } from "../../../../../services/AuthorService";
 import React, { useState, useEffect } from "react";
-import { Form, Button, Table} from "react-bootstrap";
+import { Form, Button, Table } from "react-bootstrap";
 
 
 const AuthorTabContent = () => {
@@ -11,14 +11,14 @@ const AuthorTabContent = () => {
   const TABLENAME = "Author List";
   const SUCCESSFUL_SAVE_MESSAGE = "Author saved successfully!"
 
-  //Table & Form
-  const [formData, setFormData] = useState({ id: "", authorName: "" });
-  const [isEditing, setIsEditing] = useState(false);
-
   //API responses
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [authors, setAuthors] = useState([]);
+
+  //Table & Form
+  const [formData, setFormData] = useState({ id: "", authorName: "" });
+  const [isEditing, setIsEditing] = useState(false);
 
   //Modal : delete confirmation
   const [idToDelete, setIdToDelete] = useState(null);

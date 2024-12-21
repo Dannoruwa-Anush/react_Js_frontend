@@ -20,6 +20,13 @@ const BookTabContent = () => {
   const TABLENAME = "Book List";
   const SUCCESSFUL_SAVE_MESSAGE = "Book saved successfully!"
 
+  //API responses
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  const [books, setBooks] = useState([]);
+  const [authors, setAuthors] = useState([]);
+  const [subCategories, setSubCategories] = useState([]);
+
   //Table & Form
   const [formData, setFormData] = useState({ id: "", title: "", unitPrice: "", qoh: "", coverImage: "", subCategoryId: "", authorId: "" });
   const [isEditing, setIsEditing] = useState(false);
@@ -27,12 +34,9 @@ const BookTabContent = () => {
   //Form file
   const fileInputRef = React.createRef();
 
-  //API responses
-  const [errorMessage, setErrorMessage] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
-  const [books, setBooks] = useState([]);
-  const [authors, setAuthors] = useState([]);
-  const [subCategories, setSubCategories] = useState([]);
+  //Form : Dropdown search bar
+  const [dropdownSearchTerm, setDropdownSearchTerm] = useState("");
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   //Modal : delete confirmation
   const [idToDelete, setIdToDelete] = useState(null);

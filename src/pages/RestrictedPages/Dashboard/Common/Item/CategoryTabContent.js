@@ -8,21 +8,21 @@ import {
 import ReusableModalMessage from "../../../../../layouts/customReusableComponents/ReusableModalMessage";
 import ReusableTablePagination from "../../../../../layouts/customReusableComponents/ReusableTablePagination";
 import React, { useState, useEffect } from "react";
-import { Form, Button, Table} from "react-bootstrap";
+import { Form, Button, Table } from "react-bootstrap";
 
 const CategoryTabContent = () => {
   //Component constants labels
   const TABLENAME = "Category List";
   const SUCCESSFUL_SAVE_MESSAGE = "Category saved successfully!"
 
-  //Table & Form
-  const [formData, setFormData] = useState({ id: "", categoryName: "" });
-  const [isEditing, setIsEditing] = useState(false);
-
   //API responses
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [categories, setCategories] = useState([]);
+
+  //Table & Form
+  const [formData, setFormData] = useState({ id: "", categoryName: "" });
+  const [isEditing, setIsEditing] = useState(false);
 
   //Modal : delete confirmation
   const [idToDelete, setIdToDelete] = useState(null);

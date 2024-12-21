@@ -16,17 +16,17 @@ const SubCategoryTabContent = () => {
   const TABLENAME = "Sub Category List";
   const SUCCESSFUL_SAVE_MESSAGE = "Sub category saved successfully!"
 
-  //Table & Form
-  const [formData, setFormData] = useState({ id: "", subCategoryName: "", categoryId: "" });
-  const [isEditing, setIsEditing] = useState(false);
-
   //API responses
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [subCategories, setSubCategories] = useState([]);
   const [categories, setCategories] = useState([]);
 
-  //Dropdown search bar
+  //Table & Form
+  const [formData, setFormData] = useState({ id: "", subCategoryName: "", categoryId: "" });
+  const [isEditing, setIsEditing] = useState(false);
+
+  //Form : Dropdown search bar
   const [dropdownSearchTerm, setDropdownSearchTerm] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -89,7 +89,7 @@ const SubCategoryTabContent = () => {
   // Handle form dropdown selection
   const handleDropDownSelect = (categoryId) => {
     handleInputChange({ target: { name: 'categoryId', value: categoryId } });
-    
+
     setIsDropdownOpen(false); // Close dropdown after selection
   };
 
