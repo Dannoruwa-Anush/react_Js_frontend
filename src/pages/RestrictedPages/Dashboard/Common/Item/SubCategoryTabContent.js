@@ -7,9 +7,9 @@ import {
 } from "../../../../../services/SubCategoryService";
 import ReusableModalMessage from "../../../../../layouts/customReusableComponents/ReusableModalMessage";
 import ReusableTablePagination from "../../../../../layouts/customReusableComponents/ReusableTablePagination";
-import React, { useState, useEffect } from "react";
-import { Form, Button, Table } from "react-bootstrap";
 import { getAllCategories } from "../../../../../services/CategoryService";
+import React, { useState, useEffect } from "react";
+import { Form, Button, Table, Dropdown } from "react-bootstrap";
 
 const SubCategoryTabContent = () => {
   //Component constants labels
@@ -25,6 +25,10 @@ const SubCategoryTabContent = () => {
   const [successMessage, setSuccessMessage] = useState("");
   const [subCategories, setSubCategories] = useState([]);
   const [categories, setCategories] = useState([]);
+
+  //Dropdown search bar
+  const [dropdownSearchTerm, setDropdownSearchTerm] = useState("");
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   //Modal : delete confirmation
   const [idToDelete, setIdToDelete] = useState(null);
@@ -75,6 +79,18 @@ const SubCategoryTabContent = () => {
     using spread operator
     */
     setFormData({ ...formData, [name]: value });
+  };
+
+  // Filter categories : form-dropdown-search bar
+  const filteredCategories = categories.filter((category) =>
+    category.categoryName.toLowerCase().includes(dropdownSearchTerm.toLowerCase())
+  );
+
+  // Handle form dropdown selection
+  const handleDropDownSelect = (categoryId) => {
+    handleInputChange({ target: { name: 'categoryId', value: categoryId } });
+    
+    setIsDropdownOpen(false); // Close dropdown after selection
   };
 
   //Handle form submission btn click 
@@ -173,23 +189,43 @@ const SubCategoryTabContent = () => {
               />
             </Form.Group>
 
+            {/* [Start] - Category Dropdown with Search Bar */}
             <Form.Group className="mb-3">
               <Form.Label>Category Type</Form.Label>
-              <Form.Control
-                as="select"
-                name="categoryId"
-                required
-                value={formData.categoryId}
-                onChange={handleInputChange}
-              >
-                <option value="">-- Select a Category --</option>
-                {categories && categories.map((category) => (
-                  <option key={category.id} value={category.id}>
-                    {category.categoryName}
-                  </option>
-                ))}
-              </Form.Control>
+
+              <Dropdown show={isDropdownOpen} onToggle={() => setIsDropdownOpen(!isDropdownOpen)}>
+                <Dropdown.Toggle variant="light" id="category-dropdown" className="w-100">
+                  {formData.categoryId ? categories.find(c => c.id === formData.categoryId)?.categoryName : '-- Select a Category --'}
+                </Dropdown.Toggle>
+
+                {/* [Start] - Dropdown search bar */}
+                <Dropdown.Menu className="w-100">
+                  <Form.Control
+                    type="text"
+                    placeholder="Search for a category"
+                    value={dropdownSearchTerm}
+                    onChange={(e) => setDropdownSearchTerm(e.target.value)}
+                    className="mb-2"
+                  />
+                  {/* [End] - Dropdown search bar */}
+
+                  {/* Filtered Category List */}
+                  {filteredCategories.length === 0 ? (
+                    <Dropdown.ItemText>No categories found</Dropdown.ItemText>
+                  ) : (
+                    filteredCategories.map((category) => (
+                      <Dropdown.Item
+                        key={category.id}
+                        onClick={() => handleDropDownSelect(category.id)}
+                      >
+                        {category.categoryName}
+                      </Dropdown.Item>
+                    ))
+                  )}
+                </Dropdown.Menu>
+              </Dropdown>
             </Form.Group>
+            {/* [End] - Category Dropdown with Search Bar */}
 
             {errorMessage &&
               <div className='text-danger mb-3'>
@@ -294,3 +330,5 @@ const SubCategoryTabContent = () => {
 };
 
 export default SubCategoryTabContent;
+
+
