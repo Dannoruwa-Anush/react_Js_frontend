@@ -104,12 +104,12 @@ const BookTabContent = () => {
   };
 
   // Filter authors : form-dropdown-search bar
-  const filteredAuthors = authors.filter((author) =>
+  const filteredAuthors = authors && authors.filter((author) =>
     author.authorName.toLowerCase().includes(dropdownSearchTerm.toLowerCase())
   );
 
   // Filter subCategories : form-dropdown-search bar
-  const filteredSubCategories = subCategories.filter((subCategory) =>
+  const filteredSubCategories = subCategories && subCategories.filter((subCategory) =>
     subCategory.subCategoryName.toLowerCase().includes(dropdownSearchTerm.toLowerCase())
   );
 
@@ -121,6 +121,7 @@ const BookTabContent = () => {
     setIsSubCategoryDropdownOpen(false);  // Close subcategory dropdown after selection
   };
 
+  //Handle submit (save/update) btn click 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -134,6 +135,7 @@ const BookTabContent = () => {
 
     // If coverImage is null (no image selected), append an empty file object
     if (!formData.coverImage) {
+      console.log("hi");
       data.append("coverImage", new File([], ""));  // Empty file if no image selected
     } else {
       data.append("coverImage", formData.coverImage); // File object
@@ -142,12 +144,12 @@ const BookTabContent = () => {
     if (isEditing) {
       // Update the existing book
       data.append("id", formData.id);
-      await updateBook(formData.id, data);
+      //await updateBook(formData.id, data);
     } else {
       // Save new book
       try {
-        const response = await saveBook(data);
-        setSuccessMessage(response.message || SUCCESSFUL_SAVE_MESSAGE);
+        //const response = await saveBook(data);
+        //setSuccessMessage(response.message || SUCCESSFUL_SAVE_MESSAGE);
         setErrorMessage(""); // Clear any previous errors
         setTimeout(() => {
           setSuccessMessage(""); // Clear the success message after 2 seconds

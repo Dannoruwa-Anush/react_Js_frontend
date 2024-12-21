@@ -82,7 +82,7 @@ const SubCategoryTabContent = () => {
   };
 
   // Filter categories : form-dropdown-search bar
-  const filteredCategories = categories.filter((category) =>
+  const filteredCategories = categories && categories.filter((category) =>
     category.categoryName.toLowerCase().includes(dropdownSearchTerm.toLowerCase())
   );
 
