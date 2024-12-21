@@ -261,17 +261,10 @@ const BookTabContent = () => {
             <Form.Group className="mb-3">
               <Form.Label>Cover Image</Form.Label>
 
-              {/* If editing, show a button to change the image */}
+              {/* If editing, show image preview and a button to change the image */}
               {isEditing && formData.coverImage && (
-                <>
-                  <Button
-                    variant="secondary"
-                    onClick={() => setShowFileInput(true)}
-                    className="mb-2"
-                  >
-                    Change Cover Image
-                  </Button>
-                  <div className="mt-2">
+                <div className="d-flex justify-content-between align-items-center">
+                  <div className="d-flex align-items-center">
                     <img
                       src={`${API_IMAGE_URL}/${formData.coverImage}`}
                       alt="Current cover"
@@ -279,7 +272,14 @@ const BookTabContent = () => {
                       height={100}
                     />
                   </div>
-                </>
+                  <Button
+                    variant="secondary"
+                    onClick={() => setShowFileInput(true)}
+                    className="mb-2"
+                  >
+                    Change Cover Image
+                  </Button>
+                </div>
               )}
 
               {/* If not editing or if user clicks 'Change Cover Image', show the file input */}
@@ -294,7 +294,6 @@ const BookTabContent = () => {
                 />
               ) : null}
             </Form.Group>
-
             {/* [End] : Image uploader */}
 
             {/* [Start] - Author Dropdown with Search Bar */}
