@@ -7,6 +7,7 @@ import {
   getBookById,
   saveBook,
   updateBookWithCoverImage,
+  updateBookWithOutCoverImage,
   deleteBook,
 } from "../../../../../services/BookService";
 import ReusableModalMessage from "../../../../../layouts/customReusableComponents/ReusableModalMessage";
@@ -28,7 +29,7 @@ const BookTabContent = () => {
   const [subCategories, setSubCategories] = useState([]);
 
   //Table & Form
-  const [formData, setFormData] = useState({ id: "", title: "", unitPrice: "", qoh: "", coverImage: "", subCategoryId: "", authorId: "" });
+  const [formData, setFormData] = useState({ id: "", title: "", unitPrice: "", qoh: "", coverImage: "", subCategoryId: "", authorId: "", existingCoverImage: "" });
   const [isEditing, setIsEditing] = useState(false);
 
   //Form file
@@ -144,8 +145,25 @@ const BookTabContent = () => {
     if (isEditing) {
       // Update the existing book
       data.append("id", formData.id);
-      data.append("coverImage", formData.coverImage); // File object
-      await updateBookWithCoverImage(formData.id, data);
+
+      if (formData.coverImage === formData.existingCoverImage) {
+        //update without cover image
+        //rawJSON Request
+        const rawJsonRequest = {
+          'title': formData.title,
+          'unitPrice': formData.unitPrice,
+          'qoh': formData.qoh,
+          'subCategoryId': formData.subCategoryId,
+          'authorId': formData.authorId,
+        };
+        await updateBookWithOutCoverImage(formData.id, rawJsonRequest);
+      }
+      else {
+        //update with cover image
+        data.append("coverImage", formData.coverImage); // File object
+        //form-data request
+        await updateBookWithCoverImage(formData.id, data);
+      }
     } else {
       // Save new book
       data.append("coverImage", formData.coverImage); // File object
@@ -163,9 +181,13 @@ const BookTabContent = () => {
     }
 
     // Reset form data after submission
-    setFormData({ id: "", title: "", unitPrice: "", qoh: "", coverImage: "", subCategoryId: "", authorId: "" });
+    setFormData({ id: "", title: "", unitPrice: "", qoh: "", coverImage: "", subCategoryId: "", authorId: "", existingCoverImage: "" });
     setShowFileInput(false); // Hide file input after form submission
-    fileInputRef.current.value = ""; // Clear the file input
+    
+    if (fileInputRef.current) {
+      fileInputRef.current.value = ""; // Clear the file input
+    } 
+       
     setIsEditing(false);
 
     // Refresh books data
@@ -180,9 +202,11 @@ const BookTabContent = () => {
       title: book.title,
       unitPrice: book.unitPrice,
       qoh: book.qoh,
-      coverImage: book.coverImage, // Assuming this is the filename or path of the cover image
+      coverImage: book.coverImage,
       subCategoryId: book.subCategory.id,
-      authorId: book.author.id
+      authorId: book.author.id,
+
+      existingCoverImage: book.coverImage, //Use this to confirm that the image is about to be updated.
     });
     setIsEditing(true);
   };
