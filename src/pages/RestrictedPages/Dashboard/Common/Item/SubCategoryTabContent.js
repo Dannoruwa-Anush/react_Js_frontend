@@ -28,7 +28,7 @@ const SubCategoryTabContent = () => {
 
   //Form : Dropdown search bar
   const [dropdownSearchTerm, setDropdownSearchTerm] = useState("");
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
 
   //Modal : delete confirmation
   const [idToDelete, setIdToDelete] = useState(null);
@@ -87,10 +87,10 @@ const SubCategoryTabContent = () => {
   );
 
   // Handle form dropdown selection
-  const handleDropDownSelect = (categoryId) => {
-    handleInputChange({ target: { name: 'categoryId', value: categoryId } });
+  const handleDropDownSelect = (inputNameItem, inputValueItem) => {
+    handleInputChange({ target: { name: inputNameItem, value: inputValueItem } });
 
-    setIsDropdownOpen(false); // Close dropdown after selection
+    setIsCategoryDropdownOpen(false); // Close dropdown after selection
   };
 
   //Handle form submission btn click 
@@ -193,7 +193,7 @@ const SubCategoryTabContent = () => {
             <Form.Group className="mb-3">
               <Form.Label>Category Type</Form.Label>
 
-              <Dropdown show={isDropdownOpen} onToggle={() => setIsDropdownOpen(!isDropdownOpen)}>
+              <Dropdown show={isCategoryDropdownOpen} onToggle={() => setIsCategoryDropdownOpen(!isCategoryDropdownOpen)}>
                 <Dropdown.Toggle variant="light" id="category-dropdown" className="w-100">
                   {formData.categoryId ? categories.find(c => c.id === formData.categoryId)?.categoryName : '-- Select a Category --'}
                 </Dropdown.Toggle>
@@ -216,7 +216,7 @@ const SubCategoryTabContent = () => {
                     filteredCategories.map((category) => (
                       <Dropdown.Item
                         key={category.id}
-                        onClick={() => handleDropDownSelect(category.id)}
+                        onClick={() => handleDropDownSelect("categoryId", category.id)}
                       >
                         {category.categoryName}
                       </Dropdown.Item>
