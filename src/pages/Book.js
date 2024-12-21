@@ -80,11 +80,11 @@ const Book = () => {
                             </tr>
                             <tr>
                                 <th>Author</th>
-                                <td>{book.authorName}</td>
+                                <td>{book.author.authorName}</td>
                             </tr>
                             <tr>
                                 <th>Price</th>
-                                <td>${book.unitPrice}</td>
+                                <td>Rs. {book.unitPrice}</td>
                             </tr>
                             <tr>
                                 <th>Available Quantity</th>
