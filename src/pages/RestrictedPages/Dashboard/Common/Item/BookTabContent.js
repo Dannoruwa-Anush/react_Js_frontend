@@ -12,7 +12,7 @@ import {
 import ReusableModalMessage from "../../../../../layouts/customReusableComponents/ReusableModalMessage";
 import ReusableTablePagination from "../../../../../layouts/customReusableComponents/ReusableTablePagination";
 import React, { useState, useEffect } from "react";
-import { Form, Button, Table } from "react-bootstrap";
+import { Form, Button, Table, Dropdown } from "react-bootstrap";
 import { API_IMAGE_URL } from "../../../../../configurations/Config";
 
 const BookTabContent = () => {
@@ -36,7 +36,8 @@ const BookTabContent = () => {
 
   //Form : Dropdown search bar
   const [dropdownSearchTerm, setDropdownSearchTerm] = useState("");
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isAuthorDropdownOpen, setIsAuthorDropdownOpen] = useState(false);
+  const [isSubCategoryDropdownOpen, setIsSubCategoryDropdownOpen] = useState(false);
 
   //Modal : delete confirmation
   const [idToDelete, setIdToDelete] = useState(null);
@@ -101,6 +102,24 @@ const BookTabContent = () => {
       // Update other fields normally
       setFormData({ ...formData, [name]: value });
     }
+  };
+
+  // Filter authors : form-dropdown-search bar
+  const filteredAuthors = authors.filter((author) =>
+    author.authorName.toLowerCase().includes(dropdownSearchTerm.toLowerCase())
+  );
+
+  // Filter subCategories : form-dropdown-search bar
+  const filteredSubCategories = subCategories.filter((subCategory) =>
+    subCategory.subCategoryName.toLowerCase().includes(dropdownSearchTerm.toLowerCase())
+  );
+
+  // Handle form dropdown selection
+  const handleDropDownSelect = (inputNameItem, inputValueItem) => {
+    handleInputChange({ target: { name: inputNameItem, value: inputValueItem } });
+
+    setIsAuthorDropdownOpen(false);  // Close author dropdown after selection
+    setIsSubCategoryDropdownOpen(false);  // Close subcategory dropdown after selection
   };
 
   //Handle form submission btn click 
@@ -248,41 +267,81 @@ const BookTabContent = () => {
               />
             </Form.Group>
 
+            {/* [Start] - Author Dropdown with Search Bar */}
             <Form.Group className="mb-3">
               <Form.Label>Author</Form.Label>
-              <Form.Control
-                as="select"
-                name="authorId"
-                required
-                value={formData.authorId}
-                onChange={handleInputChange}
-              >
-                <option value="">-- Select a author --</option>
-                {authors && authors.map((author) => (
-                  <option key={author.id} value={author.id}>
-                    {author.authorName}
-                  </option>
-                ))}
-              </Form.Control>
-            </Form.Group>
 
-            <Form.Group className="mb-3">
-              <Form.Label>Sub Category Type</Form.Label>
-              <Form.Control
-                as="select"
-                name="subCategoryId"
-                required
-                value={formData.subCategoryId}
-                onChange={handleInputChange}
-              >
-                <option value="">-- Select a sub category --</option>
-                {subCategories && subCategories.map((subCategory) => (
-                  <option key={subCategory.id} value={subCategory.id}>
-                    {subCategory.subCategoryName}
-                  </option>
-                ))}
-              </Form.Control>
+              <Dropdown show={isAuthorDropdownOpen} onToggle={() => setIsAuthorDropdownOpen(!isAuthorDropdownOpen)}>
+                <Dropdown.Toggle variant="light" className="w-100">
+                  {formData.authorId ? authors.find(c => c.id === formData.authorId)?.authorName : '-- Select a Author --'}
+                </Dropdown.Toggle>
+
+                {/* [Start] - Dropdown search bar */}
+                <Dropdown.Menu className="w-100">
+                  <Form.Control
+                    type="text"
+                    placeholder="Search for a author"
+                    value={dropdownSearchTerm}
+                    onChange={(e) => setDropdownSearchTerm(e.target.value)}
+                    className="mb-2"
+                  />
+                  {/* [End] - Dropdown search bar */}
+
+                  {/* Filtered author List */}
+                  {filteredAuthors.length === 0 ? (
+                    <Dropdown.ItemText>No authors found</Dropdown.ItemText>
+                  ) : (
+                    filteredAuthors.map((author) => (
+                      <Dropdown.Item
+                        key={author.id}
+                        onClick={() => handleDropDownSelect("authorId", author.id)}
+                      >
+                        {author.authorName}
+                      </Dropdown.Item>
+                    ))
+                  )}
+                </Dropdown.Menu>
+              </Dropdown>
             </Form.Group>
+            {/* [End] - Author Dropdown with Search Bar */}
+
+            {/* [Start] - SubCategory Dropdown with Search Bar */}
+            <Form.Group className="mb-3">
+              <Form.Label>Sub Category</Form.Label>
+
+              <Dropdown show={isSubCategoryDropdownOpen} onToggle={() => setIsSubCategoryDropdownOpen(!isSubCategoryDropdownOpen)}>
+                <Dropdown.Toggle variant="light" className="w-100">
+                  {formData.subCategoryId ? subCategories.find(c => c.id === formData.subCategoryId)?.subCategoryName : '-- Select a Sub Category --'}
+                </Dropdown.Toggle>
+
+                {/* [Start] - Dropdown search bar */}
+                <Dropdown.Menu className="w-100">
+                  <Form.Control
+                    type="text"
+                    placeholder="Search for a category"
+                    value={dropdownSearchTerm}
+                    onChange={(e) => setDropdownSearchTerm(e.target.value)}
+                    className="mb-2"
+                  />
+                  {/* [End] - Dropdown search bar */}
+
+                  {/* Filtered Category List */}
+                  {filteredSubCategories.length === 0 ? (
+                    <Dropdown.ItemText>No sub categories found</Dropdown.ItemText>
+                  ) : (
+                    filteredSubCategories.map((subCategory) => (
+                      <Dropdown.Item
+                        key={subCategory.id}
+                        onClick={() => handleDropDownSelect("subCategoryId", subCategory.id)}
+                      >
+                        {subCategory.subCategoryName}
+                      </Dropdown.Item>
+                    ))
+                  )}
+                </Dropdown.Menu>
+              </Dropdown>
+            </Form.Group>
+            {/* [End] - Sub Category Dropdown with Search Bar */}
 
             {errorMessage &&
               <div className='text-danger mb-3'>
