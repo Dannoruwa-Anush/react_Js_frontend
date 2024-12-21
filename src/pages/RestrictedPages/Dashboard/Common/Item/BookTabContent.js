@@ -138,15 +138,17 @@ const BookTabContent = () => {
       console.log("hi");
       data.append("coverImage", new File([], ""));  // Empty file if no image selected
     } else {
-      data.append("coverImage", formData.coverImage); // File object
+      //data.append("coverImage", formData.coverImage); // File object
     }
 
     if (isEditing) {
       // Update the existing book
       data.append("id", formData.id);
+      data.append("coverImage", formData.coverImage); // File object
       await updateBookWithCoverImage(formData.id, data);
     } else {
       // Save new book
+      data.append("coverImage", formData.coverImage); // File object
       try {
         const response = await saveBook(data);
         setSuccessMessage(response.message || SUCCESSFUL_SAVE_MESSAGE);
