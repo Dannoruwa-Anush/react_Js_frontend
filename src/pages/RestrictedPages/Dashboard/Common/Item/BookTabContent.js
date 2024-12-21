@@ -6,7 +6,7 @@ import {
   getAllBooks,
   getBookById,
   saveBook,
-  updateBook,
+  updateBookWithCoverImage,
   deleteBook,
 } from "../../../../../services/BookService";
 import ReusableModalMessage from "../../../../../layouts/customReusableComponents/ReusableModalMessage";
@@ -144,12 +144,12 @@ const BookTabContent = () => {
     if (isEditing) {
       // Update the existing book
       data.append("id", formData.id);
-      //await updateBook(formData.id, data);
+      await updateBookWithCoverImage(formData.id, data);
     } else {
       // Save new book
       try {
-        //const response = await saveBook(data);
-        //setSuccessMessage(response.message || SUCCESSFUL_SAVE_MESSAGE);
+        const response = await saveBook(data);
+        setSuccessMessage(response.message || SUCCESSFUL_SAVE_MESSAGE);
         setErrorMessage(""); // Clear any previous errors
         setTimeout(() => {
           setSuccessMessage(""); // Clear the success message after 2 seconds

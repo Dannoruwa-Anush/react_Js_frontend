@@ -37,9 +37,12 @@ export const saveBook = async (dataToSave) =>{
     return await postAuthenticatedRequest("/book", dataToSave)
 };
 
-//PUT : book
-export const updateBook = async (id, dataToUpdate) =>{
-    return await putAuthenticatedRequest("/book", id, dataToUpdate)
+//PUT : book (withCoverImage)
+export const updateBookWithCoverImage = async (id, dataToUpdate) =>{
+    return await putAuthenticatedRequest("/book/with-cover-image", id, dataToUpdate)
 };
 
-
+//PUT : book (withOutCoverImage)
+export const updateBookWithOutCoverImage = async (id, dataToUpdate) =>{
+    return await putAuthenticatedRequest("/book/without-cover-image", id, dataToUpdate)
+};
