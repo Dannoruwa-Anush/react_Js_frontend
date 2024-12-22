@@ -18,6 +18,7 @@ const OrderSummuryTabContent = () => {
   const [pendingOrders, setPendingOrders] = useState([]);
   const [shippedOrders, setShippedOrders] = useState([]);
   const [deliveredOrders, setDeliveredOrders] = useState([]);
+  const [cancelledOrders, setCancelledOrders] = useState([]);
 
   //useEffect hook
   useEffect(() => {
@@ -25,37 +26,60 @@ const OrderSummuryTabContent = () => {
     const currentDate = new Date().toLocaleDateString('en-CA'); // 'en-CA' format gives yyyy-MM-dd
 
     //At page loading
-    getAllPendingOrders(); //All pendings
-
-    //getAllPendingOrdersForSelectedDate()
-    //getAllShippedOrdersForSelectedDate(); //for today
-    //getAllDeliveredOrdersForSelectedDate(); //for today
+    fetchAllPendingOrders(); //All pendings without considering date
+    fetchAllPendingOrdersForSelectedDate(currentDate); //for today
+    fetchAllShippedOrdersForSelectedDate(currentDate); //for today
+    fetchAllDeliveredOrdersForSelectedDate(currentDate); //for today
+    fetchAllCancelledOrdersForSelectedDate(currentDate); //for today
   }, []); //[] : means that the effect will run only once on the initial render
 
   //Arrow functions
-  const getAllPendingOrders = async () => {
+  const fetchAllPendingOrders = async () => {
     //call API for getAll
-    const data = await getAllOrdersByOrderStatus({checkedStatus: OrderStatus.PENDING});
+    const data = await getAllOrdersByOrderStatus({ checkedStatus: OrderStatus.PENDING });
     setPendingOrders(data);
   };
 
-  // API call to get order by status and date
-  const data = [
-    { id: 1, totalAmount: 100, createdAt: '2024-12-16', customerName: 'AA 1' },
-    { id: 2, totalAmount: 200, createdAt: '2024-12-16', customerName: 'BB 2' },
-    { id: 3, totalAmount: 300, createdAt: '2024-12-16', customerName: 'CC 3' },
-  ];
+  const fetchAllPendingOrdersForSelectedDate = async (date) => {
+    //call API for getAll
+    const data = await getAllOrdersByOrderDateAndStatus({ checkedDate: date, checkedStatus: OrderStatus.PENDING });
+    setPendingOrders(data);
+  };
+
+  const fetchAllShippedOrdersForSelectedDate = async (date) => {
+    //call API for getAll
+    const data = await getAllOrdersByOrderDateAndStatus({ checkedDate: date, checkedStatus: OrderStatus.SHIPPED });
+    setShippedOrders(data);
+  };
+
+  const fetchAllDeliveredOrdersForSelectedDate = async (date) => {
+    //call API for getAll
+    const data = await getAllOrdersByOrderDateAndStatus({ checkedDate: date, checkedStatus: OrderStatus.DELIVERED });
+    setDeliveredOrders(data);
+  };
+
+  const fetchAllCancelledOrdersForSelectedDate = async (date) => {
+    //call API for getAll
+    const data = await getAllOrdersByOrderDateAndStatus({ checkedDate: date, checkedStatus: OrderStatus.CANCELLED });
+    setCancelledOrders(data);
+  };
 
   // Handler for date selection, ensuring no future date is selected
-  const handleDateChange = (date) => {
-    if (date <= new Date()) { // Prevent future dates
-      setSelectedDate(date);
+  const handleDateChange = (selectedDateByDatePicker) => {
+    if (selectedDateByDatePicker <= new Date()) { // Prevent future dates
+      setSelectedDate(selectedDateByDatePicker);
+
+      //call API to get orderby - orderstatus, and selected date
+      fetchAllPendingOrdersForSelectedDate(getSelectedDateFormatted(selectedDateByDatePicker)); //for selected date
+      fetchAllShippedOrdersForSelectedDate(getSelectedDateFormatted(selectedDateByDatePicker)); //for selected date
+      fetchAllDeliveredOrdersForSelectedDate(getSelectedDateFormatted(selectedDateByDatePicker)); //for selected date
+      fetchAllCancelledOrdersForSelectedDate(getSelectedDateFormatted(selectedDateByDatePicker)); //for selected date
     }
   };
 
-  // Get the selected date in yyyy-MM-dd format
-  const getSelectedDateFormatted = () => {
-    return format(selectedDate, 'yyyy-MM-dd');
+  // Get the date in yyyy-MM-dd format
+  const getSelectedDateFormatted = (date) => {
+    return format(date, 'yyyy-MM-dd');
   };
 
   return (
@@ -79,17 +103,17 @@ const OrderSummuryTabContent = () => {
 
         {/* [Start] - Tab View */}
         <Tabs className="mb-3" justify activeKey={activeKey} onSelect={(k) => setActiveKey(k)}>
-          <Tab eventKey="tab1" title={`Pending (${data.length})`}>
-            <OrderByStatusTable tabName="Pending Orders" data={data} />
+          <Tab eventKey="tab1" title={`Pending (${pendingOrders.length || 0})`}>
+            <OrderByStatusTable tabName="Pending Orders" data={pendingOrders} />
           </Tab>
-          <Tab eventKey="tab2" title={`Shipped (${data.length})`}>
-            <OrderByStatusTable tabName="Shipped Orders" data={data} />
+          <Tab eventKey="tab2" title={`Shipped (${shippedOrders.length || 0})`}>
+            <OrderByStatusTable tabName="Shipped Orders" data={shippedOrders} />
           </Tab>
-          <Tab eventKey="tab3" title={`Delivered (${data.length})`}>
-            <OrderByStatusTable tabName="Delivered Orders" data={data} />
+          <Tab eventKey="tab3" title={`Delivered (${deliveredOrders.length || 0})`}>
+            <OrderByStatusTable tabName="Delivered Orders" data={deliveredOrders} />
           </Tab>
-          <Tab eventKey="tab4" title={`Cancelled (${data.length})`}>
-            <OrderByStatusTable tabName="Cancelled Orders" data={data} />
+          <Tab eventKey="tab4" title={`Cancelled (${cancelledOrders.length || 0})`}>
+            <OrderByStatusTable tabName="Cancelled Orders" data={cancelledOrders} />
           </Tab>
         </Tabs>
         {/* [End] - Tab View */}

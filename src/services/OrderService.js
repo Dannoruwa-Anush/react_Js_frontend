@@ -1,4 +1,4 @@
-import {deleteAuthenticatedRequest, getAllAuthenticatedRequest, getAllByIdAuthenticatedRequest, getAllByRequestBodyAuthenticatedRequest, getByIdAuthenticatedRequest, postAuthenticatedRequest, putAuthenticatedRequest} from "./commonServices/AuthenticatedApiService";
+import {getAllByIdAuthenticatedRequest, getAllByRequestBodyAuthenticatedRequest, getByIdAuthenticatedRequest, putAuthenticatedRequest} from "./commonServices/AuthenticatedApiService";
 
 //API requests for /order
 
