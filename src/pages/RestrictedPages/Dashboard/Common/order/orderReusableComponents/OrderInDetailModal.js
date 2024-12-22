@@ -1,12 +1,17 @@
 import {
   getOrderById,
 } from "../../../../../../services/OrderService";
+import { UserRole } from "./../../../../../../constants/ConstantValues";
 import React, { useState, useEffect, useCallback } from "react";
 import { Modal, Button, Table } from 'react-bootstrap';
 
 const OrderInDetailModal = ({ show, onClose, rowId }) => {
   // State to store order details
   const [orderDetails, setOrderDetails] = useState(null); // Initialize with null to check for data fetching
+
+  // Get roles from sessionStorage
+  //Process btn should not view for CUSTOMER or CASHIER
+  const roles = sessionStorage.getItem("user_role");
 
   // Memoize fetchOrderDetails using useCallback
   const fetchOrderDetails = useCallback(async () => {
@@ -23,6 +28,9 @@ const OrderInDetailModal = ({ show, onClose, rowId }) => {
       fetchOrderDetails();
     }
   }, [show, fetchOrderDetails]); // Use fetchOrderDetails here as it's now memoized
+
+  // Check if the user is a customer or cashier
+  const shouldHideProcessButton = roles.includes(UserRole.CUSTOMER) || roles.includes(UserRole.CASHIER);
 
   return (
     <div>
@@ -109,9 +117,13 @@ const OrderInDetailModal = ({ show, onClose, rowId }) => {
                 <Button variant="secondary" onClick={onClose} style={{ marginRight: '10px' }}>
                   Close
                 </Button>
-                <Button variant="primary">
-                  Process
-                </Button>
+
+                {/*This btn shoul not view for CUSTOMER or CASHIER*/}
+                {!shouldHideProcessButton && (   
+                  <Button variant="primary">
+                    Process
+                  </Button>
+                )}
               </div>
               {/* [End] : Shipped btn: (From pending) | Delivered btn: (From shipped) */}
             </>
