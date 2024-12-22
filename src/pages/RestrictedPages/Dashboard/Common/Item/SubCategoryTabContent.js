@@ -15,6 +15,7 @@ const SubCategoryTabContent = () => {
   //Component constants labels
   const TABLENAME = "Sub Category List";
   const SUCCESSFUL_SAVE_MESSAGE = "Sub category saved successfully!"
+  const SUCCESSFUL_UPDATE_MESSAGE = "Sub category Updated successfully!"
 
   //API responses
   const [errorMessage, setErrorMessage] = useState("");
@@ -104,7 +105,17 @@ const SubCategoryTabContent = () => {
     if (isEditing) {
       //update
       //call API to update
-      await updateSubCategory(formData.id, { subCategoryName: formData.subCategoryName, categoryId: formData.categoryId });
+      try {
+        const response =   await updateSubCategory(formData.id, { subCategoryName: formData.subCategoryName, categoryId: formData.categoryId });
+        setSuccessMessage(response.message || SUCCESSFUL_UPDATE_MESSAGE);
+        setErrorMessage(""); // Clear any previous errors
+        setTimeout(() => {
+          setSuccessMessage(""); // Clear the message after 2 seconds
+        }, 1000); //1s
+      } catch (error) {
+        setErrorMessage(error.response?.data?.message || "An error occurred");
+        setSuccessMessage(""); // Clear any previous success message
+      }
     }
     else {
       //save
@@ -115,7 +126,7 @@ const SubCategoryTabContent = () => {
         setErrorMessage(""); // Clear any previous errors
         setTimeout(() => {
           setSuccessMessage(""); // Clear the message after 2 seconds
-        }, 2000);
+        }, 1000); //1s
       } catch (error) {
         setErrorMessage(error.response?.data?.message || "An error occurred");
         setSuccessMessage(""); // Clear any previous success message

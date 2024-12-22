@@ -18,6 +18,7 @@ const StaffTabContent = () => {
   //Component constants labels
   const TABLENAME = "Employee List";
   const SUCCESSFUL_SAVE_MESSAGE = "Employee saved successfully!"
+  const SUCCESSFUL_UPDATE_MESSAGE = "Employee Updated successfully!"
 
   //API responses
   const [errorMessage, setErrorMessage] = useState("");
@@ -116,7 +117,17 @@ const StaffTabContent = () => {
       //update
       //call API to update
       //username & email are not allowed to update
-      await updateStaffMember(formData.id, { address: formData.address, telephoneNumber: formData.telephoneNumber, expectingRoleIds: formData.expectingRoleIds });
+      try {
+        const response = await updateStaffMember(formData.id, { address: formData.address, telephoneNumber: formData.telephoneNumber, expectingRoleIds: formData.expectingRoleIds });
+        setSuccessMessage(response.message || SUCCESSFUL_UPDATE_MESSAGE);
+        setErrorMessage(""); // Clear any previous errors
+        setTimeout(() => {
+          setSuccessMessage(""); // Clear the message after 2 seconds
+        }, 1000); //1s
+      } catch (error) {
+        setErrorMessage(error.response?.data?.message || "An error occurred");
+        setSuccessMessage(""); // Clear any previous success message
+      }
     }
     else {
       //save
@@ -127,7 +138,7 @@ const StaffTabContent = () => {
         setErrorMessage(""); // Clear any previous errors
         setTimeout(() => {
           setSuccessMessage(""); // Clear the message after 2 seconds
-        }, 2000);
+        }, 1000); //1s
       } catch (error) {
         setErrorMessage(error.response?.data?.message || "An error occurred");
         setSuccessMessage(""); // Clear any previous success message

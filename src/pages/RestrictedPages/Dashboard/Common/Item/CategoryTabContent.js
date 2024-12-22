@@ -14,6 +14,7 @@ const CategoryTabContent = () => {
   //Component constants labels
   const TABLENAME = "Category List";
   const SUCCESSFUL_SAVE_MESSAGE = "Category saved successfully!"
+  const SUCCESSFUL_UPDATE_MESSAGE = "Category Updated successfully!"
 
   //API responses
   const [errorMessage, setErrorMessage] = useState("");
@@ -76,7 +77,17 @@ const CategoryTabContent = () => {
     if (isEditing) {
       //update
       //call API to update
-      await updateCategory(formData.id, { categoryName: formData.categoryName });
+      try {
+        const response = await updateCategory(formData.id, { categoryName: formData.categoryName });
+        setSuccessMessage(response.message || SUCCESSFUL_UPDATE_MESSAGE);
+        setErrorMessage(""); // Clear any previous errors
+        setTimeout(() => {
+          setSuccessMessage(""); // Clear the message after 2 seconds
+        }, 1000); //1s
+      } catch (error) {
+        setErrorMessage(error.response?.data?.message || "An error occurred");
+        setSuccessMessage(""); // Clear any previous success message
+      }
     }
     else {
       //save
@@ -87,7 +98,7 @@ const CategoryTabContent = () => {
         setErrorMessage(""); // Clear any previous errors
         setTimeout(() => {
           setSuccessMessage(""); // Clear the message after 2 seconds
-        }, 2000);
+        }, 1000); //1s
       } catch (error) {
         setErrorMessage(error.response?.data?.message || "An error occurred");
         setSuccessMessage(""); // Clear any previous success message

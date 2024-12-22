@@ -20,6 +20,7 @@ const BookTabContent = () => {
   //Component constants labels
   const TABLENAME = "Book List";
   const SUCCESSFUL_SAVE_MESSAGE = "Book saved successfully!"
+  const SUCCESSFUL_UPDATE_MESSAGE = "Book Updated successfully!"
 
   //API responses
   const [errorMessage, setErrorMessage] = useState("");
@@ -134,14 +135,6 @@ const BookTabContent = () => {
     data.append("subCategoryId", formData.subCategoryId);
     data.append("authorId", formData.authorId);
 
-    // If coverImage is null (no image selected), append an empty file object
-    if (!formData.coverImage) {
-      console.log("hi");
-      data.append("coverImage", new File([], ""));  // Empty file if no image selected
-    } else {
-      //data.append("coverImage", formData.coverImage); // File object
-    }
-
     if (isEditing) {
       // Update the existing book
       data.append("id", formData.id);
@@ -156,13 +149,33 @@ const BookTabContent = () => {
           'subCategoryId': formData.subCategoryId,
           'authorId': formData.authorId,
         };
-        await updateBookWithOutCoverImage(formData.id, rawJsonRequest);
+        try {
+          const response = await updateBookWithOutCoverImage(formData.id, rawJsonRequest);
+          setSuccessMessage(response.message || SUCCESSFUL_UPDATE_MESSAGE);
+          setErrorMessage(""); // Clear any previous errors
+          setTimeout(() => {
+            setSuccessMessage(""); // Clear the message after 2 seconds
+          }, 1000); //1s
+        } catch (error) {
+          setErrorMessage(error.response?.data?.message || "An error occurred");
+          setSuccessMessage(""); // Clear any previous success message
+        }
       }
       else {
         //update with cover image
         data.append("coverImage", formData.coverImage); // File object
         //form-data request
-        await updateBookWithCoverImage(formData.id, data);
+        try {
+          const response = await updateBookWithCoverImage(formData.id, data);
+          setSuccessMessage(response.message || SUCCESSFUL_UPDATE_MESSAGE);
+          setErrorMessage(""); // Clear any previous errors
+          setTimeout(() => {
+            setSuccessMessage(""); // Clear the message after 2 seconds
+          }, 1000); //1s
+        } catch (error) {
+          setErrorMessage(error.response?.data?.message || "An error occurred");
+          setSuccessMessage(""); // Clear any previous success message
+        }
       }
     } else {
       // Save new book
@@ -173,7 +186,7 @@ const BookTabContent = () => {
         setErrorMessage(""); // Clear any previous errors
         setTimeout(() => {
           setSuccessMessage(""); // Clear the success message after 2 seconds
-        }, 2000);
+        }, 1000); //1s
       } catch (error) {
         setErrorMessage(error.response?.data?.message || "An error occurred");
         setSuccessMessage(""); // Clear any previous success message
