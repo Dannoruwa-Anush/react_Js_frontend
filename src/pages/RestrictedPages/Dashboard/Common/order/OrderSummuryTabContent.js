@@ -11,9 +11,9 @@ const OrderSummuryTabContent = () => {
 
   // API call to get order by status and date
   const data = [
-    { id: 1, name: 'Item 1', description: 'Description 1' },
-    { id: 2, name: 'Item 2', description: 'Description 2' },
-    { id: 3, name: 'Item 3', description: 'Description 3' },
+    { id: 1, totalAmount: 100, createdAt: '2024-12-16', customerName: 'AA 1' },
+    { id: 2, totalAmount: 200, createdAt: '2024-12-16', customerName: 'BB 2' },
+    { id: 3, totalAmount: 300, createdAt: '2024-12-16', customerName: 'CC 3' },
   ];
 
   // Handler for date selection, ensuring no future date is selected
