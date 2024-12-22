@@ -1,13 +1,17 @@
 import {
   getOrderById,
+  updateOrderStatus,
 } from "../../../../../../services/OrderService";
 import { UserRole } from "./../../../../../../constants/ConstantValues";
+import { OrderStatus } from "./../../../../../../constants/ConstantValues";
 import React, { useState, useEffect, useCallback } from "react";
 import { Modal, Button, Table } from 'react-bootstrap';
 
 const OrderInDetailModal = ({ show, onClose, rowId }) => {
-  // State to store order details
+  //API responses
   const [orderDetails, setOrderDetails] = useState(null); // Initialize with null to check for data fetching
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   // Get roles from sessionStorage
   //Process btn should not view for CUSTOMER or CASHIER
@@ -31,6 +35,40 @@ const OrderInDetailModal = ({ show, onClose, rowId }) => {
 
   // Check if the user is a customer or cashier
   const shouldHideProcessButton = roles.includes(UserRole.CUSTOMER) || roles.includes(UserRole.CASHIER);
+
+  //Handle order process
+  const handleOrderProcess = async () => {
+    // Determine the new order status based on current order status
+    let newStatus;
+    if (orderDetails.status === OrderStatus.PENDING) {
+      newStatus = OrderStatus.SHIPPED;
+    } else if (orderDetails.status === OrderStatus.SHIPPED) {
+      newStatus = OrderStatus.DELIVERED;
+    } else {
+      setErrorMessage("Invalid order status transition");
+      return;
+    }
+
+    // Attempt to update the order status
+    try {
+      const response = await updateOrderStatus(rowId, { newStatus });
+
+      // If the update is successful, display a success message
+      setSuccessMessage(response.message || "Order processed successfully");
+      setErrorMessage(""); // Clear any previous errors
+
+      // Optionally, hide the success message after a brief delay
+      setTimeout(() => {
+        setSuccessMessage(""); // Clear the message after 1 second
+      }, 1000);
+    } catch (error) {
+      // Display a relevant error message based on the error response
+      const errorMsg = error.response?.data?.message || error.message || "An unexpected error occurred";
+      setErrorMessage(errorMsg);
+      setSuccessMessage(""); // Clear any previous success message
+    }
+  };
+
 
   return (
     <div>
@@ -119,13 +157,25 @@ const OrderInDetailModal = ({ show, onClose, rowId }) => {
                 </Button>
 
                 {/*This btn should not view for CUSTOMER or CASHIER*/}
-                {!shouldHideProcessButton && (   
-                  <Button variant="primary">
+                {!shouldHideProcessButton && (
+                  <Button variant="primary" onClick={handleOrderProcess}>
                     Process
                   </Button>
                 )}
               </div>
               {/* [End] : Shipped btn: (From pending) | Delivered btn: (From shipped) */}
+
+              {errorMessage &&
+                <div className='text-danger mb-3'>
+                  {errorMessage}
+                </div>
+              }
+
+              {successMessage &&
+                <div className='text-success mb-3'>
+                  {successMessage}
+                </div>
+              }
             </>
           ) : (
             <p>No order details available.</p>
