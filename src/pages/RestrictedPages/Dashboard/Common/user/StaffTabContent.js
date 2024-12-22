@@ -89,11 +89,19 @@ const StaffTabContent = () => {
     staffRole.roleName.toLowerCase().includes(dropdownSearchTerm.toLowerCase())
   );
 
-  // Handle form dropdown selection
-  const handleDropDownSelect = (inputNameItem, inputValueItem) => {
-    handleInputChange({ target: { name: inputNameItem, value: inputValueItem } });
-
-    setIsStaffRoleDropdownOpen(false); // Close dropdown after selection
+  // Handle form dropdown multi-selection
+  // Handle role selection change
+  const handleRoleSelection = (roleId) => {
+    const newRoles = [...formData.expectingRoleIds];
+    if (newRoles.includes(roleId)) {
+      // Remove the role if it was already selected
+      const index = newRoles.indexOf(roleId);
+      newRoles.splice(index, 1);
+    } else {
+      // Add the role to the selection
+      newRoles.push(roleId);
+    }
+    setFormData({ ...formData, expectingRoleIds: newRoles });
   };
 
   //Handle form submission btn click 
@@ -138,7 +146,7 @@ const StaffTabContent = () => {
     const staffMember = await getStaffMemberById(id);
 
     //Load data to form
-    setFormData({ id: staffMember.id, username: staffMember.username, email: staffMember.email, address: staffMember.address, telephoneNumber: staffMember.telephoneNumber, expectingRoleIds: [staffMember.expectingRoleIds]  });
+    setFormData({ id: staffMember.id, username: staffMember.username, email: staffMember.email, address: staffMember.address, telephoneNumber: staffMember.telephoneNumber, expectingRoleIds: staffMember.roles.map(role => role.id)});
     setIsEditing(true);
   };
 
@@ -225,16 +233,15 @@ const StaffTabContent = () => {
               />
             </Form.Group>
 
-            {/* [Start] - Category Dropdown with Search Bar */}
+            {/* [Start] - Category Dropdown with Multi-Select */}
             <Form.Group className="mb-3">
               <Form.Label>Role</Form.Label>
-
               <Dropdown show={isStaffRoleDropdownOpen} onToggle={() => setIsStaffRoleDropdownOpen(!isStaffRoleDropdownOpen)}>
-                <Dropdown.Toggle variant="light" id="category-dropdown" className="w-100">
-                  {formData.roleId ? staffRoles.find(c => c.id === formData.roleId)?.categoryName : '-- Select a Role --'}
+                <Dropdown.Toggle variant="light" id="role-dropdown" className="w-100">
+                  {formData.expectingRoleIds.length > 0
+                    ? staffRoles.filter((role) => formData.expectingRoleIds.includes(role.id)).map((role) => role.roleName).join(", ")
+                    : "-- Select Roles --"}
                 </Dropdown.Toggle>
-
-                {/* [Start] - Dropdown search bar */}
                 <Dropdown.Menu className="w-100">
                   <Form.Control
                     type="text"
@@ -243,25 +250,24 @@ const StaffTabContent = () => {
                     onChange={(e) => setDropdownSearchTerm(e.target.value)}
                     className="mb-2"
                   />
-                  {/* [End] - Dropdown search bar */}
-
-                  {/* Filtered Role List */}
                   {filteredStaffRoles.length === 0 ? (
                     <Dropdown.ItemText>No roles found</Dropdown.ItemText>
                   ) : (
                     filteredStaffRoles.map((staffRole) => (
-                      <Dropdown.Item
-                        key={staffRole.id}
-                        onClick={() => handleDropDownSelect("roleId", staffRole.id)}
-                      >
-                        {staffRole.roleName}
+                      <Dropdown.Item key={staffRole.id}>
+                        <Form.Check
+                          type="checkbox"
+                          label={staffRole.roleName}
+                          checked={formData.expectingRoleIds.includes(staffRole.id)}  // This ensures the role is checked if it exists in expectingRoleIds
+                          onChange={() => handleRoleSelection(staffRole.id)}
+                        />
                       </Dropdown.Item>
                     ))
                   )}
                 </Dropdown.Menu>
               </Dropdown>
             </Form.Group>
-            {/* [End] - Role Dropdown with Search Bar */}
+            {/* [End] - Category Dropdown with Multi-Select */}
 
             {errorMessage &&
               <div className='text-danger mb-3'>
@@ -373,6 +379,5 @@ const StaffTabContent = () => {
 
 export default StaffTabContent;
 
-  
-  
-  
+
+
