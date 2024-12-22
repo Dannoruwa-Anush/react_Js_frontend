@@ -124,7 +124,7 @@ const UserProfileTabContent = () => {
                             </div>
                         )}
 
-                        <div className="d-flex justify-content-between align-items-center">
+                        <div className="text-end">
                             {/* Edit Icon (Only visible when not editing) */}
                             {!isEditing && (
                                 <i
