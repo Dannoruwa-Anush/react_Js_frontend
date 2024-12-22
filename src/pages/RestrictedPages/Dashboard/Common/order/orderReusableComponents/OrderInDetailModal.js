@@ -23,6 +23,12 @@ const OrderInDetailModal = ({ show, onClose, rowId }) => {
 
           {rowData ? (
             <>
+              {/* [Start] : Order No */}
+              <div style={{ padding: '20px', marginBottom: '20px', backgroundColor: '#f8f9fa' }}>
+                <h5 style={{ color: '#495057', fontWeight: 'bold' }}>Order No : #</h5>
+              </div>
+              {/* [End]   : Order No */}
+
               {/* [Start] : user details */}
               <div style={{ padding: '20px', marginBottom: '20px', backgroundColor: '#f8f9fa' }}>
                 <h5 style={{ textAlign: 'center', color: '#495057', fontWeight: 'bold' }}>Delivery Information</h5>
