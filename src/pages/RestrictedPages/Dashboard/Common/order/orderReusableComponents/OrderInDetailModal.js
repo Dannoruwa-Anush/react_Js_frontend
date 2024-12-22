@@ -1,63 +1,73 @@
-import React from 'react';
+import {
+  getOrderById,
+} from "../../../../../../services/OrderService";
+import React, { useState, useEffect, useCallback } from "react";
 import { Modal, Button, Table } from 'react-bootstrap';
 
 const OrderInDetailModal = ({ show, onClose, rowId }) => {
-  const data = [
-    { id: 1, info: 'Detail 1' },
-    { id: 2, info: 'Detail 2' },
-    { id: 3, info: 'Detail 3' },
-  ];
+  // State to store order details
+  const [orderDetails, setOrderDetails] = useState(null); // Initialize with null to check for data fetching
 
-  // Find the specific row data by matching the ID
-  const rowData = data.find(item => item.id === rowId);
+  // Memoize fetchOrderDetails using useCallback
+  const fetchOrderDetails = useCallback(async () => {
+    if (rowId) {
+      const data = await getOrderById(rowId);
+      console.log(data);
+      setOrderDetails(data);
+    }
+  }, [rowId]); // Memoize it based on rowId
+
+  // Fetch data when the modal is opened or when rowId changes
+  useEffect(() => {
+    if (show) {
+      fetchOrderDetails();
+    }
+  }, [show, fetchOrderDetails]); // Use fetchOrderDetails here as it's now memoized
 
   return (
     <div>
-
       {/* [Start] : Modal window */}
       <Modal show={show} onHide={onClose} size="lg">
         <Modal.Header closeButton>
           <Modal.Title>Order Detail</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-
-          {rowData ? (
+          {orderDetails ? (
             <>
               {/* [Start] : Order No */}
               <div style={{ padding: '20px', marginBottom: '20px', backgroundColor: '#f8f9fa' }}>
-                <h5 style={{ color: '#495057', fontWeight: 'bold' }}>Order No : #</h5>
+                <h5 style={{ color: '#495057', fontWeight: 'bold' }}>Order No : #{orderDetails.id}</h5>
               </div>
               {/* [End]   : Order No */}
 
-              {/* [Start] : user details */}
+              {/* [Start] : User details */}
               <div style={{ padding: '20px', marginBottom: '20px', backgroundColor: '#f8f9fa' }}>
                 <h5 style={{ textAlign: 'center', color: '#495057', fontWeight: 'bold' }}>Delivery Information</h5>
                 <Table bordered striped hover responsive>
                   <tbody>
                     <tr>
                       <th>Name</th>
-                      <td>xio</td>
+                      <td>{orderDetails.customer.username}</td>
                     </tr>
 
                     <tr>
                       <th>Email</th>
-                      <td>xio@gmail.com</td>
+                      <td>{orderDetails.customer.email}</td>
                     </tr>
 
                     <tr>
                       <th>Address</th>
-                      <td>xio@office</td>
+                      <td>{orderDetails.customer.address}</td>
                     </tr>
 
                     <tr>
                       <th>Telephone</th>
-                      <td>01223456789</td>
+                      <td>{orderDetails.customer.telephoneNumber}</td>
                     </tr>
-
                   </tbody>
                 </Table>
               </div>
-              {/* [End] : user details */}
+              {/* [End] : User details */}
 
               {/* [Start] : Order details */}
               <div style={{ padding: '20px', marginBottom: '20px', backgroundColor: '#f8f9fa' }}>
@@ -67,20 +77,22 @@ const OrderInDetailModal = ({ show, onClose, rowId }) => {
                     <tr>
                       <th>Item No</th>
                       <th>Title</th>
-                      <th>Unit Price (Rs.) </th>
+                      <th>Unit Price (Rs.)</th>
                       <th>Quantity</th>
-                      <th>Sub Total (Rs.) </th>
+                      <th>Sub Total (Rs.)</th>
                     </tr>
                   </thead>
 
                   <tbody>
-                    <tr>
-                      <td>001</td>
-                      <td>abc</td>
-                      <td>100</td>
-                      <td>2</td>
-                      <td>200</td>
-                    </tr>
+                    {orderDetails.orderBooks.map((orderBook) => (
+                      <tr key={orderBook.book.id}>
+                        <td>{orderBook.book.id}</td>
+                        <td>{orderBook.book.title}</td>
+                        <td>{orderBook.book.unitPrice}</td>
+                        <td>{orderBook.quantity}</td>
+                        <td>{orderBook.subTotal}</td>
+                      </tr>
+                    ))}
                   </tbody>
                 </Table>
               </div>
@@ -88,7 +100,7 @@ const OrderInDetailModal = ({ show, onClose, rowId }) => {
 
               {/* [Start] : Display Total amount */}
               <div style={{ padding: '20px', backgroundColor: '#f8f9fa', textAlign: 'right' }}>
-                <span style={{ fontWeight: 'bold', color: 'red' }}>Total: Rs. 200</span>
+                <span style={{ fontWeight: 'bold', color: 'red' }}>Total: Rs. {orderDetails.totalAmount}</span>
               </div>
               {/* [End] : Display Total amount */}
 
@@ -96,7 +108,7 @@ const OrderInDetailModal = ({ show, onClose, rowId }) => {
               <div className="d-flex justify-content-end" style={{ marginTop: '20px' }}>
                 <Button variant="secondary" onClick={onClose} style={{ marginRight: '10px' }}>
                   Close
-                </Button>{" "}
+                </Button>
                 <Button variant="primary">
                   Process
                 </Button>
@@ -109,7 +121,6 @@ const OrderInDetailModal = ({ show, onClose, rowId }) => {
         </Modal.Body>
       </Modal>
       {/* [End] : Modal window */}
-
     </div>
   );
 };
