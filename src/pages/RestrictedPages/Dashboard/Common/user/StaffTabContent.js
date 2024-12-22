@@ -4,7 +4,7 @@ import {
   deleteStaffMember,
   saveStaffMember,
   updateStaffMember,
-} from "../../../../../services/StaffMember";
+} from "../../../../../services/StaffMemberService";
 import {
   getAllStaffRoles
 } from "../../../../../services/RoleService";
@@ -115,7 +115,7 @@ const StaffTabContent = () => {
     if (isEditing) {
       //update
       //call API to update
-      //username & email is not allowed to update
+      //username & email are not allowed to update
       await updateStaffMember(formData.id, { address: formData.address, telephoneNumber: formData.telephoneNumber, expectingRoleIds: formData.expectingRoleIds });
     }
     else {
