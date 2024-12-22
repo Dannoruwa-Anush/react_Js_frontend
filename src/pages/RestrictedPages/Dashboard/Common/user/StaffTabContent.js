@@ -328,7 +328,7 @@ const StaffTabContent = () => {
                   <td>{staffMember.email}</td>
                   <td>{staffMember.address}</td>
                   <td>{staffMember.telephoneNumber}</td>
-                  <td>{staffMember.roleName}</td>
+                  <td>{staffMember.roleNames.join(', ')}</td>
                   <td className="main-content-table-action-column">
                     <Button variant="outline-primary" size="sm" onClick={() => handleEdit(staffMember.id)}>
                       EDIT
