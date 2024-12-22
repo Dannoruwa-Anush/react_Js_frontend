@@ -10,6 +10,7 @@ const handleUnauthorizedError = () => {
     sessionStorage.removeItem("token");
     sessionStorage.removeItem("username");
     sessionStorage.removeItem("user_id");
+    sessionStorage.removeItem("user_role");
     window.location.href = "/login";
 };
 
