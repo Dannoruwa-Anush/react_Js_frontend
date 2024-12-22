@@ -27,7 +27,6 @@ const OrderSummuryTabContent = () => {
 
     //At page loading
     fetchAllPendingOrders(); //All pendings without considering date
-    fetchAllPendingOrdersForSelectedDate(currentDate); //for today
     fetchAllShippedOrdersForSelectedDate(currentDate); //for today
     fetchAllDeliveredOrdersForSelectedDate(currentDate); //for today
     fetchAllCancelledOrdersForSelectedDate(currentDate); //for today
