@@ -115,13 +115,13 @@ const StaffTabContent = () => {
     if (isEditing) {
       //update
       //call API to update
-      await updateStaffMember(formData.id, { username: formData.username, email: formData.email, address: formData.address, telephoneNumber: formData.telephoneNumber, expectingRoleIds: [formData.expectingRoleIds] });
+      await updateStaffMember(formData.id, { username: formData.username, email: formData.email, address: formData.address, telephoneNumber: formData.telephoneNumber, expectingRoleIds: formData.expectingRoleIds });
     }
     else {
       //save
       //call API for save
       try {
-        const response = await saveStaffMember({ username: formData.username, email: formData.email, address: formData.address, telephoneNumber: formData.telephoneNumber, expectingRoleIds: [formData.expectingRoleIds] });
+        const response = await saveStaffMember({ username: formData.username, email: formData.email, address: formData.address, telephoneNumber: formData.telephoneNumber, expectingRoleIds: formData.expectingRoleIds });
         setSuccessMessage(response.message || SUCCESSFUL_SAVE_MESSAGE);
         setErrorMessage(""); // Clear any previous errors
         setTimeout(() => {
