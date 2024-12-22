@@ -195,36 +195,36 @@ const CategoryTabContent = () => {
       {/* [End]   : Form */}
 
       {/* [Start] : Table - search bar */}
-      {tblPaginationSlicedItems.length === 0 ? (
-        <p className="empty-list-message text-center text-muted">
-          No categories found. Please add some categories to get started.
-        </p>
-      ) : (
-        <div className="main-content-table-container">
-          <h2 className="main-content-table-title">{TABLENAME}</h2>
+      <div className="main-content-table-container">
+        <h2 className="main-content-table-title">{TABLENAME}</h2>
 
-          {/* [Start] : Search bar */}
-          <div className="main-content-table-search-bar-container mb-3">
-            <Form.Control
-              type="text"
-              placeholder="Search by name"
-              className="main-content-table-search-bar"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </div>
-          {/* [End] : Search bar */}
+        {/* [Start] : Search bar */}
+        <div className="main-content-table-search-bar-container mb-3">
+          <Form.Control
+            type="text"
+            placeholder="Search by name"
+            className="main-content-table-search-bar"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
+        {/* [End] : Search bar */}
 
-          {/* [Start] : Table */}
-          <Table bordered striped hover responsive>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th className="main-content-table-action-column">Action</th>
-              </tr>
-            </thead>
+        {/* [Start] : Table */}
+        <Table bordered striped hover responsive>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th className="main-content-table-action-column">Action</th>
+            </tr>
+          </thead>
 
+          {tblPaginationSlicedItems.length === 0 ? (
+            <p className="empty-list-message text-center text-muted">
+              No categories found. Please add some categories to get started.
+            </p>
+          ) : (
             <tbody>
               {tblPaginationSlicedItems && tblPaginationSlicedItems.map((category) => (
                 <tr key={category.id}>
@@ -242,31 +242,30 @@ const CategoryTabContent = () => {
                 </tr>
               ))}
             </tbody>
-          </Table>
-          {/* [End] : Table */}
+          )}
+        </Table>
+        {/* [End] : Table */}
+
+        {/* [Start] : Table Pagination Controller*/}
+        <ReusableTablePagination
+          totalPages={totalPages}
+          currentPage={currentPage}
+          onPageChange={setCurrentPage}
+        />
+        {/* [End]   : Table Pagination Controller*/}
 
 
-          {/* [Start] : Table Pagination Controller*/}
-          <ReusableTablePagination
-            totalPages={totalPages}
-            currentPage={currentPage}
-            onPageChange={setCurrentPage}
-          />
-          {/* [End]   : Table Pagination Controller*/}
+        {/* [Start] : Reusable Modal (Custom component) : for delete confirmation */}
+        <ReusableModalMessage
+          show={showModal}
+          modalHeader="Confirm Removal"
+          modalBody="Are you sure you want to remove this?"
+          onCancel={cancelRemove}
+          onConfirm={confirmRemove}
+        />
+        {/*[End]    : Reusable Modal (Custom component): for delete confirmation */}
 
-
-          {/* [Start] : Reusable Modal (Custom component) : for delete confirmation */}
-          <ReusableModalMessage
-            show={showModal}
-            modalHeader="Confirm Removal"
-            modalBody="Are you sure you want to remove this?"
-            onCancel={cancelRemove}
-            onConfirm={confirmRemove}
-          />
-          {/*[End]    : Reusable Modal (Custom component): for delete confirmation */}
-
-        </div>
-      )}
+      </div>
       {/* [End]   : Table - search bar */}
     </div>
   );
