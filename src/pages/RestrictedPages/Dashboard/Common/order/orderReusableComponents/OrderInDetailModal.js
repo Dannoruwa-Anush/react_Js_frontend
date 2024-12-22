@@ -1,7 +1,7 @@
 import React from 'react';
 import { Modal, Button, Table, Form } from 'react-bootstrap';
 
-const OrderDetailModal = ({ show, onClose, rowId }) => {
+const OrderInDetailModal = ({ show, onClose, rowId }) => {
     const data = [
       { id: 1, info: 'Detail 1' },
       { id: 2, info: 'Detail 2' },
@@ -52,5 +52,5 @@ const OrderDetailModal = ({ show, onClose, rowId }) => {
     );
   };
   
-  export default OrderDetailModal;
+  export default OrderInDetailModal;
   

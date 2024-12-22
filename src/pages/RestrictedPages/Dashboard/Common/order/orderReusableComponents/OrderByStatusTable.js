@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Table, Button, Form } from 'react-bootstrap';
-import OrderDetailModal from './OrderDetailModal';
+import OrderInDetailModal from './OrderInDetailModal';
 import ReusableTablePagination from '../../../../../../layouts/customReusableComponents/ReusableTablePagination';
 
 const PendingOrderTable = ({ tabName, data }) => {
@@ -102,7 +102,7 @@ const PendingOrderTable = ({ tabName, data }) => {
         {/* [End]   : Table Pagination Controller*/}
 
         {/* [Start] : Reusable Modal (Custom component) : for order In detail*/}
-        <OrderDetailModal show={showModal} onClose={handleCloseModal} rowId={selectedRowId} />
+        <OrderInDetailModal show={showModal} onClose={handleCloseModal} rowId={selectedRowId} />
         {/*[End]    : Reusable Modal (Custom component): for order In detail */}
 
       </div>
