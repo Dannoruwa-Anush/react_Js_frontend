@@ -115,7 +115,8 @@ const StaffTabContent = () => {
     if (isEditing) {
       //update
       //call API to update
-      await updateStaffMember(formData.id, { username: formData.username, email: formData.email, address: formData.address, telephoneNumber: formData.telephoneNumber, expectingRoleIds: formData.expectingRoleIds });
+      //username & email is not allowed to update
+      await updateStaffMember(formData.id, { address: formData.address, telephoneNumber: formData.telephoneNumber, expectingRoleIds: formData.expectingRoleIds });
     }
     else {
       //save
@@ -197,6 +198,7 @@ const StaffTabContent = () => {
                 required
                 value={formData.username}
                 onChange={handleInputChange}
+                readOnly={isEditing}
               />
             </Form.Group>
 
@@ -208,6 +210,7 @@ const StaffTabContent = () => {
                 required
                 value={formData.email}
                 onChange={handleInputChange}
+                readOnly={isEditing}
               />
             </Form.Group>
 
