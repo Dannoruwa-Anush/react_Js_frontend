@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Nav } from "react-bootstrap";
-import CustomerOrderTabContent from "./Common/order/CustomerOrderTabContent";
+import CustomerOrderTabContent from "./common/order/CustomerOrderTabContent";
 
 const AdminDashBoard = () => {
   const [activeTab, setActiveTab] = useState(0);

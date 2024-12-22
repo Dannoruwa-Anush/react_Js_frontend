@@ -1,5 +1,5 @@
-import {getAllRequest} from "./CommonServices/UnAuthenticatedApiService";
-import {deleteAuthenticatedRequest, getAllAuthenticatedRequest, getByIdAuthenticatedRequest, postAuthenticatedRequest, putAuthenticatedRequest} from "./CommonServices/AuthenticatedApiService";
+import {getAllRequest} from "./commonServices/UnAuthenticatedApiService";
+import {deleteAuthenticatedRequest, getAllAuthenticatedRequest, getByIdAuthenticatedRequest, postAuthenticatedRequest, putAuthenticatedRequest} from "./commonServices/AuthenticatedApiService";
 
 //API requests for /category
 

@@ -1,4 +1,4 @@
-import { postRequest} from "./CommonServices/UnAuthenticatedApiService";
+import { postRequest} from "./commonServices/UnAuthenticatedApiService";
 
 //API requests for /order/getShoppingCartTotal
 //POST request

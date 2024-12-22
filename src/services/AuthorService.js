@@ -1,5 +1,5 @@
-import {deleteAuthenticatedRequest, getByIdAuthenticatedRequest, postAuthenticatedRequest, putAuthenticatedRequest} from "./CommonServices/AuthenticatedApiService";
-import { getAllRequest } from "./CommonServices/UnAuthenticatedApiService";
+import {deleteAuthenticatedRequest, getByIdAuthenticatedRequest, postAuthenticatedRequest, putAuthenticatedRequest} from "./commonServices/AuthenticatedApiService";
+import { getAllRequest } from "./commonServices/UnAuthenticatedApiService";
 //API requests for /author
 
 //GET: getAllAuthors : UnAuthenticated
