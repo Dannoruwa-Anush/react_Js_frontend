@@ -12,7 +12,7 @@ const OrderInDetailModal = ({ show, onClose, rowId }) => {
     const rowData = data.find(item => item.id === rowId);
   
     return (
-      <Modal show={show} onHide={onClose}>
+      <Modal show={show} onHide={onClose} size="lg">
         <Modal.Header closeButton>
           <Modal.Title>Details</Modal.Title>
         </Modal.Header>
