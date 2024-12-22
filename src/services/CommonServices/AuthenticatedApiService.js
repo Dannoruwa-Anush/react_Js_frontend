@@ -23,8 +23,8 @@ export const getAllAuthenticatedRequest = async (path) => {
         return response.data;
     } catch (error) {
         console.error(`(Authenticated) GET All Error for path ${path}:`, error.response ? error.response.data : error.message);
-        if (error.response?.status === 401) { 
-            handleUnauthorizedError() 
+        if (error.response?.status === 401) {
+            handleUnauthorizedError()
         };
         return [];
     }
@@ -37,8 +37,8 @@ export const getByIdAuthenticatedRequest = async (path, id) => {
         return response.data;
     } catch (error) {
         console.error(`(Authenticated) GET By Id  ${id} Error for path ${path}: `, error.response ? error.response.data : error.message);
-        if (error.response?.status === 401){ 
-            handleUnauthorizedError() 
+        if (error.response?.status === 401) {
+            handleUnauthorizedError()
         };
         return {};
     }
@@ -51,8 +51,8 @@ export const postAuthenticatedRequest = async (path, postRequestData) => {
         return response.data;
     } catch (error) {
         console.error(`(Authenticated) POST Error for path ${path}:`, error.response ? error.response.data : error.message);
-        if (error.response?.status === 401) { 
-            handleUnauthorizedError() 
+        if (error.response?.status === 401) {
+            handleUnauthorizedError()
         };
         throw error;
     }
@@ -65,8 +65,8 @@ export const putAuthenticatedRequest = async (path, id, putRequestData) => {
         return response.data;
     } catch (error) {
         console.error(`(Authenticated) PUT By Id  ${id} Error for path ${path}: `, error.response ? error.response.data : error.message);
-        if (error.response?.status === 401) { 
-            handleUnauthorizedError() 
+        if (error.response?.status === 401) {
+            handleUnauthorizedError()
         };
         throw error;
     }
@@ -79,9 +79,39 @@ export const deleteAuthenticatedRequest = async (path, id) => {
         return response.data;
     } catch (error) {
         console.error(`(Authenticated) DELETE By Id  ${id} Error for path ${path}: `, error.response ? error.response.data : error.message);
-        if (error.response?.status === 401) { 
-            handleUnauthorizedError() 
+        if (error.response?.status === 401) {
+            handleUnauthorizedError()
         };
         throw error;
+    }
+};
+
+
+//Custom REST APIs
+// GET All
+export const getAllByIdAuthenticatedRequest = async (path, id) => {
+    try {
+        const response = await AxioInstance.get(`${path}/${id}`);
+        return response.data;
+    } catch (error) {
+        console.error(`(Authenticated) GET All By Id ${id} Error for path ${path}:`, error.response ? error.response.data : error.message);
+        if (error.response?.status === 401) {
+            handleUnauthorizedError()
+        };
+        return [];
+    }
+};
+
+// (Post Method) : GET All : with RequestBody
+export const getAllByRequestBodyAuthenticatedRequest = async (path, postRequestData) => {
+    try {
+        const response = await AxioInstance.post(path, postRequestData);
+        return response.data;
+    } catch (error) {
+        console.error(`(Authenticated) GET Error for path ${path}:`, error.response ? error.response.data : error.message);
+        if (error.response?.status === 401) {
+            handleUnauthorizedError()
+        };
+        return [];
     }
 };

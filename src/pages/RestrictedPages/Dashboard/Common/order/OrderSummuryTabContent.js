@@ -1,13 +1,43 @@
-import React, { useState } from 'react';
+import {
+  getAllOrdersByOrderStatus,
+  getAllOrdersByOrderDateAndStatus,
+} from "../../../../../services/OrderService";
+import React, { useState, useEffect } from "react";
 import { Tab, Tabs } from 'react-bootstrap';
 import OrderByStatusTable from './orderReusableComponents/OrderByStatusTable';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import { format } from 'date-fns';
+import { OrderStatus } from "./../../../../../constants/ConstantValues";
 
 const OrderSummuryTabContent = () => {
   const [activeKey, setActiveKey] = useState('tab1');
   const [selectedDate, setSelectedDate] = useState(new Date());  // Today's date by default
+
+  //API responses
+  const [pendingOrders, setPendingOrders] = useState([]);
+  const [shippedOrders, setShippedOrders] = useState([]);
+  const [deliveredOrders, setDeliveredOrders] = useState([]);
+
+  //useEffect hook
+  useEffect(() => {
+    // Obtain the current date in 'yyyy-MM-dd' format
+    const currentDate = new Date().toLocaleDateString('en-CA'); // 'en-CA' format gives yyyy-MM-dd
+
+    //At page loading
+    getAllPendingOrders(); //All pendings
+
+    //getAllPendingOrdersForSelectedDate()
+    //getAllShippedOrdersForSelectedDate(); //for today
+    //getAllDeliveredOrdersForSelectedDate(); //for today
+  }, []); //[] : means that the effect will run only once on the initial render
+
+  //Arrow functions
+  const getAllPendingOrders = async () => {
+    //call API for getAll
+    const data = await getAllOrdersByOrderStatus({checkedStatus: OrderStatus.PENDING});
+    setPendingOrders(data);
+  };
 
   // API call to get order by status and date
   const data = [
@@ -57,6 +87,9 @@ const OrderSummuryTabContent = () => {
           </Tab>
           <Tab eventKey="tab3" title={`Delivered (${data.length})`}>
             <OrderByStatusTable tabName="Delivered Orders" data={data} />
+          </Tab>
+          <Tab eventKey="tab4" title={`Cancelled (${data.length})`}>
+            <OrderByStatusTable tabName="Cancelled Orders" data={data} />
           </Tab>
         </Tabs>
         {/* [End] - Tab View */}

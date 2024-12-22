@@ -7,3 +7,10 @@ export const UserRole = Object.freeze({
     CASHIER: "CASHIER",
     CUSTOMER: "CUSTOMER",
 });
+
+export const OrderStatus = Object.freeze({
+    PENDING: "PENDING",
+    SHIPPED: "SHIPPED",
+    DELIVERED: "DELIVERED",
+    CANCELLED: "CANCELLED",
+});
