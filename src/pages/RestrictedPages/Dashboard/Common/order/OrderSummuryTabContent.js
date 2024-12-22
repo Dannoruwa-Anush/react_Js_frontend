@@ -1,4 +1,3 @@
-// TabsComponent.js
 import React, { useState } from 'react';
 import { Tab, Tabs } from 'react-bootstrap';
 import OrderByStatusTable from './orderReusableComponents/OrderByStatusTable';
@@ -6,7 +5,7 @@ import OrderByStatusTable from './orderReusableComponents/OrderByStatusTable';
 const OrderSummuryTabContent = () => {
   const [activeKey, setActiveKey] = useState('tab1');
 
-  // API call to get order by status
+  // API call to get order by status and date
   const data = [
     { id: 1, name: 'Item 1', description: 'Description 1' },
     { id: 2, name: 'Item 2', description: 'Description 2' },
@@ -20,8 +19,8 @@ const OrderSummuryTabContent = () => {
         <h2 className="main-content-table-title">order overview</h2>
 
         {/* [Start] - Tab View */}
-        <Tabs activeKey={activeKey} onSelect={(k) => setActiveKey(k)}>
-        <Tab eventKey="tab1" title={`Pending (${data.length})`}> {/* Ex: Pending (10) */}
+        <Tabs className="mb-3" justify activeKey={activeKey} onSelect={(k) => setActiveKey(k)}>
+          <Tab eventKey="tab1" title={`Pending (${data.length})`}> {/* Ex: Pending (10) */}
             <OrderByStatusTable tabName="Pending Orders" data={data} />
           </Tab>
           <Tab eventKey="tab2" title={`Shipped (${data.length})`}> {/* Ex: Shipped (10) */}
