@@ -118,7 +118,7 @@ const OrderInDetailModal = ({ show, onClose, rowId }) => {
                   Close
                 </Button>
 
-                {/*This btn shoul not view for CUSTOMER or CASHIER*/}
+                {/*This btn should not view for CUSTOMER or CASHIER*/}
                 {!shouldHideProcessButton && (   
                   <Button variant="primary">
                     Process
