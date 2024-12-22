@@ -18,7 +18,7 @@ const AdminDashBoard = () => {
     { id: 2, title: "Book Subcategories", component: <SubCategoryTabContent /> },
     { id: 3, title: "Authors", component: <AuthorTabContent /> },
     { id: 4, title: "Books", component: <BookTabContent /> },
-    { id: 5, title: "Staff", component: <StaffTabContent /> },
+    { id: 5, title: "Employee", component: <StaffTabContent /> },
     { id: 6, title: "Orders", component: <OrderSummuryTabContent /> },
   ];
 

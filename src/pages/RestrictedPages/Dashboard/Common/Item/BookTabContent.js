@@ -468,9 +468,13 @@ const BookTabContent = () => {
           </thead>
 
           {tblPaginationSlicedItems.length === 0 ? (
-            <p className="empty-list-message text-center text-muted">
-              No books found. Please add some books to get started.
-            </p>
+            <tbody>
+              <tr>
+                <td colSpan="9" className="main-content-empty-table-message-container">
+                  No books found. Please add some books to get started.
+                </td>
+              </tr>
+            </tbody>
           ) : (
             <tbody>
               {tblPaginationSlicedItems && tblPaginationSlicedItems.map((book) => (

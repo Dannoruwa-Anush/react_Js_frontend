@@ -221,9 +221,13 @@ const CategoryTabContent = () => {
           </thead>
 
           {tblPaginationSlicedItems.length === 0 ? (
-            <p className="empty-list-message text-center text-muted">
-              No categories found. Please add some categories to get started.
-            </p>
+            <tbody>
+              <tr>
+                <td colSpan="3" className="main-content-empty-table-message-container">
+                  No categories found. Please add some categories to get started.
+                </td>
+              </tr>
+            </tbody>
           ) : (
             <tbody>
               {tblPaginationSlicedItems && tblPaginationSlicedItems.map((category) => (

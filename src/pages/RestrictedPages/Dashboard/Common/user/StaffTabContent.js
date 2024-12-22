@@ -336,9 +336,13 @@ const StaffTabContent = () => {
           </thead>
 
           {tblPaginationSlicedItems.length === 0 ? (
-            <p className="empty-list-message text-center text-muted">
-              No employees found. Please add some emoloyees to get started.
-            </p>
+            <tbody>
+              <tr>
+                <td colSpan="7" className="main-content-empty-table-message-container">
+                  No employees found. Please add some emoloyees to get started.
+                </td>
+              </tr>
+            </tbody>
           ) : (
             <tbody>
               {tblPaginationSlicedItems && tblPaginationSlicedItems.map((staffMember) => (

@@ -288,9 +288,13 @@ const SubCategoryTabContent = () => {
           </thead>
 
           {tblPaginationSlicedItems.length === 0 ? (
-            <p className="empty-list-message text-center text-muted">
-              No sub categories found. Please add some sub categories to get started.
-            </p>
+            <tbody>
+              <tr>
+                <td colSpan="4" className="main-content-empty-table-message-container">
+                  No sub categories found. Please add some sub categories to get started.
+                </td>
+              </tr>
+            </tbody>
           ) : (
             <tbody>
               {tblPaginationSlicedItems && tblPaginationSlicedItems.map((subCategory) => (

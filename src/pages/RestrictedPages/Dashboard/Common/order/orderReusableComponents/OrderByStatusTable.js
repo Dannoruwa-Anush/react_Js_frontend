@@ -65,9 +65,13 @@ const PendingOrderTable = ({ tabName, data }) => {
           </thead>
 
           {tblPaginationSlicedItems.length === 0 ? (
-            <p className="empty-list-message text-center text-muted">
-              No orders were found. Please ensure that the date is correct.
-            </p>
+            <tbody>
+              <tr>
+                <td colSpan="5" className="main-content-empty-table-message-container">
+                  No orders were found. Please ensure that the date is correct.
+                </td>
+              </tr>
+            </tbody>
           ) : (
             <tbody>
               {data.map((order) => (
