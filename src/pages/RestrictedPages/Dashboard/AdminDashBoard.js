@@ -35,7 +35,7 @@ const AdminDashBoard = () => {
             className={activeTab === index ? "active" : ""}
           >
             {index === 0 ? ( // Check if the tab is the "Profile" tab
-              <i class="bi bi-person-vcard-fill" style={{ fontSize: "1.5rem" }}></i>
+              <i className="bi bi-person-vcard-fill" style={{ fontSize: "1.5rem" }}></i>
             ) : (
               tab.title
             )}
