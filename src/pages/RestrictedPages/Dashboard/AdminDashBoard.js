@@ -6,18 +6,20 @@ import BookTabContent from "./Common/Item/BookTabContent";
 import AuthorTabContent from "./Common/author/AuthorTabContent";
 import OrderSummuryTabContent from "./Common/order/OrderSummuryTabContent";
 import StaffTabContent from "./Common/user/StaffTabContent";
+import UserProfileTabContent from "./Common/user/UserProfileTabContent";
 
 const AdminDashBoard = () => {
   const [activeTab, setActiveTab] = useState(0);
 
   //common tab components
   const tabs = [
-    { id: 0, title: "Book Categories", component: <CategoryTabContent /> },
-    { id: 1, title: "Book Subcategories", component: <SubCategoryTabContent /> },
-    { id: 2, title: "Authors", component: <AuthorTabContent /> },
-    { id: 3, title: "Books", component: <BookTabContent /> },
-    { id: 4, title: "Staff", component: <StaffTabContent /> },
-    { id: 5, title: "Orders", component: <OrderSummuryTabContent /> },
+    { id: 0, title: "Profile", component: <UserProfileTabContent /> },
+    { id: 1, title: "Book Categories", component: <CategoryTabContent /> },
+    { id: 2, title: "Book Subcategories", component: <SubCategoryTabContent /> },
+    { id: 3, title: "Authors", component: <AuthorTabContent /> },
+    { id: 4, title: "Books", component: <BookTabContent /> },
+    { id: 5, title: "Staff", component: <StaffTabContent /> },
+    { id: 6, title: "Orders", component: <OrderSummuryTabContent /> },
   ];
 
   return (
@@ -32,7 +34,11 @@ const AdminDashBoard = () => {
             onClick={() => setActiveTab(index)}
             className={activeTab === index ? "active" : ""}
           >
-            {tab.title}
+            {index === 0 ? ( // Check if the tab is the "Profile" tab
+              <i class="bi bi-person-vcard-fill" style={{ fontSize: "1.5rem" }}></i>
+            ) : (
+              tab.title
+            )}
           </Nav.Link>
         ))}
         {/* [End] - Tabs in the sidebar */}
@@ -45,7 +51,7 @@ const AdminDashBoard = () => {
         {tabs[activeTab].component}
       </div>
       {/* [End] - Render Tab-Specific Component */}
-      
+
     </div>
   );
 };
