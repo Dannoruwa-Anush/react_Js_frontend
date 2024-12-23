@@ -116,3 +116,22 @@ export const getAllByRequestBodyAuthenticatedRequest = async (path, postRequestD
         return [];
     }
 };
+
+
+// GET By Id
+export const getFileByIdRequest = async (path1, id, path2) => {
+    try {
+        const response = await AxioInstance.get(`${path1}/${id}/${path2}`, {
+            responseType: "blob",
+        });
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", `order-${id}.pdf`);
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+    } catch (error) {
+        console.error("Error downloading the PDF:", error);
+    }
+};

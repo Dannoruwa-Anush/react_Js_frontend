@@ -1,4 +1,4 @@
-import { getAllByIdAuthenticatedRequest, getAllByRequestBodyAuthenticatedRequest, getByIdAuthenticatedRequest, postAuthenticatedRequest, putAuthenticatedRequest } from "./commonServices/AuthenticatedApiService";
+import { getAllByIdAuthenticatedRequest, getAllByRequestBodyAuthenticatedRequest, getByIdAuthenticatedRequest, postAuthenticatedRequest, putAuthenticatedRequest, getFileByIdRequest } from "./commonServices/AuthenticatedApiService";
 
 //API requests for /order
 
@@ -43,4 +43,9 @@ export const getAllOrdersByOrderStatus = async (requestData) => {
 //GET : getAllOrdersByOrderDateAndStatus
 export const getAllOrdersByOrderDateAndStatus = async (requestData) => {
     return await getAllByRequestBodyAuthenticatedRequest("/order/orderDateAndStatus", requestData);
+};
+
+//Get: Order Bill
+export const getOrderBillById = async (id) => {
+    return await getFileByIdRequest("/order", id, "/pdfOrderBill");
 };
