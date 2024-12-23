@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Nav } from "react-bootstrap";
-import OrderSummuryTabContent from "./common/order/OrderSummuryTabContent";
+import CustomerOrderTabContent from "./common/order/CustomerOrderTabContent";
 import UserProfileTabContent from "./common/user/UserProfileTabContent";
 
 const UserDashBoard = () => {
@@ -9,7 +9,7 @@ const UserDashBoard = () => {
   //common tab components
   const tabs = [
     //{ id: 0, title: "Profile", component: <UserProfileTabContent /> },
-    { id: 1, title: "Orders", component: <OrderSummuryTabContent /> }, //????????
+    { id: 1, title: "Orders", component: <CustomerOrderTabContent /> },
   ];
 
   return (
