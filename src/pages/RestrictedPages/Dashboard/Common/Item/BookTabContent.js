@@ -455,7 +455,7 @@ const BookTabContent = () => {
         <Table bordered striped hover responsive>
           <thead>
             <tr>
-              <th>ID</th>
+              <th>No</th>
               <th>Title</th>
               <th>UnitPrice (Rs.)</th>
               <th>QOH</th>
@@ -477,9 +477,9 @@ const BookTabContent = () => {
             </tbody>
           ) : (
             <tbody>
-              {tblPaginationSlicedItems && tblPaginationSlicedItems.map((book) => (
-                <tr key={book.id}>
-                  <td>{book.id}</td>
+              {tblPaginationSlicedItems && tblPaginationSlicedItems.map((book, index) => (
+                <tr key={index + 1}>
+                  <td>{index + 1}</td>
                   <td>{book.title}</td>
                   <td>{book.unitPrice}</td>
                   <td>{book.qoh}</td>

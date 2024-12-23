@@ -213,6 +213,7 @@ const Cart = () => {
                     <Table bordered striped hover responsive>
                         <thead>
                             <tr>
+                                <th>No</th>
                                 <th>Item No</th>
                                 <th>Item</th>
                                 <th>Description</th>
@@ -222,8 +223,9 @@ const Cart = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {cartItems.map(item => (
-                                <tr key={item.id}>
+                            {cartItems.map((item, index) => (
+                                <tr key={index + 1}>
+                                    <td>{index + 1}</td>
                                     <td>{item.id}</td>
                                     <td>
                                         <img src={`${API_IMAGE_URL}/${item.image}`} alt={item.title} style={{ width: '100px' }} />

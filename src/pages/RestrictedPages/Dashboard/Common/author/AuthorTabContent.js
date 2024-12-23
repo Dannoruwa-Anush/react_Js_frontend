@@ -210,7 +210,7 @@ const AuthorTabContent = () => {
         <Table bordered striped hover responsive>
           <thead>
             <tr>
-              <th>ID</th>
+              <th>No</th>
               <th>Name</th>
               <th className="main-content-table-action-column">Action</th>
             </tr>
@@ -226,9 +226,9 @@ const AuthorTabContent = () => {
             </tbody>
           ) : (
             <tbody>
-              {tblPaginationSlicedItems && tblPaginationSlicedItems.map((author) => (
-                <tr key={author.id}>
-                  <td>{author.id}</td>
+              {tblPaginationSlicedItems && tblPaginationSlicedItems.map((author, index) => (
+                <tr key={index + 1}>
+                  <td>{index + 1}</td>
                   <td>{author.authorName}</td>
                   <td className="main-content-table-action-column">
                     <Button variant="outline-primary" size="sm" onClick={() => handleEdit(author.id)}>

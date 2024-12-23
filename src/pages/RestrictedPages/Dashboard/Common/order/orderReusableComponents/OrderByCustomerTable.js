@@ -56,7 +56,7 @@ const OrderByStatusTable = ({ tabName, data }) => {
         <Table bordered striped hover responsive>
           <thead>
             <tr>
-              <th>ID</th>
+              <th>No</th>
               <th>Total Amount (RS.)</th>
               <th>Purchase Date</th>
               <th>Order Status</th>
@@ -74,9 +74,9 @@ const OrderByStatusTable = ({ tabName, data }) => {
             </tbody>
           ) : (
             <tbody>
-              {data.map((order) => (
-                <tr key={order.id}>
-                  <td>{order.id}</td>
+              {data.map((order, index) => (
+                <tr key={index + 1}>
+                  <td>{index + 1}</td>
                   <td>{order.totalAmount}</td>
                   <td>{order.createdAt}</td>
                   <td>{order.status}</td>

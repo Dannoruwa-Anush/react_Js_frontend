@@ -325,7 +325,7 @@ const StaffTabContent = () => {
         <Table bordered striped hover responsive>
           <thead>
             <tr>
-              <th>ID</th>
+              <th>No</th>
               <th>Name</th>
               <th>email</th>
               <th>Address</th>
@@ -345,9 +345,9 @@ const StaffTabContent = () => {
             </tbody>
           ) : (
             <tbody>
-              {tblPaginationSlicedItems && tblPaginationSlicedItems.map((staffMember) => (
-                <tr key={staffMember.id}>
-                  <td>{staffMember.id}</td>
+              {tblPaginationSlicedItems && tblPaginationSlicedItems.map((staffMember, index) => (
+                <tr key={index + 1}>
+                  <td>{index + 1}</td>
                   <td>{staffMember.username}</td>
                   <td>{staffMember.email}</td>
                   <td>{staffMember.address}</td>

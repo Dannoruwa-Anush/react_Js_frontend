@@ -214,7 +214,7 @@ const CategoryTabContent = () => {
         <Table bordered striped hover responsive>
           <thead>
             <tr>
-              <th>ID</th>
+              <th>No</th>
               <th>Name</th>
               <th className="main-content-table-action-column">Action</th>
             </tr>
@@ -230,9 +230,9 @@ const CategoryTabContent = () => {
             </tbody>
           ) : (
             <tbody>
-              {tblPaginationSlicedItems && tblPaginationSlicedItems.map((category) => (
-                <tr key={category.id}>
-                  <td>{category.id}</td>
+              {tblPaginationSlicedItems && tblPaginationSlicedItems.map((category, index) => (
+                <tr key={index + 1}>
+                  <td>{index + 1}</td>
                   <td>{category.categoryName}</td>
                   <td className="main-content-table-action-column">
                     <Button variant="outline-primary" size="sm" onClick={() => handleEdit(category.id)}>

@@ -280,7 +280,7 @@ const SubCategoryTabContent = () => {
         <Table bordered striped hover responsive>
           <thead>
             <tr>
-              <th>ID</th>
+              <th>No</th>
               <th>Sub Category Name</th>
               <th>Category Name</th>
               <th className="main-content-table-action-column">Action</th>
@@ -297,9 +297,9 @@ const SubCategoryTabContent = () => {
             </tbody>
           ) : (
             <tbody>
-              {tblPaginationSlicedItems && tblPaginationSlicedItems.map((subCategory) => (
-                <tr key={subCategory.id}>
-                  <td>{subCategory.id}</td>
+              {tblPaginationSlicedItems && tblPaginationSlicedItems.map((subCategory, index) => (
+                <tr key={index + 1}>
+                  <td>{index+1}</td>
                   <td>{subCategory.subCategoryName}</td>
                   <td>{subCategory.categoryName}</td>
                   <td className="main-content-table-action-column">
