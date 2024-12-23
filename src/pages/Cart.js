@@ -5,6 +5,8 @@ import { API_IMAGE_URL } from '../configurations/Config';
 import { getShoppingCartTotal } from '../services/ShoppingCartService';
 import { CartContext } from './../layouts/Layout';
 import { UserRole } from './../constants/ConstantValues';
+import ReusableModalMessage from './../layouts/customReusableComponents/ReusableModalMessage'
+
 
 const Cart = () => {
     const { setNumberOfItems } = useContext(CartContext); // Access setNumberOfItems from CartContext
@@ -121,23 +123,23 @@ const Cart = () => {
 
     const handlePlaceOrder = () => {
         const token = sessionStorage.getItem("token");
-        
+
         if (!token) {
             // If token is empty, show the login modal
             setShowLoginModal(true);
             return;
         }
-    
+
         const roles = sessionStorage.getItem("user_role");
-        
+
         if (!roles) {
             // If roles are not available, log or handle the error gracefully
             console.error("User roles are not defined.");
             return;
         }
-    
+
         const userRolesSet = new Set(roles.split(","));
-    
+
         // Check if the user has either the CUSTOMER or CASHIER role
         if (userRolesSet.has(UserRole.CUSTOMER) || userRolesSet.has(UserRole.CASHIER)) {
             navigate('/orderConfirmation');
@@ -145,7 +147,7 @@ const Cart = () => {
             console.error("User does not have permission to place an order.");
         }
     };
-    
+
 
     const handleLogin = () => {
         navigate('/login');
@@ -225,23 +227,15 @@ const Cart = () => {
                     </div>
                 )}
 
-                {/* Confirmation Modal for Item Removal */}
-                <Modal show={showModal} onHide={cancelRemove}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Confirm Removal</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        Are you sure you want to remove this item from your cart?
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={cancelRemove}>
-                            Cancel
-                        </Button>
-                        <Button variant="danger" onClick={confirmRemove}>
-                            Confirm Remove
-                        </Button>
-                    </Modal.Footer>
-                </Modal>
+                {/* [Start] : Reusable Modal (Custom component) : Item Removal confirmation */}
+                <ReusableModalMessage
+                    show={showModal}
+                    modalHeader="Confirm Removal"
+                    modalBody="Are you sure you want to remove this item from your cart?"
+                    onCancel={cancelRemove}
+                    onConfirm={confirmRemove}
+                />
+                {/* [End]   : Reusable Modal (Custom component) : Item Removal confirmation */}
 
                 {/* Login Modal for Placing Order */}
                 <Modal show={showLoginModal} onHide={cancelLogin}>
