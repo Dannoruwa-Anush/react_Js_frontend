@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { Container, Table, Button, Modal } from 'react-bootstrap';
+import { Container, Table, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { API_IMAGE_URL } from '../configurations/Config';
 import { getShoppingCartTotal } from '../services/ShoppingCartService';
@@ -237,24 +237,16 @@ const Cart = () => {
                 />
                 {/* [End]   : Reusable Modal (Custom component) : Item Removal confirmation */}
 
-                {/* Login Modal for Placing Order */}
-                <Modal show={showLoginModal} onHide={cancelLogin}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Login Required</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        You must be logged in to place an order. Would you like to log in now?
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={cancelLogin}>
-                            Cancel
-                        </Button>
-                        <Button variant="primary" onClick={handleLogin}>
-                            Login
-                        </Button>
-                    </Modal.Footer>
-                </Modal>
 
+                {/* [Start]   : Reusable Modal (Custom component) : Login confirmation */}
+                <ReusableModalConfirmationMessage
+                    show={showLoginModal}
+                    modalHeader="Confirm Login"
+                    modalBody=" You must be logged in to place an order. Would you like to log in now?"
+                    onCancel={cancelLogin}
+                    onConfirm={handleLogin}
+                />
+                {/* [End]     : Reusable Modal (Custom component) : Login confirmation */}
             </div>
         </Container>
     );
