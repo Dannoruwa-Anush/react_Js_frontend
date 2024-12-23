@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import { Nav } from "react-bootstrap";
-import CustomerOrderTabContent from "./common/order/CustomerOrderTabContent";
+import OrderSummuryTabContent from "./common/order/OrderSummuryTabContent";
+import UserProfileTabContent from "./common/user/UserProfileTabContent";
 
-const AdminDashBoard = () => {
+const UserDashBoard = () => {
   const [activeTab, setActiveTab] = useState(0);
 
   //common tab components
   const tabs = [
-    { id: 0, title: "My Orders", component: <CustomerOrderTabContent /> }
+    //{ id: 0, title: "Profile", component: <UserProfileTabContent /> },
+    { id: 1, title: "Orders", component: <OrderSummuryTabContent /> }, //????????
   ];
 
   return (
@@ -22,7 +24,11 @@ const AdminDashBoard = () => {
             onClick={() => setActiveTab(index)}
             className={activeTab === index ? "active" : ""}
           >
-            {tab.title}
+            {index === 0 ? ( // Check if the tab is the "Profile" tab
+              <i className="bi bi-person-vcard-fill" style={{ fontSize: "1.5rem" }}></i>
+            ) : (
+              tab.title
+            )}
           </Nav.Link>
         ))}
         {/* [End] - Tabs in the sidebar */}
@@ -35,9 +41,9 @@ const AdminDashBoard = () => {
         {tabs[activeTab].component}
       </div>
       {/* [End] - Render Tab-Specific Component */}
-      
+
     </div>
   );
 };
 
-export default AdminDashBoard;
+export default UserDashBoard;
