@@ -203,12 +203,16 @@ body {
 }
 
 .main-content-empty-table-message-container {
-    text-align: center;               /* Center the text horizontally */
-    padding: 20px;                    /* Add padding for some space around the text */
-    color: #6c757d;                   /* Set the text color to a muted shade */
-    background-color: #f8f9fa;        /* Set a light background color */
-  }
-  
+    text-align: center;
+    /* Center the text horizontally */
+    padding: 20px;
+    /* Add padding for some space around the text */
+    color: #6c757d;
+    /* Set the text color to a muted shade */
+    background-color: #f8f9fa;
+    /* Set a light background color */
+}
+
 
 
 
@@ -257,6 +261,12 @@ body {
 }
 
 .card-books-image {
+    width: 100%;
+    /* Ensures the image takes the full width of its container */
+    height: 350px;
+    /* Fixed height for all images */
+    object-fit: cover;
+    /* Ensures the image covers the space without distortion */
     border: 2px solid rgb(68, 67, 67);
     transition: transform 0.3s ease, opacity 0.3s ease;
 }
@@ -286,14 +296,16 @@ body {
 //book
 .book-image {
     width: 60%;
-    max-width: 500px; /* Default max-width */
+    max-width: 500px;
+    /* Default max-width */
     height: auto;
     margin: 0 auto;
 }
 
 @media (max-width: 768px) {
     .book-image {
-        max-width: 100%; /* For smaller screens, use full width */
+        max-width: 100%;
+        /* For smaller screens, use full width */
     }
 }
 

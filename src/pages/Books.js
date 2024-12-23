@@ -161,8 +161,6 @@ const Books = () => {
                                                 className="card-books-image"
                                                 variant="top"
                                                 src={`${API_IMAGE_URL}/${book.coverImage}`}
-                                                height={200}
-                                                width={300}
                                             />
                                             <Card.Body className="books-image-card-body">
                                                 <Card.Title className="books-title">{book.title}</Card.Title>
@@ -178,8 +176,6 @@ const Books = () => {
                                                 className="card-books-image"
                                                 variant="top"
                                                 src={`${API_IMAGE_URL}/${book.coverImage}`}
-                                                height={200}
-                                                width={300}
                                             />
                                             <Card.Body className="books-image-card-body">
                                                 <Card.Title className="books-title">{book.title}</Card.Title>
