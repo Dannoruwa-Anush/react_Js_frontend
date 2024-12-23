@@ -21,7 +21,6 @@ const OrderInDetailModal = ({ show, onClose, rowId }) => {
   const fetchOrderDetails = useCallback(async () => {
     if (rowId) {
       const data = await getOrderById(rowId);
-      console.log(data);
       setOrderDetails(data);
     }
   }, [rowId]); // Memoize it based on rowId
