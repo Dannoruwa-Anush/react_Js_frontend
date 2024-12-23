@@ -1,7 +1,7 @@
 import React from "react";
 import { Modal, Button } from "react-bootstrap";
 
-const ReusableModalMessage = ({ show, modalHeader, modalBody, onCancel, onConfirm }) => {
+const ReusableModalConfirmationMessage = ({ show, modalHeader, modalBody, onCancel, onConfirm }) => {
   return (
     <Modal show={show} onHide={onCancel}>
       <Modal.Header closeButton>
@@ -22,4 +22,4 @@ const ReusableModalMessage = ({ show, modalHeader, modalBody, onCancel, onConfir
   );
 };
 
-export default ReusableModalMessage;
+export default ReusableModalConfirmationMessage;

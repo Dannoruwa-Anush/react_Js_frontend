@@ -8,7 +8,7 @@ import {
 import {
   getAllStaffRoles
 } from "../../../../../services/RoleService";
-import ReusableModalMessage from "../../../../../layouts/customReusableComponents/ReusableModalMessage";
+import ReusableModalConfirmationMessage from "../../../../../layouts/customReusableComponents/modalMessages/ReusableModalConfirmationMessage";
 import ReusableTablePagination from "../../../../../layouts/customReusableComponents/ReusableTablePagination";
 
 import React, { useState, useEffect } from "react";
@@ -380,7 +380,7 @@ const StaffTabContent = () => {
 
 
         {/* [Start] : Reusable Modal (Custom component) : for delete confirmation */}
-        <ReusableModalMessage
+        <ReusableModalConfirmationMessage
           show={showModal}
           modalHeader="Confirm Removal"
           modalBody="Are you sure you want to remove this?"

@@ -5,7 +5,7 @@ import { API_IMAGE_URL } from '../configurations/Config';
 import { getShoppingCartTotal } from '../services/ShoppingCartService';
 import { CartContext } from './../layouts/Layout';
 import { UserRole } from './../constants/ConstantValues';
-import ReusableModalMessage from './../layouts/customReusableComponents/ReusableModalMessage'
+import ReusableModalConfirmationMessage from './../layouts/customReusableComponents/modalMessages/ReusableModalConfirmationMessage'
 
 
 const Cart = () => {
@@ -228,7 +228,7 @@ const Cart = () => {
                 )}
 
                 {/* [Start] : Reusable Modal (Custom component) : Item Removal confirmation */}
-                <ReusableModalMessage
+                <ReusableModalConfirmationMessage
                     show={showModal}
                     modalHeader="Confirm Removal"
                     modalBody="Are you sure you want to remove this item from your cart?"
