@@ -253,8 +253,8 @@ body {
 }
 
 .order-confirmation-link-text {
-    color: #007bff;
-    text-decoration: none;
+    color: #007bff; /* Blue color */
+    cursor: pointer; /* Indicate it's clickable */
 }
 
 .order-confirmation-link-text:hover {
