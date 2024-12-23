@@ -137,6 +137,7 @@ const Cart = () => {
             // Save order via API
             const response = await saveOrder(saveRequest);            
             setSuccessMessage(response.message || "Order is placed successfully");
+            setNumberOfItems(""); //Clear number of items in cart symbol to zero (empty)
             setErrorMessage(""); // Clear any previous errors
             setTimeout(() => {
                 setSuccessMessage(""); // Clear the message after 2 seconds
