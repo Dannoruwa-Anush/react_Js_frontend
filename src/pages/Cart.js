@@ -147,16 +147,15 @@ const Cart = () => {
             return;
         }
 
-        const userRolesSet = new Set(roles.split(","));
-
         // Check if the user has either the CUSTOMER or CASHIER role
-        if (userRolesSet.has(UserRole.CUSTOMER) || userRolesSet.has(UserRole.CASHIER)) {
+        if (roles.includes(UserRole.CUSTOMER) || roles.includes(UserRole.CASHIER)) {
+            //To place an order, the role must be either CUSTOMER or CASHIER.
             navigate('/orderConfirmation');
         } else {
+            //show error message in modal
             setShowUnauthorizedAccessNotificationModal(true);
         }
     };
-
 
     const handleLogin = () => {
         navigate('/login');
