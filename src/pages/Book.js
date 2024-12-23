@@ -72,43 +72,49 @@ const Book = () => {
                     />
                 </Col>
                 <Col md={6}>
-                    <Table bordered striped hover responsive>
-                        <tbody>
-                            <tr>
-                                <th>Title</th>
-                                <td>{book.title}</td>
-                            </tr>
-                            <tr>
-                                <th>Author</th>
-                                <td>{book.author.authorName}</td>
-                            </tr>
-                            <tr>
-                                <th>Price</th>
-                                <td>Rs. {book.unitPrice}</td>
-                            </tr>
-                            <tr>
-                                <th>Available Quantity</th>
-                                <td>{book.qoh}</td>
-                            </tr>
-                        </tbody>
-                    </Table>
+                    <div className="main-content-table-container">
+                        <Table bordered striped hover responsive>
+                            <tbody>
+                                <tr>
+                                    <th>Title</th>
+                                    <td>{book.title}</td>
+                                </tr>
+                                <tr>
+                                    <th>Author</th>
+                                    <td>{book.author.authorName}</td>
+                                </tr>
+                                <tr>
+                                    <th>Price</th>
+                                    <td>Rs. {book.unitPrice}</td>
+                                </tr>
+                                <tr>
+                                    <th>Available Quantity</th>
+                                    <td>{book.qoh}</td>
+                                </tr>
+                            </tbody>
+                        </Table>
 
-                    <Form>
-                        <Form.Group controlId="quantity">
-                            <Form.Label>Quantity</Form.Label>
-                            <Form.Control
-                                type="number"
-                                min="1"
-                                max={book.qoh}
-                                value={quantity}
-                                onChange={handleQuantityChange}
-                            />
-                        </Form.Group>
 
-                        <Button variant="primary" onClick={handleAddToCart} className="mt-3">
-                            Add to Cart
-                        </Button>
-                    </Form>
+
+                        <Form>
+                            <Form.Group controlId="quantity">
+                                <Form.Label>Quantity</Form.Label>
+                                <Form.Control
+                                    type="number"
+                                    min="1"
+                                    max={book.qoh}
+                                    value={quantity}
+                                    onChange={handleQuantityChange}
+                                />
+                            </Form.Group>
+
+                            <div className="text-end">
+                                <Button variant="primary" onClick={handleAddToCart} className="button-style">
+                                    Add to Cart
+                                </Button>
+                            </div>
+                        </Form>
+                    </div>
                 </Col>
             </Row>
 
