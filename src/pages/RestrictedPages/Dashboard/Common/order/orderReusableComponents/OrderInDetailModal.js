@@ -56,7 +56,6 @@ const OrderInDetailModal = ({ show, onClose, rowId }) => {
       setSuccessMessage(response.message || "Order processed successfully");
       setErrorMessage(""); // Clear any previous errors
 
-      // Optionally, hide the success message after a brief delay
       setTimeout(() => {
         setSuccessMessage(""); // Clear the message after 1 second
       }, 1000);
@@ -68,6 +67,29 @@ const OrderInDetailModal = ({ show, onClose, rowId }) => {
     }
   };
 
+  const shouldViewCancelOrderButton = roles.includes(UserRole.CUSTOMER) && orderDetails?.status === OrderStatus.PENDING;
+  //Handle Cancel Order
+  const handleCancelOrder = async () => {
+    let newStatus = OrderStatus.CANCELLED;
+
+    // Attempt to update the order status
+    try {
+      const response = await updateOrderStatus(rowId, { newStatus });
+
+      // If the update is successful, display a success message
+      setSuccessMessage(response.message || "Order cancelled successfully");
+      setErrorMessage(""); // Clear any previous errors
+
+      setTimeout(() => {
+        setSuccessMessage(""); // Clear the message after 1 second
+      }, 1000);
+    } catch (error) {
+      // Display a relevant error message based on the error response
+      const errorMsg = error.response?.data?.message || error.message || "An unexpected error occurred";
+      setErrorMessage(errorMsg);
+      setSuccessMessage(""); // Clear any previous success message
+    }
+  };
 
   return (
     <div>
@@ -163,6 +185,14 @@ const OrderInDetailModal = ({ show, onClose, rowId }) => {
                     Process
                   </Button>
                 )}
+
+                {/*This btn should view for CUSTOMER and PENDING orders */}
+                {shouldViewCancelOrderButton && (
+                  <Button variant="danger" onClick={handleCancelOrder}>
+                    Cancel Order
+                  </Button>
+                )}
+
               </div>
               {/* [End] : Shipped btn: (From pending) | Delivered btn: (From shipped) */}
 
