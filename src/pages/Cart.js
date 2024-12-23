@@ -5,16 +5,25 @@ import { API_IMAGE_URL } from '../configurations/Config';
 import { getShoppingCartTotal } from '../services/ShoppingCartService';
 import { CartContext } from './../layouts/Layout';
 import { UserRole } from './../constants/ConstantValues';
-import ReusableModalConfirmationMessage from './../layouts/customReusableComponents/modalMessages/ReusableModalConfirmationMessage'
+import ReusableModalConfirmationMessage from './../layouts/customReusableComponents/modalMessages/ReusableModalConfirmationMessage';
+import ReusableModalNotificationMessage from './../layouts/customReusableComponents/modalMessages/ReusableModalNotificationMessage';
 
 
 const Cart = () => {
+    //shopping cart
     const { setNumberOfItems } = useContext(CartContext); // Access setNumberOfItems from CartContext
-    const [cartItems, setCartItems] = useState([]);
-    const [showModal, setShowModal] = useState(false);
-    const [showLoginModal, setShowLoginModal] = useState(false);
     const [itemToRemove, setItemToRemove] = useState(null);
     const [cartTotalAmount, setCartTotalAmount] = useState(0.0);
+
+    //API response
+    const [cartItems, setCartItems] = useState([]);
+    
+    //Modals
+    const [showModal, setShowModal] = useState(false);
+    const [showLoginModal, setShowLoginModal] = useState(false);
+    const [showUnauthorizedAccessNotificationModal, setShowUnauthorizedAccessNotificationModal] = useState(false);
+    
+    //page naviagtion
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -144,7 +153,7 @@ const Cart = () => {
         if (userRolesSet.has(UserRole.CUSTOMER) || userRolesSet.has(UserRole.CASHIER)) {
             navigate('/orderConfirmation');
         } else {
-            console.error("User does not have permission to place an order.");
+            setShowUnauthorizedAccessNotificationModal(true);
         }
     };
 
@@ -156,6 +165,10 @@ const Cart = () => {
 
     const cancelLogin = () => {
         setShowLoginModal(false);
+    };
+
+    const cancelUnauthorizedAccessNotification = () => {
+        setShowUnauthorizedAccessNotificationModal(false);
     };
 
     return (
@@ -247,6 +260,15 @@ const Cart = () => {
                     onConfirm={handleLogin}
                 />
                 {/* [End]     : Reusable Modal (Custom component) : Login confirmation */}
+
+                {/* [Start] : Reusable Modal (Custom component) : Unauthorized Access Notification */}
+                <ReusableModalNotificationMessage
+                    show={showUnauthorizedAccessNotificationModal}
+                    modalHeader="Error"
+                    modalBody="You do not have permission to place an order."
+                    onConfirm={cancelUnauthorizedAccessNotification}
+                />
+                {/* [End]   : Reusable Modal (Custom component) : Unauthorized Access Notification */}
             </div>
         </Container>
     );
