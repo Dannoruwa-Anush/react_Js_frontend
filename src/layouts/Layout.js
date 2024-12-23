@@ -5,6 +5,9 @@ import Nav from "react-bootstrap/Nav";
 import Badge from "react-bootstrap/Badge";
 import Container from "react-bootstrap/Container";
 import BusinessLogo from "../images/companyLogo/BusinessLogo.png";
+import Dropdown from "react-bootstrap/Dropdown";
+import DropdownButton from "react-bootstrap/DropdownButton";
+import { UserRole } from './../constants/ConstantValues';
 
 export const CartContext = createContext();
 
@@ -27,6 +30,19 @@ const Layout = () => {
         sessionStorage.clear(); // Clear sessionStorage
         setNumberOfItems(0);
         navigate("/login"); // Redirect to login page
+    };
+
+    const getDashboardPath = () => {
+        const roles = sessionStorage.getItem("user_role");
+
+        if (roles.includes(UserRole.ADMIN)) {
+            return "/adminDashboard";
+        } else if (roles.includes(UserRole.MANAGER)) {
+            return "/managerDashboard";
+        } else if (roles.includes(UserRole.CUSTOMER)) {
+            return "/userDashboard";
+        }
+        return "/"; // default path if no role matches
     };
 
     return (
@@ -53,17 +69,30 @@ const Layout = () => {
                                 )}
                             </Nav.Link>
 
+                            {/* Dropdown for additional dashboards */}
+                            {isLoggedIn && (
+                                <Dropdown className="ms-auto">
+                                    <DropdownButton
+                                        variant="link"
+                                        id="user-dropdown"
+                                        title={<i className="bi bi-three-dots-vertical" style={{ fontSize: "1.5rem" }}></i>}
+                                        className="btn-link p-0"
+                                    >
+                                        <Dropdown.Item as={Link} to={getDashboardPath()}>Profile</Dropdown.Item>
+
+                                        <Dropdown.Item as="button" onClick={handleLogout}>Logout</Dropdown.Item>
+                                    </DropdownButton>
+                                </Dropdown>
+                            )}
+
                             {/* User Icon, Username, and Logout */}
                             <Nav.Link as={Link} to="/login" className="d-flex align-items-center">
                                 <i className="bi bi-person-circle" style={{ fontSize: "1.5rem" }}></i>
 
-                                {/* Display username and logout button horizontally */}
+                                {/* Display username at horizontal navbar */}
                                 {isLoggedIn ? (
                                     <div className="ms-2 d-flex flex-column align-items-start">
                                         <span>( {username} )</span>
-                                        <button onClick={handleLogout} className="btn btn-link p-0">
-                                            Logout
-                                        </button>
                                     </div>
                                 ) : (
                                     <span className="ms-2">Login</span>
@@ -74,15 +103,15 @@ const Layout = () => {
                 </Container>
             </Navbar>
 
-             {/* Page Content */}
+            {/* Page Content */}
             <CartContext.Provider value={{ setNumberOfItems }}>  {/* pass setNumberOfItems to child components*/}
                 <div className="page-content">
                     <Outlet />
                 </div>
             </CartContext.Provider>
 
-             {/* Footer */}
-             <footer className="footer">
+            {/* Footer */}
+            <footer className="footer">
                 <Container>
                     <span className="text-muted">
                         Copyright © {currentYear} Dannoruwa-Anush. All Rights Reserved.

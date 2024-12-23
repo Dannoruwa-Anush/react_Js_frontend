@@ -69,6 +69,27 @@ body {
     background-color: rgb(205, 216, 205);
 }
 
+.bi-three-dots-vertical {
+    color: black;
+    transition: color 0.3s ease; /* Smooth transition for color change */
+}
+
+/* Change color when hovering */
+.bi-three-dots-vertical:hover {
+    color: #007bff; /* Example hover color, blue */
+}
+
+/* Default color for the DropdownButton and icon */
+#user-dropdown .bi-three-dots-vertical {
+    color: black;
+    transition: color 0.3s ease; /* Smooth transition for color change */
+}
+
+/* Change color when hovering over the DropdownButton */
+#user-dropdown:hover .bi-three-dots-vertical {
+    color: #007bff; /* Example hover color, blue */
+}
+
 // Page Content Area
 .empty-list-message {
     font-size: 1.2rem;
