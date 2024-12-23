@@ -3,7 +3,7 @@ import { Table, Button, Form } from 'react-bootstrap';
 import OrderInDetailModal from './OrderInDetailModal';
 import ReusableTablePagination from '../../../../../../layouts/customReusableComponents/ReusableTablePagination';
 
-const PendingOrderTable = ({ tabName, data }) => {
+const OrderByStatusTable = ({ tabName, data }) => {
 
   //Modal : Order In detail
   const [showModal, setShowModal] = useState(false);
@@ -112,4 +112,4 @@ const PendingOrderTable = ({ tabName, data }) => {
   );
 };
 
-export default PendingOrderTable;
+export default OrderByStatusTable;
