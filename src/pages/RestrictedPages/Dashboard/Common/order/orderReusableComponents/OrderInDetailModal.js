@@ -120,6 +120,7 @@ const OrderInDetailModal = ({ show, onClose, rowId }) => {
                 <Table bordered striped hover responsive>
                   <thead>
                     <tr>
+                      <th>No</th>
                       <th>Item No</th>
                       <th>Title</th>
                       <th>Unit Price (Rs.)</th>
@@ -129,8 +130,9 @@ const OrderInDetailModal = ({ show, onClose, rowId }) => {
                   </thead>
 
                   <tbody>
-                    {orderDetails.orderBooks.map((orderBook) => (
-                      <tr key={orderBook.book.id}>
+                    {orderDetails.orderBooks.map((orderBook, index) => (
+                      <tr key={index + 1}>
+                        <td>{index + 1}</td>
                         <td>{orderBook.book.id}</td>
                         <td>{orderBook.book.title}</td>
                         <td>{orderBook.book.unitPrice}</td>
