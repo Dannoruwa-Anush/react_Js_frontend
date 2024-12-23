@@ -118,7 +118,7 @@ body {
     background-color: #fff;
 }
 
-.main-content-table-container {
+.main-content-table-container, .main-content-component-container{
     width: 100%; // Make sure the container takes full width
     max-width: 1200px; // Optional: limit max width of the container
     margin: 20px auto; // Optional: center the container horizontally with spacing
@@ -213,6 +213,75 @@ body {
     /* Set a light background color */
 }
 
+.order-confirmation-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.order-confirmation-header {
+    text-align: center;
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.order-confirmation-content {
+    font-family: Arial, sans-serif;
+    color: #555;
+    line-height: 1.6;
+}
+
+.order-confirmation-greeting {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+}
+
+.order-confirmation-text {
+    font-size: 1rem;
+    margin-bottom: 15px;
+}
+
+.order-confirmation-link {
+    font-size: 1rem;
+    margin-bottom: 15px;
+}
+
+.order-confirmation-link-text {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.order-confirmation-link-text:hover {
+    text-decoration: underline;
+}
+
+.order-confirmation-signoff {
+    font-size: 1rem;
+    text-align: left; /* Align to the left */
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .order-confirmation-container {
+        width: 90%;
+    }
+
+    .order-confirmation-header {
+        font-size: 1.25rem;
+    }
+
+    .order-confirmation-text, .order-confirmation-link, .order-confirmation-signoff {
+        font-size: 0.95rem;
+    }
+}
 
 
 
