@@ -295,7 +295,7 @@ body {
 
 //book
 .book-image {
-    width: 60%;
+    width: 100%;
     max-width: 500px;
     /* Default max-width */
     height: auto;
@@ -309,24 +309,9 @@ body {
     }
 }
 
-//cart
-.book-info-table th {
-    background-color: #f8f9fa;
-    font-weight: bold;
-}
-
-.book-info-table td {
-    font-size: 16px;
-    padding: 10px;
-}
-
-.book-info-table {
-    margin-top: 20px;
-}
-
 //cart page
 .div-cart-total-amount {
-    width: 50%;
+    width: 25%;
     /* Set the width to 1/2 of the container */
     margin-left: auto;
     /* Align it to the right */
@@ -343,6 +328,34 @@ body {
     padding: 10px;
     border-radius: 8px;
     /* Rounded corners for the border */
+}
+
+.cart-table-qty-input-field {
+    width: 100%;
+    /* Full width */
+    padding: 8px;
+    /* Add padding inside the input */
+    font-size: 16px;
+    /* Larger font size */
+    border-radius: 5px;
+    /* Rounded corners */
+    border: 1px solid #ced4da;
+    /* Light border color */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    /* Subtle shadow */
+    margin-bottom: 10px;
+    /* Bottom margin */
+    transition: border-color 0.3s ease;
+    /* Smooth transition on focus */
+}
+
+.cart-table-qty-column {
+    width: 100px;
+    /* Adjust width to your needs */
+    white-space: nowrap;
+    /* Prevent text from wrapping */
+    text-align: center;
+    /* Center-align buttons */
 }
 
 //login/register
