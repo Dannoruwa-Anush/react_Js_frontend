@@ -58,12 +58,18 @@ const Login = () => {
             ) {
                 // Assuming customer or cashier roles lead to the cart
                 const cartItems = JSON.parse(sessionStorage.getItem("cart")) || [];
-                const updatedCart = cartItems.map((item) => ({
-                    ...item,
-                    userId: loggedUser.userId, // Add userId instead of username
-                }));
-                sessionStorage.setItem("cart", JSON.stringify(updatedCart));
-                navigate("/cart"); // Redirect to Cart
+
+                if(cartItems.length === 0){
+                    navigate("/userDashBoard"); // Redirect to userDashBoard
+                }
+                else{
+                    const updatedCart = cartItems.map((item) => ({
+                        ...item,
+                        userId: loggedUser.userId, // Add userId instead of username
+                    }));
+                    sessionStorage.setItem("cart", JSON.stringify(updatedCart));
+                    navigate("/cart"); // Redirect to Cart
+                }
             } else {
                 setError("Role not recognized, please contact support.");
             }
