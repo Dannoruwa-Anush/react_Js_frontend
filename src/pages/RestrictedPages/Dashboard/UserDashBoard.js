@@ -8,7 +8,7 @@ const UserDashBoard = () => {
 
   //common tab components
   const tabs = [
-    //{ id: 0, title: "Profile", component: <UserProfileTabContent /> },
+    { id: 0, title: "Profile", component: <UserProfileTabContent /> },
     { id: 1, title: "Orders", component: <CustomerOrderTabContent /> },
   ];
 
