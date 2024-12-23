@@ -1,14 +1,29 @@
-import {getAllByIdAuthenticatedRequest, getAllByRequestBodyAuthenticatedRequest, getByIdAuthenticatedRequest, putAuthenticatedRequest} from "./commonServices/AuthenticatedApiService";
+import { getAllByIdAuthenticatedRequest, getAllByRequestBodyAuthenticatedRequest, getByIdAuthenticatedRequest, postAuthenticatedRequest, putAuthenticatedRequest } from "./commonServices/AuthenticatedApiService";
 
 //API requests for /order
 
 //GET: getOrderById
-export const getOrderById = async (id) =>{
+export const getOrderById = async (id) => {
     return await getByIdAuthenticatedRequest("/order", id);
 };
 
+//POST: saveOrder
+export const saveOrder = async (dataToSave) => {
+    try {
+        const response = await postAuthenticatedRequest("/order", dataToSave);
+
+        //reset shoppingcart in session
+        sessionStorage.removeItem("cart");
+
+        return response;
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+};
+
 //PUT : updateOrderStatus
-export const updateOrderStatus = async (id, dataToUpdate) =>{
+export const updateOrderStatus = async (id, dataToUpdate) => {
     return await putAuthenticatedRequest("/order/updateOrderStatus", id, dataToUpdate)
 };
 

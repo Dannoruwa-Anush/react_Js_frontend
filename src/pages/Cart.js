@@ -7,7 +7,7 @@ import { CartContext } from './../layouts/Layout';
 import { UserRole } from './../constants/ConstantValues';
 import ReusableModalConfirmationMessage from './../layouts/customReusableComponents/modalMessages/ReusableModalConfirmationMessage';
 import ReusableModalNotificationMessage from './../layouts/customReusableComponents/modalMessages/ReusableModalNotificationMessage';
-
+import { saveOrder } from './../services/OrderService';
 
 const Cart = () => {
     //shopping cart
@@ -16,13 +16,15 @@ const Cart = () => {
     const [cartTotalAmount, setCartTotalAmount] = useState(0.0);
 
     //API response
+    const [errorMessage, setErrorMessage] = useState("");
+    const [successMessage, setSuccessMessage] = useState("");
     const [cartItems, setCartItems] = useState([]);
-    
+
     //Modals
     const [showModal, setShowModal] = useState(false);
     const [showLoginModal, setShowLoginModal] = useState(false);
     const [showUnauthorizedAccessNotificationModal, setShowUnauthorizedAccessNotificationModal] = useState(false);
-    
+
     //page naviagtion
     const navigate = useNavigate();
 
@@ -130,11 +132,29 @@ const Cart = () => {
         setShowModal(false);
     };
 
+    const handleOrderSaveRequest = async (saveRequest) => {
+        try {
+            // Save order via API
+            const response = await saveOrder(saveRequest);            
+            setSuccessMessage(response.message || "Order is placed successfully");
+            setErrorMessage(""); // Clear any previous errors
+            setTimeout(() => {
+                setSuccessMessage(""); // Clear the message after 2 seconds
+            }, 1000); //1s
+
+            // Navigate to confirmation page on success
+            navigate('/orderConfirmation');
+        } catch (error) {
+            setErrorMessage(error.response?.data?.message || "An error occurred");
+            setSuccessMessage(""); // Clear any previous success message
+        }
+    };
+
     const handlePlaceOrder = () => {
         const token = sessionStorage.getItem("token");
 
         if (!token) {
-            // If token is empty, show the login modal
+            // If token is missing, show the login modal
             setShowLoginModal(true);
             return;
         }
@@ -142,17 +162,29 @@ const Cart = () => {
         const roles = sessionStorage.getItem("user_role");
 
         if (!roles) {
-            // If roles are not available, log or handle the error gracefully
+            // If roles are missing, log or handle error gracefully
             console.error("User roles are not defined.");
             return;
         }
 
         // Check if the user has either the CUSTOMER or CASHIER role
         if (roles.includes(UserRole.CUSTOMER) || roles.includes(UserRole.CASHIER)) {
-            //To place an order, the role must be either CUSTOMER or CASHIER.
-            navigate('/orderConfirmation');
+            // Proceed with placing the order
+            const userId = sessionStorage.getItem("user_id");
+
+            // Prepare order data with books and customer ID
+            const orderSaveRequest = {
+                books: cartItems.map(item => ({
+                    bookId: item.id,
+                    quantity: item.quantity
+                })),
+                customerId : userId
+            };
+
+            // Call the order request handler with the prepared data
+            handleOrderSaveRequest(orderSaveRequest);
         } else {
-            //show error message in modal
+            // Show unauthorized access message in a modal
             setShowUnauthorizedAccessNotificationModal(true);
         }
     };
@@ -230,6 +262,18 @@ const Cart = () => {
                         <span>Total: Rs. {cartTotalAmount}</span>
                     </div>
                 )}
+
+                {errorMessage &&
+                    <div className='text-danger mb-3'>
+                        {errorMessage}
+                    </div>
+                }
+
+                {successMessage &&
+                    <div className='text-success mb-3'>
+                        {successMessage}
+                    </div>
+                }
 
                 {cartItems.length > 0 && (
                     <div className="d-flex justify-content-end">
