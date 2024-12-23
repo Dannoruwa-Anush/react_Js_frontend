@@ -3,7 +3,8 @@ import { Container, Table, Button, Modal } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { API_IMAGE_URL } from '../configurations/Config';
 import { getShoppingCartTotal } from '../services/ShoppingCartService';
-import { CartContext } from './../layouts/Layout'; // Import CartContext
+import { CartContext } from './../layouts/Layout';
+import { UserRole } from './../constants/ConstantValues';
 
 const Cart = () => {
     const { setNumberOfItems } = useContext(CartContext); // Access setNumberOfItems from CartContext
@@ -119,8 +120,32 @@ const Cart = () => {
     };
 
     const handlePlaceOrder = () => {
-        setShowLoginModal(true);
+        const token = sessionStorage.getItem("token");
+        
+        if (!token) {
+            // If token is empty, show the login modal
+            setShowLoginModal(true);
+            return;
+        }
+    
+        const roles = sessionStorage.getItem("user_role");
+        
+        if (!roles) {
+            // If roles are not available, log or handle the error gracefully
+            console.error("User roles are not defined.");
+            return;
+        }
+    
+        const userRolesSet = new Set(roles.split(","));
+    
+        // Check if the user has either the CUSTOMER or CASHIER role
+        if (userRolesSet.has(UserRole.CUSTOMER) || userRolesSet.has(UserRole.CASHIER)) {
+            navigate('/orderConfirmation');
+        } else {
+            console.error("User does not have permission to place an order.");
+        }
     };
+    
 
     const handleLogin = () => {
         navigate('/login');
@@ -194,8 +219,7 @@ const Cart = () => {
 
                 {cartItems.length > 0 && (
                     <div className="d-flex justify-content-end">
-                        <Button variant="primary" onClick={handlePlaceOrder} className="button-style"
->
+                        <Button variant="primary" onClick={handlePlaceOrder} className="button-style">
                             Place Order
                         </Button>
                     </div>

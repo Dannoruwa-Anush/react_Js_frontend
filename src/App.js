@@ -11,6 +11,7 @@ import ProtectedRoute from './layouts/ProtectedRoute';
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
 import UserPasswordReset from './pages/auth/UserPasswordReset';
+import OrderConfirmation from './pages/restrictedPages/dashboard/common/order/OrderConfirmation';
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
 
           {/* Access is authenticated */}
           <Route element={<ProtectedRoute />}>
+            <Route path="/orderConfirmation" element={<OrderConfirmation />} />
             <Route path="/userDashBoard" element={<UserDashBoard />} />
             <Route path="/adminDashboard" element={<AdminDashBoard />} />
             <Route path="/managerDashboard" element={<ManagerDashBoard />} />
