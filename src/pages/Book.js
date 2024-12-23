@@ -68,7 +68,7 @@ const Book = () => {
                     <img
                         src={`${API_IMAGE_URL}/${book.coverImage}`}
                         alt={book.title}
-                        className="img-fluid w-100"
+                        className="img-fluid book-image"
                     />
                 </Col>
                 <Col md={6}>

@@ -283,6 +283,20 @@ body {
     font-family: 'Times New Roman', serif;
 }
 
+//book
+.book-image {
+    width: 60%;
+    max-width: 500px; /* Default max-width */
+    height: auto;
+    margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+    .book-image {
+        max-width: 100%; /* For smaller screens, use full width */
+    }
+}
+
 //cart
 .book-info-table th {
     background-color: #f8f9fa;
