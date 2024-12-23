@@ -74,7 +74,7 @@ const OrderByStatusTable = ({ tabName, data }) => {
             </tbody>
           ) : (
             <tbody>
-              {data.map((order, index) => (
+              {tblPaginationSlicedItems && tblPaginationSlicedItems.map((order, index) => (
                 <tr key={index + 1}>
                   <td>{index + 1}</td>
                   <td>{order.customerName}</td>
