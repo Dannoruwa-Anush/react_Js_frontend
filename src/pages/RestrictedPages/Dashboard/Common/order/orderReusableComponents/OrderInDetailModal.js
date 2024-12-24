@@ -1,6 +1,7 @@
 import {
   getOrderById,
   updateOrderStatus,
+  getOrderBillById,
 } from "../../../../../../services/OrderService";
 import { UserRole } from "./../../../../../../constants/ConstantValues";
 import { OrderStatus } from "./../../../../../../constants/ConstantValues";
@@ -41,6 +42,9 @@ const OrderInDetailModal = ({ show, onClose, rowId }) => {
     let newStatus;
     if (orderDetails.status === OrderStatus.PENDING) {
       newStatus = OrderStatus.SHIPPED;
+      //Print bill
+      await getOrderBillById(rowId);
+      
     } else if (orderDetails.status === OrderStatus.SHIPPED) {
       newStatus = OrderStatus.DELIVERED;
     } else {

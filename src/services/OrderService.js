@@ -47,5 +47,5 @@ export const getAllOrdersByOrderDateAndStatus = async (requestData) => {
 
 //Get: Order Bill
 export const getOrderBillById = async (id) => {
-    return await getFileByIdRequest("/order", id, "/pdfOrderBill");
+    return await getFileByIdRequest("/order", id, "pdfOrderBill");
 };
