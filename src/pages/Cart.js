@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import { Container, Table, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { API_IMAGE_URL } from '../configurations/Config';
-import { getShoppingCartTotal } from '../services/ShoppingCartService';
+import { getShoppingCartTotal } from '../services/TradeService';
 import { CartContext } from './../layouts/Layout';
 import { UserRole } from './../constants/ConstantValues';
 import ReusableModalConfirmationMessage from './../layouts/customReusableComponents/modalMessages/ReusableModalConfirmationMessage';

@@ -1,8 +1,10 @@
 import {
   getOrderById,
-  updateOrderStatus,
-  getOrderBillById,
 } from "../../../../../../services/OrderService";
+import {
+  updateTradeStatus,
+  getTradeBillById,
+} from "../../../../../../services/TradeService";
 import { UserRole } from "./../../../../../../constants/ConstantValues";
 import { OrderStatus } from "./../../../../../../constants/ConstantValues";
 import React, { useState, useEffect, useCallback } from "react";
@@ -43,7 +45,7 @@ const OrderInDetailModal = ({ show, onClose, rowId }) => {
     if (orderDetails.status === OrderStatus.PENDING) {
       newStatus = OrderStatus.SHIPPED;
       //Print bill
-      await getOrderBillById(rowId);
+      await getTradeBillById(rowId);
       
     } else if (orderDetails.status === OrderStatus.SHIPPED) {
       newStatus = OrderStatus.DELIVERED;
@@ -54,7 +56,7 @@ const OrderInDetailModal = ({ show, onClose, rowId }) => {
 
     // Attempt to update the order status
     try {
-      const response = await updateOrderStatus(rowId, { newStatus });
+      const response = await updateTradeStatus(rowId, { newStatus });
 
       // If the update is successful, display a success message
       setSuccessMessage(response.message || "Order processed successfully");
@@ -78,7 +80,7 @@ const OrderInDetailModal = ({ show, onClose, rowId }) => {
 
     // Attempt to update the order status
     try {
-      const response = await updateOrderStatus(rowId, { newStatus });
+      const response = await updateTradeStatus(rowId, { newStatus });
 
       // If the update is successful, display a success message
       setSuccessMessage(response.message || "Order cancelled successfully");
