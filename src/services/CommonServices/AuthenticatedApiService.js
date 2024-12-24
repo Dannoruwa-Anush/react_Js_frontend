@@ -11,7 +11,7 @@ const handleUnauthorizedError = () => {
     sessionStorage.removeItem("username");
     sessionStorage.removeItem("user_id");
     sessionStorage.removeItem("user_role");
-    //window.location.href = "/login";
+    window.location.href = "/login";
 };
 
 // Set the Authorization header globally (only if token exists)

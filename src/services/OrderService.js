@@ -30,11 +30,11 @@ export const getAllOrdersByUserId = async (id) => {
 
 //GET : getAllOrdersByOrderStatus
 export const getAllOrdersByOrderStatus = async (requestData) => {
-    return await getAllByRequestBodyAuthenticatedRequest("/order/orderStatus", requestData);
+    return await getAllByRequestBodyAuthenticatedRequest("/order-Status", requestData);
 };
 
 
 //GET : getAllOrdersByOrderDateAndStatus
 export const getAllOrdersByOrderDateAndStatus = async (requestData) => {
-    return await getAllByRequestBodyAuthenticatedRequest("/order/orderDateAndStatus", requestData);
+    return await getAllByRequestBodyAuthenticatedRequest("/order-Date-And-Status", requestData);
 };
