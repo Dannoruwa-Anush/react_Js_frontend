@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import CategoryTabContent from "./common/item/CategoryTabContent";
+import CategoryTabContent from "./common-restricted-pages/itemDetail/CategoryTabContent";
 import { Nav } from "react-bootstrap";
-import SubCategoryTabContent from "./common/item/SubCategoryTabContent";
-import BookTabContent from "./common/item/BookTabContent";
-import AuthorTabContent from "./common/author/AuthorTabContent";
-import OrderSummuryTabContent from "./common/order/OrderSummuryTabContent";
-import StaffTabContent from "./common/user/StaffTabContent";
-import UserProfileTabContent from "./common/user/UserProfileTabContent";
+import SubCategoryTabContent from "./common-restricted-pages/itemDetail/SubCategoryTabContent";
+import BookTabContent from "./common-restricted-pages/itemDetail/BookTabContent";
+import AuthorTabContent from "./common-restricted-pages/author/AuthorTabContent";
+import OrderSummuryTabContent from "./common-restricted-pages/order/OrderSummuryTabContent";
+import StaffTabContent from "./common-restricted-pages/user/StaffTabContent";
+import UserProfileTabContent from "./common-restricted-pages/user/UserProfileTabContent";
 
 const AdminDashBoard = () => {
   const [activeTab, setActiveTab] = useState(0);

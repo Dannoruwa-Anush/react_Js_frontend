@@ -1,4 +1,4 @@
-import {getByIdAuthenticatedRequest, putAuthenticatedRequest} from "./commonServices/AuthenticatedApiService";
+import {getByIdAuthenticatedRequest, putAuthenticatedRequest} from "./common-services/AuthenticatedApiService";
 
 //API requests for /user
 

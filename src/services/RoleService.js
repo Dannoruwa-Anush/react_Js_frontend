@@ -1,4 +1,4 @@
-import { getAllAuthenticatedRequest} from "./commonServices/AuthenticatedApiService";
+import { getAllAuthenticatedRequest} from "./common-services/AuthenticatedApiService";
 
 //API requests for /role/staff
 

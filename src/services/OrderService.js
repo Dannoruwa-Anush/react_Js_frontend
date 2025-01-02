@@ -1,4 +1,4 @@
-import { getAllByIdAuthenticatedRequest, getAllByRequestBodyAuthenticatedRequest, getByIdAuthenticatedRequest, postAuthenticatedRequest } from "./commonServices/AuthenticatedApiService";
+import { getAllByIdAuthenticatedRequest, getAllByRequestBodyAuthenticatedRequest, getByIdAuthenticatedRequest, postAuthenticatedRequest } from "./common-services/AuthenticatedApiService";
 
 //API requests for /order
 

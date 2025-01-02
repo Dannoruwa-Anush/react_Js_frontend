@@ -1,5 +1,5 @@
-import {postRequest} from "./commonServices/UnAuthenticatedApiService";
-import { putAuthenticatedRequest, getFileByIdRequest } from "./commonServices/AuthenticatedApiService";
+import {postRequest} from "./common-services/UnAuthenticatedApiService";
+import { putAuthenticatedRequest, getFileByIdRequest } from "./common-services/AuthenticatedApiService";
 
 //API requests for /trade
 

@@ -4,14 +4,14 @@ import Layout from './layouts/Layout';
 import Book from './pages/Book';
 import Books from './pages/Books';
 import Cart from './pages/Cart';
-import UserDashBoard from './pages/restrictedPages/dashboard/UserDashBoard';
-import AdminDashBoard from './pages/restrictedPages/dashboard/AdminDashBoard';
-import ManagerDashBoard from './pages/restrictedPages/dashboard/ManagerDashBoard';
+import UserDashBoard from './pages/restricted-pages/dashboard-pages/UserDashBoard';
+import AdminDashBoard from './pages/restricted-pages/dashboard-pages/AdminDashBoard';
+import ManagerDashBoard from './pages/restricted-pages/dashboard-pages/ManagerDashBoard';
 import ProtectedRoute from './layouts/ProtectedRoute';
-import Login from './pages/auth/Login';
-import Register from './pages/auth/Register';
-import UserPasswordReset from './pages/auth/UserPasswordReset';
-import OrderConfirmation from './pages/restrictedPages/dashboard/common/order/OrderConfirmation';
+import Login from './pages/auth-pages/Login';
+import Register from './pages/auth-pages/Register';
+import UserPasswordReset from './pages/auth-pages/UserPasswordReset';
+import OrderConfirmation from './pages/restricted-pages/dashboard-pages/common-restricted-pages/order/OrderConfirmation';
 
 function App() {
   return (

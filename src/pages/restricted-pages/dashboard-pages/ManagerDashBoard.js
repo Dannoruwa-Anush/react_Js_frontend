@@ -1,15 +1,23 @@
 import React, { useState } from "react";
+import CategoryTabContent from "./common-restricted-pages/itemDetail/CategoryTabContent";
 import { Nav } from "react-bootstrap";
-import CustomerOrderTabContent from "./common/order/CustomerOrderTabContent";
-import UserProfileTabContent from "./common/user/UserProfileTabContent";
+import SubCategoryTabContent from "./common-restricted-pages/itemDetail/SubCategoryTabContent";
+import BookTabContent from "./common-restricted-pages/itemDetail/BookTabContent";
+import AuthorTabContent from "./common-restricted-pages/author/AuthorTabContent";
+import OrderSummuryTabContent from "./common-restricted-pages/order/OrderSummuryTabContent";
+import UserProfileTabContent from "./common-restricted-pages/user/UserProfileTabContent";
 
-const UserDashBoard = () => {
+const ManagerDashBoard = () => {
   const [activeTab, setActiveTab] = useState(0);
 
   //common tab components
   const tabs = [
     { id: 0, title: "Profile", component: <UserProfileTabContent /> },
-    { id: 1, title: "Orders", component: <CustomerOrderTabContent /> },
+    { id: 1, title: "Book Categories", component: <CategoryTabContent /> },
+    { id: 2, title: "Book Subcategories", component: <SubCategoryTabContent /> },
+    { id: 3, title: "Authors", component: <AuthorTabContent /> },
+    { id: 4, title: "Books", component: <BookTabContent /> },
+    { id: 5, title: "Orders", component: <OrderSummuryTabContent /> },
   ];
 
   return (
@@ -46,4 +54,4 @@ const UserDashBoard = () => {
   );
 };
 
-export default UserDashBoard;
+export default ManagerDashBoard;

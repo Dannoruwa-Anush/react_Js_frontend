@@ -1,4 +1,4 @@
-import { postRequest, putRequest, loginRequest } from "./commonServices/UnAuthenticatedApiService";
+import { postRequest, putRequest, loginRequest } from "./common-services/UnAuthenticatedApiService";
 
 //API requests for /auth
 
